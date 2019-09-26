@@ -23,18 +23,17 @@ import java.io.IOException;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.JToggleButton;
+import java.awt.CardLayout;
 
 public class Dashboard extends Login{
 	
 	
 	private JFrame frame;
 	Login login;
-	Ingresos ingresos;
 	static Dashboard window;
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
 	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir;
-	public JLabel test;
 	private JPanel sidebar;
 		
 	private JPanel btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
@@ -42,6 +41,12 @@ public class Dashboard extends Login{
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
 	private JLabel lblUserImage, lblUsername;
 	private BufferedImage userImage = null;
+	private JPanel main;
+	private JPanel resumen;
+	private JPanel ingresos;
+	private JPanel gastos;
+	private JPanel presupuestos;
+	private JLabel lblPresupuestos;
 	
 
 
@@ -84,12 +89,6 @@ public class Dashboard extends Login{
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
 		
-		test = new JLabel("");
-		test.setHorizontalAlignment(SwingConstants.CENTER);
-		test.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		test.setBounds(565, 151, 283, 84);
-		frame.getContentPane().add(test);
-		
 		sidebar = new JPanel();
 		sidebar.setBackground(new Color(251,251,251));
 		sidebar.setBounds(0, 0, 245, 746);
@@ -122,6 +121,11 @@ public class Dashboard extends Login{
 				lblSidebarGastos.setForeground(new Color(0, 0, 0));
 				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
 				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				
+				resumen.setVisible(true);
+				ingresos.setVisible(false);
+				gastos.setVisible(false);
+				presupuestos.setVisible(false);
 			}
 		});
 		btnSidebarHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -133,8 +137,7 @@ public class Dashboard extends Login{
 		btnSidebarIngresos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//ingresos = new Ingresos();
-				//ingresos.initialize();
+				
 				pSidebarIngresos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
@@ -144,6 +147,11 @@ public class Dashboard extends Login{
 				lblSidebarHome.setForeground(new Color(0, 0, 0));
 				lblSidebarGastos.setForeground(new Color(0, 0, 0));
 				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				
+				resumen.setVisible(false);
+				ingresos.setVisible(true);
+				gastos.setVisible(false);
+				presupuestos.setVisible(false);
 			}
 		});
 		btnSidebarIngresos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -165,7 +173,12 @@ public class Dashboard extends Login{
 				lblSidebarGastos.setForeground(new Color(0, 153, 204));
 				lblSidebarHome.setForeground(new Color(0, 0, 0));
 				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
-				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));	
+				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				
+				resumen.setVisible(false);
+				ingresos.setVisible(false);
+				gastos.setVisible(true);
+				presupuestos.setVisible(false);
 			}
 		});
 		btnSidebarGastos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -188,6 +201,11 @@ public class Dashboard extends Login{
 				lblSidebarHome.setForeground(new Color(0, 0, 0));
 				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
 				lblSidebarGastos.setForeground(new Color(0, 0, 0));
+				
+				resumen.setVisible(false);
+				ingresos.setVisible(false);
+				gastos.setVisible(false);
+				presupuestos.setVisible(true);
 			}
 		});
 		btnSidebarPresupuestos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -319,6 +337,52 @@ public class Dashboard extends Login{
 		pSidebarSalir.setBounds(0, 389, 5, 36);
 		sidebar.add(pSidebarSalir);
 		
+		main = new JPanel();
+		main.setBackground(Color.WHITE);
+		main.setBounds(245, 0, 1121, 746);
+		frame.getContentPane().add(main);
+		main.setLayout(new CardLayout(0, 0));
+		
+		resumen = new JPanel();
+		resumen.setBackground(Color.WHITE);
+		main.add(resumen, "name_336802300135327");
+		resumen.setBounds(245, 0, 1121, 746);
+		resumen.setLayout(null);
+		
+		JLabel lblResumen = new JLabel("RESUMEN");
+		lblResumen.setBounds(408, 221, 241, 114);
+		resumen.add(lblResumen);
+		
+		ingresos = new JPanel();
+		ingresos.setBackground(Color.WHITE);
+		ingresos.setBounds(245, 0, 1121, 746);
+		main.add(ingresos, "name_336916740574626");
+		ingresos.setLayout(null);
+		
+		JLabel lblIngresos = new JLabel("INGRESOS");
+		lblIngresos.setBounds(407, 229, 157, 82);
+		ingresos.add(lblIngresos);
+		
+		gastos = new JPanel();
+		gastos.setBackground(Color.WHITE);
+		gastos.setBounds(245, 0, 1121, 746);
+		main.add(gastos, "name_337042041258590");
+		gastos.setLayout(null);
+		
+		JLabel lblGastos = new JLabel("GASTOS");
+		lblGastos.setBounds(429, 255, 168, 86);
+		gastos.add(lblGastos);
+		
+		presupuestos = new JPanel();
+		presupuestos.setBackground(Color.WHITE);
+		presupuestos.setBounds(245, 0, 1121, 746);
+		main.add(presupuestos, "name_337073441194312");
+		presupuestos.setLayout(null);
+		
+		lblPresupuestos = new JLabel("PRESUPUESTOS");
+		lblPresupuestos.setBounds(425, 227, 200, 118);
+		presupuestos.add(lblPresupuestos);
+		
 		
 		
 	}
@@ -329,9 +393,7 @@ public class Dashboard extends Login{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
-			if(e.getSource() == lblSidebarHome) {
-				test.setText("Hola mundo");
-			}
+			
 			
 		}
 		
