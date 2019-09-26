@@ -44,7 +44,7 @@ public class ConexionMongoDB {
 	private MongoCollection<Document> codigorr;
 	
 	
-	public  ConexionMongoDB() {
+	public ConexionMongoDB() {
 		
 		try {
 			
@@ -60,10 +60,6 @@ public class ConexionMongoDB {
 		}
 		
 	}
-	
-	
-	
-	
 	
 	/**
 	 * funcion para cerrar conexion con base de datos
@@ -330,13 +326,12 @@ public class ConexionMongoDB {
 	 * @param cuerpo
 	 */
 	public void enviarCorreo(String destinatario, String asunto, String cuerpo) {
-	    String remitente = "finanzasUVG9173"; 
-	    String clave = "FinanzasUVG123";    
-	    
+	    String remitente = "finanzasUVG9173";  
+
 	    Properties props = System.getProperties();
 	    props.put("mail.smtp.host", "smtp.gmail.com");  
 	    props.put("mail.smtp.user", remitente);
-	    props.put("mail.smtp.clave", clave);  
+	    props.put("mail.smtp.clave", "FinanzasUVG123");  
 	    props.put("mail.smtp.auth", "true");  
 	    props.put("mail.smtp.starttls.enable", "true"); 
 	    props.put("mail.smtp.port", "587");
@@ -346,10 +341,11 @@ public class ConexionMongoDB {
 
 	    try {
 	        message.setFrom(new InternetAddress(remitente));
-	        message.addRecipients(Message.RecipientType.TO, destinatario);  
+	        message.addRecipients(Message.RecipientType.TO, destinatario);   //Se podrían añadir varios de la misma manera
 	        message.setSubject(asunto);
 	        message.setText(cuerpo);
 	        Transport transport = session.getTransport("smtp");
+	        String clave = "FinanzasUVG123";
 			transport.connect("smtp.gmail.com", remitente, clave );
 	        transport.sendMessage(message, message.getAllRecipients());
 	        transport.close();
@@ -358,8 +354,6 @@ public class ConexionMongoDB {
 	        me.printStackTrace();   
 	    }
 	}
-	
-	
 	
 	/**
 	 * Esta fuencion es para pedir el nombre del usuario en la base de datos para mostrarlo en el dashboard
@@ -447,6 +441,64 @@ public class ConexionMongoDB {
 		
 		return retorno;
 	}
+	
+	
+	
+	
+	/**
+	 * Funcion para agregar o cambiar cuentas
+	 * @param correo
+	 * @param cuenta
+	 * @param nombre
+	 * @param cantidad
+	 * @return
+	 */
+	public boolean modificarCuenta(String correo, String cuenta, String nombre, String cantidad) {
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+			query.put(cuenta, cuenta);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put(nombre, cantidad);
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			datos.updateOne(query, updateObj);
+			return true;
+			
+			}catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
+	
+	/**
+	 * Funcion para consultar la cuenta de un usuario especifico
+	 * @param correo
+	 * @param cuenta
+	 * @param nombre
+	 * @return valor de la cuenta consultada
+	 */
+	public String modificarCuenta(String correo, String cuenta, String nombre) {
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		searchQuery.put(cuenta, cuenta);
+		FindIterable<Document> cursor = datos.find(searchQuery);
+		String cuentaConsultada = "";
+		
+		for(Document doc : cursor) {
+			cuentaConsultada = doc.getString(nombre);
+		}
+		
+		return cuentaConsultada;
+	}
+	
+	
+	
 	
 	
 }
