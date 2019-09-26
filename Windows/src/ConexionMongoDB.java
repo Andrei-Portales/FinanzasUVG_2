@@ -44,7 +44,7 @@ public class ConexionMongoDB {
 	private MongoCollection<Document> codigorr;
 	
 	
-	public ConexionMongoDB() {
+	public  ConexionMongoDB() {
 		
 		try {
 			
@@ -60,6 +60,10 @@ public class ConexionMongoDB {
 		}
 		
 	}
+	
+	
+	
+	
 	
 	/**
 	 * funcion para cerrar conexion con base de datos
@@ -326,12 +330,13 @@ public class ConexionMongoDB {
 	 * @param cuerpo
 	 */
 	public void enviarCorreo(String destinatario, String asunto, String cuerpo) {
-	    String remitente = "finanzasUVG9173";  
-
+	    String remitente = "finanzasUVG9173"; 
+	    String clave = "FinanzasUVG123";    
+	    
 	    Properties props = System.getProperties();
 	    props.put("mail.smtp.host", "smtp.gmail.com");  
 	    props.put("mail.smtp.user", remitente);
-	    props.put("mail.smtp.clave", "FinanzasUVG123");  
+	    props.put("mail.smtp.clave", clave);  
 	    props.put("mail.smtp.auth", "true");  
 	    props.put("mail.smtp.starttls.enable", "true"); 
 	    props.put("mail.smtp.port", "587");
@@ -341,11 +346,10 @@ public class ConexionMongoDB {
 
 	    try {
 	        message.setFrom(new InternetAddress(remitente));
-	        message.addRecipients(Message.RecipientType.TO, destinatario);   //Se podrían añadir varios de la misma manera
+	        message.addRecipients(Message.RecipientType.TO, destinatario);  
 	        message.setSubject(asunto);
 	        message.setText(cuerpo);
 	        Transport transport = session.getTransport("smtp");
-	        String clave = "FinanzasUVG123";
 			transport.connect("smtp.gmail.com", remitente, clave );
 	        transport.sendMessage(message, message.getAllRecipients());
 	        transport.close();
@@ -354,6 +358,8 @@ public class ConexionMongoDB {
 	        me.printStackTrace();   
 	    }
 	}
+	
+	
 	
 	/**
 	 * Esta fuencion es para pedir el nombre del usuario en la base de datos para mostrarlo en el dashboard
