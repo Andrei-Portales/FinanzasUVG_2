@@ -22,7 +22,7 @@ public class Ingresos extends Dashboard {
 	}
 	
 	public void initialize() {
-		test.setText("Hola mundo");
+		//test.setText("Hola mundo");
 	}
 
 }
