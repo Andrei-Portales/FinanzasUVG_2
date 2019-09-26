@@ -46,7 +46,6 @@ public class Login {
 
 	JFrame frame;
 	static Login window;
-	Dashboard dashboard;
 	private JTextField txtUsuario;
 	private JButton btnIngresar;
 	private JLabel lblUser;
@@ -199,9 +198,8 @@ public class Login {
 					
 					if (verificado == true) {
 						frame.dispose();
-						dashboard = new Dashboard();
 						DB.tempUsu(txtUsuario.getText());
-						dashboard.main(null);
+						Dashboard.main(null);
 						
 						
 					}

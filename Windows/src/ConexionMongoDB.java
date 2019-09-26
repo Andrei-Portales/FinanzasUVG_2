@@ -443,4 +443,62 @@ public class ConexionMongoDB {
 	}
 	
 	
+	
+	
+	/**
+	 * Funcion para agregar o cambiar cuentas
+	 * @param correo
+	 * @param cuenta
+	 * @param nombre
+	 * @param cantidad
+	 * @return
+	 */
+	public boolean modificarCuenta(String correo, String cuenta, String nombre, String cantidad) {
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+			query.put(cuenta, cuenta);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put(nombre, cantidad);
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			datos.updateOne(query, updateObj);
+			return true;
+			
+			}catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
+	
+	/**
+	 * Funcion para consultar la cuenta de un usuario especifico
+	 * @param correo
+	 * @param cuenta
+	 * @param nombre
+	 * @return valor de la cuenta consultada
+	 */
+	public String modificarCuenta(String correo, String cuenta, String nombre) {
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		searchQuery.put(cuenta, cuenta);
+		FindIterable<Document> cursor = datos.find(searchQuery);
+		String cuentaConsultada = "";
+		
+		for(Document doc : cursor) {
+			cuentaConsultada = doc.getString(nombre);
+		}
+		
+		return cuentaConsultada;
+	}
+	
+	
+	
+	
+	
 }

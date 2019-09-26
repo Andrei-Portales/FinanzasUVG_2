@@ -220,8 +220,7 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				Login login = new Login();
-				login.main(null);
+				Login.main(null);
 				
 			}
 		});
