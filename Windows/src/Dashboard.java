@@ -29,7 +29,7 @@ public class Dashboard extends Login{
 	
 	
 	private JFrame frame;
-	Login login;
+	
 	static Dashboard window;
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
