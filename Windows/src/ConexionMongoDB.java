@@ -55,8 +55,7 @@ public class ConexionMongoDB {
 		try {
 			
 
-			MongoClientURI uri = new MongoClientURI(
-					"mongodb+srv://root:root@finanzasuvg-1odkd.mongodb.net/test?retryWrites=true&w=majority");
+		MongoClientURI uri = new MongoClientURI("mongodb+srv://root:root@finanzasuvg-1odkd.mongodb.net/test?retryWrites=true&w=majority");
 
 		mongoClient = new MongoClient(uri);
 		mongoDatabase = mongoClient.getDatabase("FinanzasUVG");
