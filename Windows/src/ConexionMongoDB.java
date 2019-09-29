@@ -54,9 +54,12 @@ public class ConexionMongoDB {
 		
 		try {
 			
-		MongoClientURI uri = new MongoClientURI("mongodb://utqvfn9edhohqnxtn5rr:0Y6VR4AXz3k8QUMPMvk9@bhwcmxxhfbpi38d-mongodb.services.clever-cloud.com:27017/bhwcmxxhfbpi38d");
+
+			MongoClientURI uri = new MongoClientURI(
+					"mongodb+srv://root:root@finanzasuvg-1odkd.mongodb.net/test?retryWrites=true&w=majority");
+
 		mongoClient = new MongoClient(uri);
-		mongoDatabase = mongoClient.getDatabase("bhwcmxxhfbpi38d");
+		mongoDatabase = mongoClient.getDatabase("FinanzasUVG");
 		usuarios = mongoDatabase.getCollection("usuarios");
 		codigorr = mongoDatabase.getCollection("codigo");
 		datos = mongoDatabase.getCollection("datos");
