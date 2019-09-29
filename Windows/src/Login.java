@@ -46,7 +46,6 @@ public class Login {
 
 	JFrame frame;
 	static Login window;
-	Dashboard dashboard;
 	private JTextField txtUsuario;
 	private JButton btnIngresar;
 	private JLabel lblUser;
@@ -106,6 +105,9 @@ public class Login {
 	private TextPrompt oculto_8;
 	private JLabel lblAdvertencia;
 	protected String usuarioTemp;
+	
+	private JLabel lblIngresarError;
+	private JLabel lblCorreoError;
 	
 	/**
 	 * Launch the application.
@@ -169,7 +171,7 @@ public class Login {
 		txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtUsuario.setForeground(new Color(51,51,51));
 		txtUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtUsuario.setBounds(100, 151, 250, 34);
+		txtUsuario.setBounds(100, 158, 250, 34);
 		ingresar.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		TextPrompt oculto = new TextPrompt("Correo electronico", txtUsuario);
@@ -177,7 +179,7 @@ public class Login {
 		lblBienvenidoAUvg = new JLabel("Bienvenido a UVG Finanzas");
 		lblBienvenidoAUvg.setFont(new Font("Arial", Font.BOLD, 20));
 		lblBienvenidoAUvg.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBienvenidoAUvg.setBounds(0, 32, 450, 34);
+		lblBienvenidoAUvg.setBounds(0, 39, 450, 34);
 		ingresar.add(lblBienvenidoAUvg);
 		
 		btnIngresar = new JButton("Ingresar");
@@ -188,10 +190,12 @@ public class Login {
 				boolean verificado = false;
 					
 				if (txtUsuario.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
+//					JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
+					lblIngresarError.setText("¡Tiene una casilla vacia!");
 					txtUsuario.setText(null);
 				}else if (txtPassword.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
+//					JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
+					lblIngresarError.setText("¡Tiene una casilla vacia!");
 					txtPassword.setText(null);
 				}else {
 					
@@ -199,15 +203,15 @@ public class Login {
 					
 					if (verificado == true) {
 						frame.dispose();
-						dashboard = new Dashboard();
 						DB.tempUsu(txtUsuario.getText());
-						dashboard.main(null);
+						Dashboard.main(null);
 						
 						
 					}
 					
 					if (verificado == false){
-						JOptionPane.showMessageDialog(null, "¡Usuario Incorrecto!");
+//						JOptionPane.showMessageDialog(null, "¡Usuario Incorrecto!");
+						lblIngresarError.setText("¡Usuario incorrecto!");
 					}
 					
 					txtUsuario.setText(null);
@@ -222,14 +226,14 @@ public class Login {
 		btnIngresar.setBorder(null);
 		btnIngresar.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		btnIngresar.setBackground(new Color(93,143,252));
-		btnIngresar.setBounds(100, 314, 154, 34);
+		btnIngresar.setBounds(100, 321, 154, 34);
 		ingresar.add(btnIngresar);
 		
 		lblTituloIngresar = new JLabel("Ingresar");
 		lblTituloIngresar.setBackground(new Color(0, 51, 51));
 		lblTituloIngresar.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTituloIngresar.setFont(new Font("Arial", Font.BOLD, 18));
-		lblTituloIngresar.setBounds(100, 88, 200, 34);
+		lblTituloIngresar.setBounds(100, 95, 200, 34);
 		ingresar.add(lblTituloIngresar);
 		
 		lblOlvidoContrasena = new JLabel("\u00BFOlvid\u00F3 contrase\u00F1a?");
@@ -244,7 +248,7 @@ public class Login {
 		lblOlvidoContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblOlvidoContrasena.setForeground(new Color(0, 0, 51));
 		lblOlvidoContrasena.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblOlvidoContrasena.setBounds(275, 323, 140, 21);
+		lblOlvidoContrasena.setBounds(275, 330, 140, 21);
 		ingresar.add(lblOlvidoContrasena);
 		
 		JLabel lblAunNoTiene = new JLabel("\u00BFA\u00FAn no tienes una cuenta?");
@@ -267,23 +271,23 @@ public class Login {
 		lblCrearCuenta.setBounds(270, 497, 98, 21);
 		ingresar.add(lblCrearCuenta);
 		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(new Color(85,85,85));
-		separator_1.setBackground(new Color(85,85,85));
-		separator_1.setBounds(100, 185, 250, 1);
-		ingresar.add(separator_1);
-		
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setForeground(new Color(85,85,85));
 		separator_2.setBackground(new Color(85,85,85));
-		separator_2.setBounds(100, 241, 250, 1);
+		separator_2.setBounds(100, 248, 250, 1);
 		ingresar.add(separator_2);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(new Color(85,85,85));
+		separator_1.setBackground(new Color(85,85,85));
+		separator_1.setBounds(100, 192, 250, 1);
+		ingresar.add(separator_1);
 		
 		txtPassword = new JPasswordField(null);
 		txtPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPassword.setForeground(new Color(51,51,51));
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		txtPassword.setBounds(100, 207, 250, 34);
+		txtPassword.setBounds(100, 214, 250, 34);
 		ingresar.add(txtPassword);
 		oculto_1 = new TextPrompt("Contraseña", txtPassword);
 		
@@ -309,6 +313,12 @@ public class Login {
 		lblUsuarioCreadoExitosamente.setBounds(0, 9, 450, 26);
 		ingresar.add(lblUsuarioCreadoExitosamente);
 		
+		lblIngresarError = new JLabel("");
+		lblIngresarError.setFont(new Font("Arial", Font.BOLD, 13));
+		lblIngresarError.setForeground(Color.RED);
+		lblIngresarError.setBounds(100, 260, 250, 34);
+		ingresar.add(lblIngresarError);
+		
 		
 		
 		
@@ -324,7 +334,7 @@ public class Login {
 		JLabel label = new JLabel("Bienvenido a UVG Finanzas");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Arial", Font.BOLD, 20));
-		label.setBounds(0, 32, 450, 34);
+		label.setBounds(0, 39, 450, 34);
 		registrar.add(label);
 		
 		txtCorreoReg = new JTextField();
@@ -332,7 +342,7 @@ public class Login {
 		txtCorreoReg.setForeground(new Color(51,51,51));
 		txtCorreoReg.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtCorreoReg.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtCorreoReg.setBounds(100, 150, 250, 34);
+		txtCorreoReg.setBounds(100, 157, 250, 34);
 		registrar.add(txtCorreoReg);
 		txtCorreoReg.setColumns(10);
 		oculto = new TextPrompt("Correo electronico", txtCorreoReg);
@@ -341,7 +351,7 @@ public class Login {
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRegistrarse.setFont(new Font("Arial", Font.BOLD, 18));
 		lblRegistrarse.setBackground(new Color(0, 51, 51));
-		lblRegistrarse.setBounds(100, 88, 200, 34);
+		lblRegistrarse.setBounds(100, 95, 200, 34);
 		registrar.add(lblRegistrarse);
 		
 		txtNombre = new JTextField();
@@ -350,7 +360,7 @@ public class Login {
 		txtNombre.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(100, 207, 250, 34);
+		txtNombre.setBounds(100, 214, 250, 34);
 		registrar.add(txtNombre);
 		oculto = new TextPrompt("Nombre", txtNombre);
 		
@@ -358,14 +368,21 @@ public class Login {
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				lblAdvertencia.setText("");
+				lblCorreoError.setText("");
+				
 				if (txtCorreoReg.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
+//					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
+					lblAdvertencia.setText("Falta llenar casillas");
 				}else if (txtNombre.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
+					lblAdvertencia.setText("Falta llenar casillas");
+//					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
 				}else if (txtApellido.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
+					lblAdvertencia.setText("Falta llenar casillas");
+//					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
 				}else if (txtRegistrarPassword.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
+					lblAdvertencia.setText("Falta llenar casillas");
+//					JOptionPane.showMessageDialog(null, "Falta llenar casillas");
 				}else {
 						
 				String respuesta = DB.crearUsuario(txtCorreoReg.getText(), txtRegistrarPassword.getText(),txtNombre.getText(), txtApellido.getText() );
@@ -379,24 +396,25 @@ public class Login {
 					txtApellido.setText(null);
 					registrar.setVisible(false);
 					ingresar.setVisible(true);
-					lblAdvertencia.setVisible(false);
 					
 					
 				}
 				
 				if (respuesta.equals("novalido")) {
-					JOptionPane.showMessageDialog(null, "El correo que ingreso no es valido");
+//					JOptionPane.showMessageDialog(null, "El correo que ingreso no es valido");
+					lblCorreoError.setText("El correo que ingreso no es valido");
 					txtCorreoReg.setText(null);
 				}
 				
 				if (respuesta.equals("existe")) {
-					JOptionPane.showMessageDialog(null, "El correo que ingreso ya esta en uso");
+//					JOptionPane.showMessageDialog(null, "El correo que ingreso ya esta en uso");
+					lblCorreoError.setText("El correo que ingreso ya esta en uso");
 					txtCorreoReg.setText(null);
 				}
 				
 				if (respuesta.equals("contrasenaCorta")) {
 					txtRegistrarPassword.setText(null);
-					lblAdvertencia.setVisible(true);
+					lblAdvertencia.setText("¡La contraseña debe tener 8 o mas caracteres!");
 				}
 				
 				
@@ -410,7 +428,7 @@ public class Login {
 		btnRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		btnRegistrar.setBorder(null);
 		btnRegistrar.setBackground(new Color(93, 143, 252));
-		btnRegistrar.setBounds(100, 383, 154, 34);
+		btnRegistrar.setBounds(100, 400, 154, 34);
 		registrar.add(btnRegistrar);
 		
 		JLabel lblyaTienesUna = new JLabel("\u00BFYa  tienes una cuenta?");
@@ -429,7 +447,6 @@ public class Login {
 				txtRegistrarPassword.setText(null);
 				registrar.setVisible(false);
 				ingresar.setVisible(true);
-				lblAdvertencia.setVisible(false);
 			}
 		});
 		lblIngresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -441,32 +458,32 @@ public class Login {
 		separator_4 = new JSeparator();
 		separator_4.setForeground(new Color(85, 85, 85));
 		separator_4.setBackground(new Color(85, 85, 85));
-		separator_4.setBounds(100, 185, 250, 1);
+		separator_4.setBounds(100, 192, 250, 1);
 		registrar.add(separator_4);
 		
 		separator_5 = new JSeparator();
 		separator_5.setForeground(new Color(85, 85, 85));
 		separator_5.setBackground(new Color(85, 85, 85));
-		separator_5.setBounds(100, 241, 250, 1);
+		separator_5.setBounds(100, 248, 250, 1);
 		registrar.add(separator_5);
 		
 		separator_6 = new JSeparator();
 		separator_6.setForeground(new Color(85, 85, 85));
 		separator_6.setBackground(new Color(85, 85, 85));
-		separator_6.setBounds(100, 297, 250, 1);
+		separator_6.setBounds(100, 304, 250, 1);
 		registrar.add(separator_6);
 		
 		separator_7 = new JSeparator();
 		separator_7.setForeground(new Color(85, 85, 85));
 		separator_7.setBackground(new Color(85, 85, 85));
-		separator_7.setBounds(100, 353, 250, 1);
+		separator_7.setBounds(100, 360, 250, 1);
 		registrar.add(separator_7);
 		
 		txtRegistrarPassword = new JPasswordField("");
 		txtRegistrarPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtRegistrarPassword.setForeground(new Color(51,51,51));
 		txtRegistrarPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtRegistrarPassword.setBounds(100, 319, 250, 34);
+		txtRegistrarPassword.setBounds(100, 326, 250, 34);
 		registrar.add(txtRegistrarPassword);
 		oculto_2 = new TextPrompt("Contraseña", txtRegistrarPassword);
 		oculto_2.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -477,7 +494,7 @@ public class Login {
 		txtApellido.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtApellido.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(100, 263, 250, 34);
+		txtApellido.setBounds(100, 270, 250, 34);
 		registrar.add(txtApellido);
 		oculto = new TextPrompt("Apellido", txtApellido);
 		
@@ -486,12 +503,17 @@ public class Login {
 		lblRegistrarImage.setBounds(450, 0, 434, 561);
 		registrar.add(lblRegistrarImage);
 		
-		lblAdvertencia = new JLabel("\u00A1La contrase\u00F1a debe tener 8 o mas caracteres!");
-		lblAdvertencia.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblAdvertencia = new JLabel("");
+		lblAdvertencia.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAdvertencia.setForeground(Color.RED);
-		lblAdvertencia.setBounds(100, 358, 312, 14);
+		lblAdvertencia.setBounds(100, 368, 312, 25);
 		registrar.add(lblAdvertencia);
-		lblAdvertencia.setVisible(false);
+		
+		lblCorreoError = new JLabel("");
+		lblCorreoError.setForeground(Color.RED);
+		lblCorreoError.setFont(new Font("Arial", Font.PLAIN, 13));
+		lblCorreoError.setBounds(100, 192, 250, 25);
+		registrar.add(lblCorreoError);
 		
 		
 		recuperar = new JPanel();
