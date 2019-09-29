@@ -154,7 +154,7 @@ public class Dashboard extends Login{
 		
 		
 		lblUsername = new JLabel(DB.getNombre(DB.leerUsu()));
-		lblUsername.setFont(new Font("Arial", Font.BOLD, 12));
+		lblUsername.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblUsername.setToolTipText("");
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsername.setBounds(0, 131, 245, 30);
