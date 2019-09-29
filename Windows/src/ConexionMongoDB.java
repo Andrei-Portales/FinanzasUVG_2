@@ -594,13 +594,7 @@ public class ConexionMongoDB {
 	}
 	
 	
-	public void eliminarElemento() {
-		
-		
-		
-		
-		
-	}
+	
 
 	
 	
