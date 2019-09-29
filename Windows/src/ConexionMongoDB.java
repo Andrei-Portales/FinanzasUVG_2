@@ -7,8 +7,12 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -21,7 +25,9 @@ import javax.swing.JOptionPane;
 import org.bson.Document;
 //import org.bson.types.ObjectId;
 
+import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
@@ -53,6 +59,7 @@ public class ConexionMongoDB {
 		mongoDatabase = mongoClient.getDatabase("bhwcmxxhfbpi38d");
 		usuarios = mongoDatabase.getCollection("usuarios");
 		codigorr = mongoDatabase.getCollection("codigo");
+		datos = mongoDatabase.getCollection("datos");
 		
 		
 		}catch(Exception e) {
@@ -148,14 +155,28 @@ public class ConexionMongoDB {
 		document1.put("codigo","");
 		codigorr.insertOne(document1);
 		
-		datos = mongoDatabase.getCollection("datos");
+		
 		Document ingreso = new Document();
 		ingreso.put("correo",correo);
 		ingreso.put("ingresos","ingresos");
+		ingreso.put("Sueldos","0");
+		ingreso.put("Bonos","0");
+		ingreso.put("Reembolsos","0");
+		ingreso.put("Rentas","0");
+		ingreso.put("Subsidios","0");
+		ingreso.put("Inversiones","0");
+		ingreso.put("Otros","0");
 		datos.insertOne(ingreso);
 		Document gasto = new Document();
 		gasto.put("correo", correo);
 		gasto.put("gastos", "gastos");
+		gasto.put("Sueldos","0");
+		gasto.put("Bonos","0");
+		gasto.put("Reembolsos","0");
+		gasto.put("Rentas","0");
+		gasto.put("Subsidios","0");
+		gasto.put("Inversiones","0");
+		gasto.put("Otros","0");
 		datos.insertOne(gasto);
 		
 		
@@ -190,7 +211,7 @@ public class ConexionMongoDB {
 			
 			String asunto = "Recuperacion de contrasena";
 			String codigo = crearCodigo();
-			String cuerpo = "\n\n\n Estimado/a " + nombre + " " + apellido + "\n\n\nSu codigo de recuperación es: "+ codigo;
+			String cuerpo = "\n\n\n Estimado/a " + nombre + " " + apellido + "\n\n\nSu codigo de recuperaciï¿½n es: "+ codigo;
 			
 			enviarCorreo(correo,asunto,cuerpo);
 			
@@ -225,6 +246,7 @@ public class ConexionMongoDB {
 		
 		for(Document doc : cursor) {
 			cod = doc.getString("codigo");
+			
 		}
 		
 		if (codigo.equals((String)cod)) {
@@ -341,7 +363,7 @@ public class ConexionMongoDB {
 
 	    try {
 	        message.setFrom(new InternetAddress(remitente));
-	        message.addRecipients(Message.RecipientType.TO, destinatario);   //Se podrían añadir varios de la misma manera
+	        message.addRecipients(Message.RecipientType.TO, destinatario);   //Se podrï¿½an aï¿½adir varios de la misma manera
 	        message.setSubject(asunto);
 	        message.setText(cuerpo);
 	        Transport transport = session.getTransport("smtp");
@@ -453,16 +475,16 @@ public class ConexionMongoDB {
 	 * @param cantidad
 	 * @return
 	 */
-	public boolean modificarCuenta(String correo, String cuenta, String nombre, String cantidad) {
+	public boolean modificarCuenta(String correo, String cuenta, String nombre, double cantidad) {
 		
 		try {
 			BasicDBObject query = new BasicDBObject();
 			query.put("correo", correo);
-			query.put(cuenta, cuenta);
-
+			query.put(cuenta,cuenta);
+			
 			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.put(nombre, cantidad);
-						
+			newDocument.put(nombre, Double.toString(cantidad));
+			
 			BasicDBObject updateObj = new BasicDBObject();
 			updateObj.put("$set", newDocument);
 			datos.updateOne(query, updateObj);
@@ -476,26 +498,117 @@ public class ConexionMongoDB {
 	
 	
 	/**
-	 * Funcion para consultar la cuenta de un usuario especifico
+	 * Funcion para eliminar una cuenta
 	 * @param correo
 	 * @param cuenta
 	 * @param nombre
 	 * @return valor de la cuenta consultada
 	 */
-	public String modificarCuenta(String correo, String cuenta, String nombre) {
+	public void eliminarCuenta(String correo, String cuenta, String nombre) {
+		
+	
+		BasicDBObject query = new BasicDBObject();
+		query.put("correo", correo);
+		query.put(cuenta,cuenta);
+		
+		FindIterable<Document> cursor = datos.find(query);
+		String value = "";
+		
+		for(Document doc : cursor) {
+			value = doc.getString(nombre);
+		}
+		
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put(nombre,value);
+		
+		BasicDBObject updateObj = new BasicDBObject();
+		updateObj.put("$unset", newDocument);
+		datos.updateOne(query, updateObj);
+	
+
+	}
+	
+	
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	public String[][] getCuenta(String correo, String cuenta){
+		String[][] retorno;
+		ArrayList<String> keys= new ArrayList<String>() ;
+		ArrayList<String> values = new ArrayList<String>() ;
 		
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.put("correo", correo);
 		searchQuery.put(cuenta, cuenta);
 		FindIterable<Document> cursor = datos.find(searchQuery);
-		String cuentaConsultada = "";
+		
+		String json = "";
 		
 		for(Document doc : cursor) {
-			cuentaConsultada = doc.getString(nombre);
+			json = doc.toJson();
 		}
 		
-		return cuentaConsultada;
+		Gson gson = new Gson(); 
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String,String>) gson.fromJson(json, map.getClass());
+		
+		
+		for ( String key : map.keySet() ) {
+		    keys.add(key);
+		}
+		
+		keys.remove("_id");
+		keys.remove("ingresos");
+		keys.remove("gastos");
+		keys.remove("correo");
+		
+		retorno = new String[3][keys.size()];
+		
+		double contador = 0;
+		
+		for(int i = 0; i <= keys.size() - 1; i++) {
+			values.add(map.get(keys.get(i)));
+			try{
+			contador = contador + Double.parseDouble(map.get(keys.get(i)).toString());
+			}catch (Exception e) {}
+			
+		}
+		
+		try {
+		retorno[1][0] = Double.toString(contador);
+		}catch(Exception e) {}
+		
+		
+		for(int i = 0; i <= keys.size() - 1; i++) {
+			retorno[0][i] = keys.get(i) + " = Q" + values.get(i);
+				
+		}
+		
+		for(int i = 0; i <= keys.size() - 1; i++) {
+			retorno[2][i] = keys.get(i);
+		}
+		
+		return retorno;
 	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

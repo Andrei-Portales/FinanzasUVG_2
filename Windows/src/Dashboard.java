@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import java.awt.Font;
@@ -24,12 +25,21 @@ import java.io.IOException;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JToggleButton;
 import java.awt.CardLayout;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextPane;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JTextArea;
+import javax.swing.AbstractListModel;
 
 public class Dashboard extends Login{
 	
 	
 	private JFrame frame;
-	Login login;
+	
 	static Dashboard window;
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
@@ -47,6 +57,51 @@ public class Dashboard extends Login{
 	private JPanel gastos;
 	private JPanel presupuestos;
 	private JLabel lblPresupuestos;
+	private JButton btnResumen,btnGuardar,btnAgregarNombreIngreso;
+	private JPanel ingresarIngresos;
+	private JButton btnAgregarIngreso;
+	private MiListener oyente;
+	private JButton btnRegresar;
+	private JTextField txtMontoingresos;
+	private JComboBox cbCategoriaIngresos,cbEliminarIngreso;
+	private JLabel lblNewLabel;
+	private JLabel lblEditaLasCaracteristicas;
+	private JList listMuestraIngresos;
+	private JScrollPane scrollPane;
+	private JLabel lblQ;
+	private JLabel lblAgregarCategoria;
+	private JLabel lblNombre;
+	private JTextField txtAgregarCategoriaIngresos;
+	private JLabel lblEliminarCategoria;
+	private JLabel label_1;
+	private JButton btnEliminar;
+	private JPanel ingresarGastos;
+	private JLabel lblGastos;
+	private JLabel lblTotalGastos;
+	private JLabel lblQ2;
+	private JButton btnAgregarGastos;
+	private JLabel lblAgregarUnNuevo;
+	private JList listGastos;
+	private JScrollPane scrollPane_1;
+	private JLabel lblGastos_1;
+	private JButton btnRegresar2;
+	private JPanel panel_1;
+	private JLabel label_6;
+	private JLabel lblDeGastos;
+	private JLabel lblEditaLasCaracteristicas_1;
+	private JLabel label_9;
+	private JComboBox cbCategoriaGastos;
+	private JLabel label_10;
+	private JTextField txtMontoGasto;
+	private JButton btnGuardar2;
+	private JButton btnAgregarCategoriaGastos;
+	private JTextField txtNombreGasto;
+	private JLabel label_11;
+	private JLabel label_12;
+	private JLabel label_13;
+	private JLabel label_14;
+	private JComboBox cbEliminarGasto;
+	private JButton btnEliminarCategoriaGastos;
 	
 
 
@@ -76,8 +131,9 @@ public class Dashboard extends Login{
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
-		
+		oyente = new MiListener();
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setExtendedState(frame.MAXIMIZED_BOTH);
@@ -91,7 +147,7 @@ public class Dashboard extends Login{
 		
 		sidebar = new JPanel();
 		sidebar.setBackground(new Color(251,251,251));
-		sidebar.setBounds(0, 0, 245, 746);
+		sidebar.setBounds(0, 0, 245, 831);
 		frame.getContentPane().add(sidebar);
 		sidebar.setLayout(null);
 		
@@ -137,6 +193,9 @@ public class Dashboard extends Login{
 		btnSidebarIngresos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+				mostrarIngresos();
+				}catch (Exception ex){}
 				
 				pSidebarIngresos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -165,6 +224,11 @@ public class Dashboard extends Login{
 		btnSidebarGastos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				try {
+					mostrarGastos();
+					}catch (Exception ex){}
+				
 				pSidebarGastos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
@@ -338,7 +402,7 @@ public class Dashboard extends Login{
 		
 		main = new JPanel();
 		main.setBackground(Color.WHITE);
-		main.setBounds(245, 0, 1121, 746);
+		main.setBounds(245, 0, 899, 672);
 		frame.getContentPane().add(main);
 		main.setLayout(new CardLayout(0, 0));
 		
@@ -348,9 +412,9 @@ public class Dashboard extends Login{
 		resumen.setBounds(245, 0, 1121, 746);
 		resumen.setLayout(null);
 		
-		JLabel lblResumen = new JLabel("RESUMEN");
-		lblResumen.setBounds(408, 221, 241, 114);
-		resumen.add(lblResumen);
+		btnResumen = new JButton("resumen");
+		btnResumen.setBounds(341, 161, 121, 51);
+		resumen.add(btnResumen);
 		
 		ingresos = new JPanel();
 		ingresos.setBackground(Color.WHITE);
@@ -358,9 +422,165 @@ public class Dashboard extends Login{
 		main.add(ingresos, "name_336916740574626");
 		ingresos.setLayout(null);
 		
-		JLabel lblIngresos = new JLabel("INGRESOS");
-		lblIngresos.setBounds(407, 229, 157, 82);
+		JLabel lblIngresos = new JLabel("Agregar un nuevo ingreso");
+		lblIngresos.setBounds(346, 227, 189, 31);
 		ingresos.add(lblIngresos);
+		
+		btnAgregarIngreso = new JButton("+");
+		btnAgregarIngreso.setBackground(new Color(0, 191, 255));
+		btnAgregarIngreso.setFont(new Font("Arial", Font.PLAIN, 30));
+		btnAgregarIngreso.setBounds(377, 162, 107, 65);
+		ingresos.add(btnAgregarIngreso);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(88, 275, 719, 358);
+		ingresos.add(scrollPane);
+		
+		
+		
+		
+		listMuestraIngresos = new JList();
+		listMuestraIngresos.setBorder(null);
+		
+	
+		scrollPane.setViewportView(listMuestraIngresos);
+		listMuestraIngresos.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		
+		JLabel label = new JLabel("INGRESOS");
+		label.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+		label.setBounds(344, 18, 191, 51);
+		ingresos.add(label);
+		
+		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_1.setBounds(225, 93, 132, 31);
+		ingresos.add(lblNewLabel_1);
+		
+		lblQ = new JLabel("Q ");
+		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblQ.setBounds(362, 93, 253, 31);
+		ingresos.add(lblQ);
+		
+		
+		
+	
+		btnAgregarIngreso.addActionListener(oyente);
+		
+		
+		ingresarIngresos = new JPanel();
+		ingresarIngresos.setBackground(Color.WHITE);
+		main.add(ingresarIngresos, "name_773665362949");
+		ingresarIngresos.setLayout(null);
+		
+		btnRegresar = new JButton("Regresar");
+		btnRegresar.setBackground(new Color(0, 139, 139));
+		btnRegresar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnRegresar.setBounds(45, 58, 130, 42);
+		ingresarIngresos.add(btnRegresar);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 191, 255));
+		panel.setBounds(45, 144, 280, 477);
+		ingresarIngresos.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblEdicion = new JLabel("Edicion");
+		lblEdicion.setForeground(new Color(255, 255, 255));
+		lblEdicion.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblEdicion.setBounds(56, 147, 147, 46);
+		panel.add(lblEdicion);
+		
+		JLabel lblDeIngresos = new JLabel("de Ingresos");
+		lblDeIngresos.setForeground(new Color(255, 255, 255));
+		lblDeIngresos.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblDeIngresos.setBounds(56, 194, 197, 55);
+		panel.add(lblDeIngresos);
+		
+		JLabel lblMonto = new JLabel("Monto:");
+		lblMonto.setFont(new Font("Arial", Font.BOLD, 20));
+		lblMonto.setBounds(387, 217, 78, 35);
+		ingresarIngresos.add(lblMonto);
+		
+		JLabel lblCategoria = new JLabel("Categoria:");
+		lblCategoria.setFont(new Font("Arial", Font.BOLD, 20));
+		lblCategoria.setBounds(354, 170, 111, 35);
+		ingresarIngresos.add(lblCategoria);
+		
+		
+		
+		
+		cbCategoriaIngresos = new JComboBox();
+		
+		cbCategoriaIngresos.setFont(new Font("Arial", Font.PLAIN, 20));
+		cbCategoriaIngresos.setBounds(477, 174, 178, 29);
+		ingresarIngresos.add(cbCategoriaIngresos);
+		
+		txtMontoingresos = new JTextField();
+		txtMontoingresos.setBounds(480, 216, 180, 35);
+		ingresarIngresos.add(txtMontoingresos);
+		txtMontoingresos.setColumns(10);
+		
+		btnGuardar = new JButton("Guardar");
+		btnGuardar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnGuardar.setBackground(new Color(0, 139, 139));
+		btnGuardar.setBounds(670, 216, 130, 42);
+		ingresarIngresos.add(btnGuardar);
+		btnGuardar.addActionListener(oyente);
+		
+		lblNewLabel = new JLabel("INGRESOS");
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+		lblNewLabel.setBounds(494, 58, 191, 51);
+		ingresarIngresos.add(lblNewLabel);
+		
+		lblEditaLasCaracteristicas = new JLabel("Edita las caracteristicas de tu ingreso");
+		lblEditaLasCaracteristicas.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		lblEditaLasCaracteristicas.setBounds(455, 104, 280, 29);
+		ingresarIngresos.add(lblEditaLasCaracteristicas);
+		
+		lblAgregarCategoria = new JLabel("Agregar Categoria");
+		lblAgregarCategoria.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		lblAgregarCategoria.setBounds(455, 310, 250, 51);
+		ingresarIngresos.add(lblAgregarCategoria);
+		
+		lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNombre.setBounds(387, 389, 93, 35);
+		ingresarIngresos.add(lblNombre);
+		
+		txtAgregarCategoriaIngresos = new JTextField();
+		txtAgregarCategoriaIngresos.setColumns(10);
+		txtAgregarCategoriaIngresos.setBounds(480, 391, 180, 35);
+		ingresarIngresos.add(txtAgregarCategoriaIngresos);
+		
+		btnAgregarNombreIngreso = new JButton("Agregar");
+		btnAgregarNombreIngreso.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnAgregarNombreIngreso.setBackground(new Color(0, 139, 139));
+		btnAgregarNombreIngreso.setBounds(670, 382, 130, 42);
+		ingresarIngresos.add(btnAgregarNombreIngreso);
+		
+		lblEliminarCategoria = new JLabel("Eliminar Categoria");
+		lblEliminarCategoria.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		lblEliminarCategoria.setBounds(455, 468, 250, 51);
+		ingresarIngresos.add(lblEliminarCategoria);
+		
+		label_1 = new JLabel("Nombre:");
+		label_1.setFont(new Font("Arial", Font.BOLD, 20));
+		label_1.setBounds(387, 550, 93, 35);
+		ingresarIngresos.add(label_1);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnEliminar.setBackground(new Color(0, 139, 139));
+		btnEliminar.setBounds(670, 550, 130, 42);
+		ingresarIngresos.add(btnEliminar);
+		btnEliminar.addActionListener(oyente);
+		
+		cbEliminarIngreso = new JComboBox();
+		cbEliminarIngreso.setBounds(477, 554, 178, 29);
+		ingresarIngresos.add(cbEliminarIngreso);
+		cbEliminarIngreso.setFont(new Font("Arial", Font.PLAIN, 20));
+		btnRegresar.addActionListener(oyente);
+		btnAgregarNombreIngreso.addActionListener(oyente);
 		
 		gastos = new JPanel();
 		gastos.setBackground(Color.WHITE);
@@ -368,9 +588,151 @@ public class Dashboard extends Login{
 		main.add(gastos, "name_337042041258590");
 		gastos.setLayout(null);
 		
-		JLabel lblGastos = new JLabel("GASTOS");
-		lblGastos.setBounds(429, 255, 168, 86);
+		lblGastos = new JLabel("GASTOS");
+		lblGastos.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+		lblGastos.setBounds(348, 29, 191, 65);
 		gastos.add(lblGastos);
+		
+		lblTotalGastos = new JLabel("Total Gastos:");
+		lblTotalGastos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTotalGastos.setBounds(215, 106, 121, 31);
+		gastos.add(lblTotalGastos);
+		
+		lblQ2 = new JLabel("Q ");
+		lblQ2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblQ2.setBounds(348, 106, 253, 31);
+		gastos.add(lblQ2);
+		
+		btnAgregarGastos = new JButton("+");
+		btnAgregarGastos.setFont(new Font("Arial", Font.PLAIN, 30));
+		btnAgregarGastos.setBackground(new Color(0, 191, 255));
+		btnAgregarGastos.setBounds(367, 164, 107, 65);
+		gastos.add(btnAgregarGastos);
+		btnAgregarGastos.addActionListener(oyente);
+		
+		lblAgregarUnNuevo = new JLabel("Agregar un nuevo gasto");
+		lblAgregarUnNuevo.setBounds(342, 227, 189, 31);
+		gastos.add(lblAgregarUnNuevo);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(97, 288, 715, 354);
+		gastos.add(scrollPane_1);
+		
+		listGastos = new JList();
+		scrollPane_1.setViewportView(listGastos);
+		listGastos.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		listGastos.setBorder(null);
+		
+		ingresarGastos = new JPanel();
+		main.add(ingresarGastos, "name_23803773230142");
+		ingresarGastos.setLayout(null);
+		ingresarGastos.setBackground(Color.WHITE);
+		
+		lblGastos_1 = new JLabel("GASTOS");
+		lblGastos_1.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+		lblGastos_1.setBounds(509, 51, 191, 51);
+		ingresarGastos.add(lblGastos_1);
+		
+		btnRegresar2 = new JButton("Regresar");
+		btnRegresar2.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnRegresar2.setBackground(new Color(0, 139, 139));
+		btnRegresar2.setBounds(60, 51, 130, 42);
+		ingresarGastos.add(btnRegresar2);
+		btnRegresar2.addActionListener(oyente);
+		
+		panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(0, 191, 255));
+		panel_1.setBounds(60, 137, 280, 477);
+		ingresarGastos.add(panel_1);
+		
+		label_6 = new JLabel("Edicion");
+		label_6.setForeground(Color.WHITE);
+		label_6.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		label_6.setBounds(56, 147, 147, 46);
+		panel_1.add(label_6);
+		
+		lblDeGastos = new JLabel("de Gastos");
+		lblDeGastos.setForeground(Color.WHITE);
+		lblDeGastos.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblDeGastos.setBounds(56, 194, 197, 55);
+		panel_1.add(lblDeGastos);
+		
+		lblEditaLasCaracteristicas_1 = new JLabel("Edita las caracteristicas de tu gasto");
+		lblEditaLasCaracteristicas_1.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		lblEditaLasCaracteristicas_1.setBounds(470, 97, 280, 29);
+		ingresarGastos.add(lblEditaLasCaracteristicas_1);
+		
+		label_9 = new JLabel("Categoria:");
+		label_9.setFont(new Font("Arial", Font.BOLD, 20));
+		label_9.setBounds(369, 163, 111, 35);
+		ingresarGastos.add(label_9);
+		
+		cbCategoriaGastos = new JComboBox();
+		cbCategoriaGastos.setFont(new Font("Arial", Font.PLAIN, 20));
+		cbCategoriaGastos.setBounds(492, 167, 178, 29);
+		ingresarGastos.add(cbCategoriaGastos);
+		
+		label_10 = new JLabel("Monto:");
+		label_10.setFont(new Font("Arial", Font.BOLD, 20));
+		label_10.setBounds(402, 210, 78, 35);
+		ingresarGastos.add(label_10);
+		
+		txtMontoGasto = new JTextField();
+		txtMontoGasto.setColumns(10);
+		txtMontoGasto.setBounds(495, 209, 180, 35);
+		ingresarGastos.add(txtMontoGasto);
+		
+		btnGuardar2 = new JButton("Guardar");
+		btnGuardar2.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnGuardar2.setBackground(new Color(0, 139, 139));
+		btnGuardar2.setBounds(685, 209, 130, 42);
+		ingresarGastos.add(btnGuardar2);
+		btnGuardar2.addActionListener(oyente);
+		
+		btnAgregarCategoriaGastos = new JButton("Agregar");
+		btnAgregarCategoriaGastos.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnAgregarCategoriaGastos.setBackground(new Color(0, 139, 139));
+		btnAgregarCategoriaGastos.setBounds(685, 375, 130, 42);
+		ingresarGastos.add(btnAgregarCategoriaGastos);
+		btnAgregarCategoriaGastos.addActionListener(oyente);
+		
+		txtNombreGasto = new JTextField();
+		txtNombreGasto.setColumns(10);
+		txtNombreGasto.setBounds(495, 384, 180, 35);
+		ingresarGastos.add(txtNombreGasto);
+		
+		label_11 = new JLabel("Agregar Categoria");
+		label_11.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		label_11.setBounds(470, 303, 250, 51);
+		ingresarGastos.add(label_11);
+		
+		label_12 = new JLabel("Nombre:");
+		label_12.setFont(new Font("Arial", Font.BOLD, 20));
+		label_12.setBounds(402, 382, 93, 35);
+		ingresarGastos.add(label_12);
+		
+		label_13 = new JLabel("Eliminar Categoria");
+		label_13.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		label_13.setBounds(470, 461, 250, 51);
+		ingresarGastos.add(label_13);
+		
+		label_14 = new JLabel("Nombre:");
+		label_14.setFont(new Font("Arial", Font.BOLD, 20));
+		label_14.setBounds(402, 543, 93, 35);
+		ingresarGastos.add(label_14);
+		
+		cbEliminarGasto = new JComboBox();
+		cbEliminarGasto.setFont(new Font("Arial", Font.PLAIN, 20));
+		cbEliminarGasto.setBounds(492, 547, 178, 29);
+		ingresarGastos.add(cbEliminarGasto);
+		
+		btnEliminarCategoriaGastos = new JButton("Eliminar");
+		btnEliminarCategoriaGastos.setFont(new Font("Bangla MN", Font.PLAIN, 15));
+		btnEliminarCategoriaGastos.setBackground(new Color(0, 139, 139));
+		btnEliminarCategoriaGastos.setBounds(685, 543, 130, 42);
+		ingresarGastos.add(btnEliminarCategoriaGastos);
+		btnEliminarCategoriaGastos.addActionListener(oyente);
 		
 		presupuestos = new JPanel();
 		presupuestos.setBackground(Color.WHITE);
@@ -386,12 +748,212 @@ public class Dashboard extends Login{
 		
 	}
 	
+	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+	private void mostrarGastos() {
+		
+		String[][] r = DB.getCuenta(DB.leerUsu(), "gastos");
+		
+		listGastos.setModel(new AbstractListModel() {
+			
+			String[] values = r[0];
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
+		lblQ2.setText("Q " + r[1][0].toString());
+	}
+	
+	
+	
+	
+	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused", "serial" })
+	private void mostrarIngresos(){
+		
+		String[][] r = DB.getCuenta(DB.leerUsu(), "ingresos");
+		
+		listMuestraIngresos.setModel(new AbstractListModel() {
+			
+			String[] values = r[0];
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
+		lblQ.setText("Q " + r[1][0].toString());
+		
+	}
+	
 	private class MiListener implements ActionListener{
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			
+			if (e.getSource() == btnAgregarIngreso){
+				
+				String[][] a = DB.getCuenta(DB.leerUsu(), "ingresos");
+				cbCategoriaIngresos.setModel(new DefaultComboBoxModel(a[2]));
+				cbEliminarIngreso.setModel(new DefaultComboBoxModel(a[2]));
+				
+				ingresarIngresos.setVisible(true);
+				ingresos.setVisible(false);
+			}
+			
+			
+			if (e.getSource() == btnRegresar){
+				ingresarIngresos.setVisible(false);
+				ingresos.setVisible(true);
+				mostrarIngresos();
+			}
+			
+			
+			if (e.getSource() == btnGuardar){
+				
+				try{
+				DB.modificarCuenta(DB.leerUsu(), "ingresos", cbCategoriaIngresos.getSelectedItem().toString(), Double.parseDouble(txtMontoingresos.getText()));
+				ingresarIngresos.setVisible(false);
+				ingresos.setVisible(true);
+				txtMontoingresos.setText(null);
+				txtAgregarCategoriaIngresos.setText(null);
+				}catch (Exception error) {
+					JOptionPane.showMessageDialog(null, "Ha ingresado una cantidad no numerica");
+					txtMontoingresos.setText(null);
+					
+				}
+				try {
+					mostrarIngresos();
+				}catch (Exception ex){}
+				
+				
+			}
+			
+			
+			if (e.getSource() == btnAgregarNombreIngreso){
+				
+				try{
+					String nombre = txtAgregarCategoriaIngresos.getText();
+					DB.modificarCuenta(DB.leerUsu(), "ingresos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
+					
+					ingresarIngresos.setVisible(false);
+					ingresos.setVisible(true);
+					txtMontoingresos.setText(null);
+					txtAgregarCategoriaIngresos.setText(null);
+					
+					}catch (Exception error) {
+						txtAgregarCategoriaIngresos.setText(null);
+					}
+				
+				try {
+					mostrarIngresos();
+				}catch (Exception ex){}
+				
+				
+			}
+			
+			
+			if (e.getSource() == btnEliminar){
+				
+				DB.eliminarCuenta(DB.leerUsu(), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
+				
+				
+				ingresarIngresos.setVisible(false);
+				ingresos.setVisible(true);
+				txtMontoingresos.setText(null);
+				txtAgregarCategoriaIngresos.setText(null);
+				
+				try {
+					mostrarIngresos();
+				}catch (Exception ex){}
+			}
+			
+			
+			if (e.getSource() == btnAgregarGastos){
+				
+				String[][] s = DB.getCuenta(DB.leerUsu(), "gastos");
+				cbCategoriaGastos.setModel(new DefaultComboBoxModel(s[2]));
+				cbEliminarGasto.setModel(new DefaultComboBoxModel(s[2]));
+				
+				gastos.setVisible(false);
+				ingresarGastos.setVisible(true);
+			}
+			
+			if (e.getSource() == btnRegresar2){
+				
+				gastos.setVisible(true);
+				ingresarGastos.setVisible(false);
+				
+				txtMontoGasto.setText(null);
+				txtNombreGasto.setText(null);	
+			}
+			
+			
+			if (e.getSource() == btnGuardar2){
+				
+			try{
+				DB.modificarCuenta(DB.leerUsu(), "gastos", cbCategoriaGastos.getSelectedItem().toString(), Double.parseDouble(txtMontoGasto.getText()));
+				ingresarGastos.setVisible(false);
+				gastos.setVisible(true);
+				txtMontoGasto.setText(null);
+				txtNombreGasto.setText(null);
+				}catch (Exception error) {
+					JOptionPane.showMessageDialog(null, "Ha ingresado una cantidad no numerica");
+					txtMontoGasto.setText(null);
+					
+				}
+				try {
+					mostrarGastos();
+				}catch (Exception ex){}
+				
+			}
+			
+			if (e.getSource() == btnEliminarCategoriaGastos){
+				
+				DB.eliminarCuenta(DB.leerUsu(), "gastos", cbEliminarGasto.getSelectedItem().toString());
+				ingresarGastos.setVisible(false);
+				gastos.setVisible(true);
+				txtMontoGasto.setText(null);
+				txtNombreGasto.setText(null);
+				
+				try {
+					mostrarGastos();
+				}catch (Exception ex){}
+			}
+
+			
+			if (e.getSource() == btnAgregarCategoriaGastos){
+				
+				try{
+					String nombre = txtNombreGasto.getText();
+					DB.modificarCuenta(DB.leerUsu(), "gastos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
+					
+					ingresarGastos.setVisible(false);
+					gastos.setVisible(true);
+					txtMontoGasto.setText(null);
+					txtNombreGasto.setText(null);
+					
+					}catch (Exception error) {
+						txtNombreGasto.setText(null);
+					}
+				
+				try {
+					mostrarGastos();
+				}catch (Exception ex){}
+				
+				
+			}
 			
 			
 		}
