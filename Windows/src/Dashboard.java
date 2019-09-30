@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,7 +24,17 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.border.CompoundBorder;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 import javax.swing.JToggleButton;
+
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -34,6 +45,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.AbstractListModel;
+import java.awt.LayoutManager;
+import javax.swing.JSeparator;
 
 public class Dashboard extends Login{
 	
@@ -54,10 +67,10 @@ public class Dashboard extends Login{
 	private JPanel main;
 	private JPanel resumen;
 	private JPanel ingresos;
-	private JPanel gastos;
+	private JPanel gastos,panelGraficaIngresos;
 	private JPanel presupuestos;
 	private JLabel lblPresupuestos;
-	private JButton btnResumen,btnGuardar,btnAgregarNombreIngreso;
+	private JButton btnGuardar,btnAgregarNombreIngreso;
 	private JPanel ingresarIngresos;
 	private JButton btnAgregarIngreso;
 	private MiListener oyente;
@@ -102,6 +115,10 @@ public class Dashboard extends Login{
 	private JLabel label_14;
 	private JComboBox cbEliminarGasto;
 	private JButton btnEliminarCategoriaGastos;
+	private JPanel panelGraficaGastos;
+	private ChartPanel graph1;
+	private ChartPanel graph2;
+	
 	
 
 
@@ -133,11 +150,13 @@ public class Dashboard extends Login{
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
+		
+		
 		oyente = new MiListener();
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setExtendedState(frame.MAXIMIZED_BOTH);
-		frame.setSize(1150, 700);
+		frame.setSize(1268, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
 		frame.setIconImage(new ImageIcon("src/google.png").getImage());
@@ -168,6 +187,12 @@ public class Dashboard extends Login{
 		btnSidebarHome.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				
+				
+				panelGraficaIngresos.validate();
+		        panelGraficaGastos.validate();
+		        
 				pSidebarDashboard.setBackground(new Color(0, 153, 204));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
@@ -182,6 +207,15 @@ public class Dashboard extends Login{
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				
+				panelGraficaIngresos.removeAll();
+				panelGraficaGastos.removeAll();
+				
+				graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
+				graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+				
+				panelGraficaIngresos.add(graph1);
+				panelGraficaGastos.add(graph2);
 			}
 		});
 		btnSidebarHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -193,9 +227,7 @@ public class Dashboard extends Login{
 		btnSidebarIngresos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-				mostrarIngresos();
-				}catch (Exception ex){}
+				
 				
 				pSidebarIngresos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -211,6 +243,10 @@ public class Dashboard extends Login{
 				ingresos.setVisible(true);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				
+				try {
+					mostrarIngresos();
+					}catch (Exception ex){}
 			}
 		});
 		btnSidebarIngresos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -225,9 +261,7 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				try {
-					mostrarGastos();
-					}catch (Exception ex){}
+				
 				
 				pSidebarGastos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -243,6 +277,10 @@ public class Dashboard extends Login{
 				ingresos.setVisible(false);
 				gastos.setVisible(true);
 				presupuestos.setVisible(false);
+				
+				try {
+					mostrarGastos();
+					}catch (Exception ex){}
 			}
 		});
 		btnSidebarGastos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -412,9 +450,27 @@ public class Dashboard extends Login{
 		resumen.setBounds(245, 0, 1121, 746);
 		resumen.setLayout(null);
 		
-		btnResumen = new JButton("resumen");
-		btnResumen.setBounds(341, 161, 121, 51);
-		resumen.add(btnResumen);
+		graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
+		panelGraficaIngresos = new JPanel(new BorderLayout());
+		panelGraficaIngresos.setBounds(40, 54, 386, 208);
+		resumen.add(panelGraficaIngresos);
+        panelGraficaIngresos.add(graph1);
+        
+		
+		graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+		panelGraficaGastos = new JPanel(new BorderLayout());
+		panelGraficaGastos.setBounds(467, 54, 386, 208);
+		resumen.add(panelGraficaGastos);
+		panelGraficaGastos.add(graph2);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.BLACK);
+		separator.setForeground(Color.BLACK);
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(443, 53, 12, 209);
+		resumen.add(separator);
+		
+		
 		
 		ingresos = new JPanel();
 		ingresos.setBackground(Color.WHITE);
@@ -744,8 +800,7 @@ public class Dashboard extends Login{
 		lblPresupuestos.setBounds(425, 227, 200, 118);
 		presupuestos.add(lblPresupuestos);
 		
-		
-		
+
 	}
 	
 	
@@ -769,9 +824,6 @@ public class Dashboard extends Login{
 		
 		lblQ2.setText("Q " + r[1][0].toString());
 	}
-	
-	
-	
 	
 	
 	
@@ -954,6 +1006,10 @@ public class Dashboard extends Login{
 				
 				
 			}
+			
+		
+			
+			
 			
 			
 		}

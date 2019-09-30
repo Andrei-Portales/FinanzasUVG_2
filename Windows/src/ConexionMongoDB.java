@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,11 @@ import javax.swing.JOptionPane;
 
 import org.bson.Document;
 //import org.bson.types.ObjectId;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
@@ -566,7 +572,7 @@ public class ConexionMongoDB {
 		keys.remove("gastos");
 		keys.remove("correo");
 		
-		retorno = new String[3][keys.size()];
+		retorno = new String[4][keys.size()];
 		
 		double contador = 0;
 		
@@ -592,12 +598,82 @@ public class ConexionMongoDB {
 			retorno[2][i] = keys.get(i);
 		}
 		
+		for(int i = 0; i <= keys.size() - 1; i++) {
+			retorno[3][i] = keys.get(i) + ":" + values.get(i);
+				
+		}
+		
+		
 		return retorno;
 	}
 	
 	
 	
+@SuppressWarnings("unchecked")
+public ChartPanel getgrafica(String correo, String cuenta) {
+	
+	
+	ArrayList<String> keys= new ArrayList<String>() ;
+	ArrayList<String> values = new ArrayList<String>() ;
+	
+	BasicDBObject searchQuery = new BasicDBObject();
+	searchQuery.put("correo", correo);
+	searchQuery.put(cuenta, cuenta);
+	FindIterable<Document> cursor = datos.find(searchQuery);
+	
+	String json = "";
+	
+	for(Document doc : cursor) {
+		json = doc.toJson();
+	}
+	
+	Gson gson = new Gson(); 
+	
+	Map<String,String> map = new HashMap<String,String>();
+	map = (Map<String,String>) gson.fromJson(json, map.getClass());
+	
+	
+	for ( String key : map.keySet() ) {
+	    keys.add(key);
+	}
+	
+	keys.remove("_id");
+	keys.remove("ingresos");
+	keys.remove("gastos");
+	keys.remove("correo");
+	
+	
+	
+	double contador = 0;
+	
+	for(int i = 0; i <= keys.size() - 1; i++) {
+		values.add(map.get(keys.get(i)));
+		try{
+		contador = contador + Double.parseDouble(map.get(keys.get(i)).toString());
+		}catch (Exception e) {}
+		
+	}
+	
+	
+	DefaultCategoryDataset data = new DefaultCategoryDataset();
+		
+	double total = 0;
+	
+	for (int i = 0;i<= values.size() - 1; i++) {
+		
+		total = total + Double.parseDouble(values.get(i));
+	}
+	
+	for (int i = 0;i<= keys.size() - 1; i++) {
+		
+		data.setValue(Double.parseDouble(values.get(i)), keys.get(i) + "("+values.get(i)+")", "");	
+	}
 
+    JFreeChart barra = ChartFactory.createBarChart3D(cuenta.toUpperCase(), "Cuentas","Cantidad",data,PlotOrientation.VERTICAL,true,true,true);
+    ChartPanel graph = new ChartPanel(barra);
+   
+    	return graph;
+	}
 	
 	
 	
