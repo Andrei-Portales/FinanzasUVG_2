@@ -33,6 +33,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.gson.Gson;
@@ -685,7 +686,6 @@ public ChartPanel getgrafica(String correo, String cuenta) {
     ChartPanel graph = new ChartPanel(barra);
     
     
-   
    
     	return graph;
 	}

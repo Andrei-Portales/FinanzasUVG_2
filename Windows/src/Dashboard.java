@@ -453,6 +453,7 @@ public class Dashboard extends Login{
 		graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
 		panelGraficaIngresos = new JPanel(new BorderLayout());
 		panelGraficaIngresos.setBounds(40, 54, 450, 230);
+
 		resumen.add(panelGraficaIngresos);
         panelGraficaIngresos.add(graph1);
         
@@ -460,6 +461,7 @@ public class Dashboard extends Login{
 		graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
 		panelGraficaGastos = new JPanel(new BorderLayout());
 		panelGraficaGastos.setBounds(550, 54, 450, 230);
+
 		resumen.add(panelGraficaGastos);
 		panelGraficaGastos.add(graph2);
 		
@@ -468,6 +470,7 @@ public class Dashboard extends Login{
 		separator.setForeground(Color.BLACK);
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBounds(520, 53, 12, 209);
+
 		resumen.add(separator);
 		
 		
@@ -1024,7 +1027,7 @@ public class Dashboard extends Login{
 				
 				
 			}
-			
+		
 		}
 		
 	}
