@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,7 +30,10 @@ import org.bson.Document;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.gson.Gson;
@@ -668,9 +673,19 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		
 		data.setValue(Double.parseDouble(values.get(i)), keys.get(i) + "("+values.get(i)+")", "");	
 	}
-
-    JFreeChart barra = ChartFactory.createBarChart3D(cuenta.toUpperCase(), "Cuentas","Cantidad",data,PlotOrientation.VERTICAL,true,true,true);
+	
+//	.toUpperCase()
+    JFreeChart barra = ChartFactory.createBarChart("Total " + cuenta + " Q 7000", "","Q",data,PlotOrientation.VERTICAL,true,false,false);
+    barra.setBorderVisible(false);
+    CategoryPlot p = barra.getCategoryPlot();
+    p.setRangeGridlinePaint(Color.black);
+    p.setBackgroundPaint(Color.white);
+    p.setOutlineVisible(false);
+   
+    
     ChartPanel graph = new ChartPanel(barra);
+    
+    
    
     	return graph;
 	}
