@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,7 +24,17 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.border.CompoundBorder;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 import javax.swing.JToggleButton;
+
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -34,6 +45,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.AbstractListModel;
+import java.awt.LayoutManager;
+import javax.swing.JSeparator;
 
 public class Dashboard extends Login{
 	
@@ -54,10 +67,10 @@ public class Dashboard extends Login{
 	private JPanel main;
 	private JPanel resumen;
 	private JPanel ingresos;
-	private JPanel gastos;
+	private JPanel gastos,panelGraficaIngresos;
 	private JPanel presupuestos;
 	private JLabel lblPresupuestos;
-	private JButton btnResumen,btnGuardar,btnAgregarNombreIngreso;
+	private JButton btnGuardar,btnAgregarNombreIngreso;
 	private JPanel ingresarIngresos;
 	private JButton btnAgregarIngreso;
 	private MiListener oyente;
@@ -102,6 +115,10 @@ public class Dashboard extends Login{
 	private JLabel label_14;
 	private JComboBox cbEliminarGasto;
 	private JButton btnEliminarCategoriaGastos;
+	private JPanel panelGraficaGastos;
+	private ChartPanel graph1;
+	private ChartPanel graph2;
+	
 	
 
 
@@ -133,11 +150,13 @@ public class Dashboard extends Login{
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
+		
+		
 		oyente = new MiListener();
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setExtendedState(frame.MAXIMIZED_BOTH);
-		frame.setSize(1150, 700);
+		frame.setSize(1268, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
 		frame.setIconImage(new ImageIcon("src/google.png").getImage());
@@ -154,7 +173,7 @@ public class Dashboard extends Login{
 		
 		
 		lblUsername = new JLabel(DB.getNombre(DB.leerUsu()));
-		lblUsername.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUsername.setFont(new Font("Arial", Font.BOLD, 12));
 		lblUsername.setToolTipText("");
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsername.setBounds(0, 131, 245, 30);
@@ -168,6 +187,12 @@ public class Dashboard extends Login{
 		btnSidebarHome.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				
+				
+				panelGraficaIngresos.validate();
+		        panelGraficaGastos.validate();
+		        
 				pSidebarDashboard.setBackground(new Color(0, 153, 204));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
@@ -182,6 +207,15 @@ public class Dashboard extends Login{
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				
+				panelGraficaIngresos.removeAll();
+				panelGraficaGastos.removeAll();
+				
+				graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
+				graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+				
+				panelGraficaIngresos.add(graph1);
+				panelGraficaGastos.add(graph2);
 			}
 		});
 		btnSidebarHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -193,9 +227,7 @@ public class Dashboard extends Login{
 		btnSidebarIngresos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-				mostrarIngresos();
-				}catch (Exception ex){}
+				
 				
 				pSidebarIngresos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -211,6 +243,10 @@ public class Dashboard extends Login{
 				ingresos.setVisible(true);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				
+				try {
+					mostrarIngresos();
+					}catch (Exception ex){}
 			}
 		});
 		btnSidebarIngresos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -225,9 +261,7 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				try {
-					mostrarGastos();
-					}catch (Exception ex){}
+				
 				
 				pSidebarGastos.setBackground(new Color(0, 153, 204));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -243,6 +277,10 @@ public class Dashboard extends Login{
 				ingresos.setVisible(false);
 				gastos.setVisible(true);
 				presupuestos.setVisible(false);
+				
+				try {
+					mostrarGastos();
+					}catch (Exception ex){}
 			}
 		});
 		btnSidebarGastos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -402,7 +440,7 @@ public class Dashboard extends Login{
 		
 		main = new JPanel();
 		main.setBackground(Color.WHITE);
-		main.setBounds(245, 0, 899, 672);
+		main.setBounds(245, 0, 1120, 672);
 		frame.getContentPane().add(main);
 		main.setLayout(new CardLayout(0, 0));
 		
@@ -412,9 +450,27 @@ public class Dashboard extends Login{
 		resumen.setBounds(245, 0, 1121, 746);
 		resumen.setLayout(null);
 		
-		btnResumen = new JButton("resumen");
-		btnResumen.setBounds(341, 161, 121, 51);
-		resumen.add(btnResumen);
+		graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
+		panelGraficaIngresos = new JPanel(new BorderLayout());
+		panelGraficaIngresos.setBounds(40, 54, 450, 230);
+		resumen.add(panelGraficaIngresos);
+        panelGraficaIngresos.add(graph1);
+        
+		
+		graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+		panelGraficaGastos = new JPanel(new BorderLayout());
+		panelGraficaGastos.setBounds(550, 54, 450, 230);
+		resumen.add(panelGraficaGastos);
+		panelGraficaGastos.add(graph2);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.BLACK);
+		separator.setForeground(Color.BLACK);
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(520, 53, 12, 209);
+		resumen.add(separator);
+		
+		
 		
 		ingresos = new JPanel();
 		ingresos.setBackground(Color.WHITE);
@@ -423,13 +479,18 @@ public class Dashboard extends Login{
 		ingresos.setLayout(null);
 		
 		JLabel lblIngresos = new JLabel("Agregar un nuevo ingreso");
-		lblIngresos.setBounds(346, 227, 189, 31);
+		lblIngresos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIngresos.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblIngresos.setBounds(469, 209, 189, 31);
 		ingresos.add(lblIngresos);
 		
 		btnAgregarIngreso = new JButton("+");
-		btnAgregarIngreso.setBackground(new Color(0, 191, 255));
+		btnAgregarIngreso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAgregarIngreso.setBorder(null);
+		btnAgregarIngreso.setForeground(Color.WHITE);
+		btnAgregarIngreso.setBackground(new Color(93,143,252));
 		btnAgregarIngreso.setFont(new Font("Arial", Font.PLAIN, 30));
-		btnAgregarIngreso.setBounds(377, 162, 107, 65);
+		btnAgregarIngreso.setBounds(526, 171, 70, 40);
 		ingresos.add(btnAgregarIngreso);
 		
 		scrollPane = new JScrollPane();
@@ -447,18 +508,19 @@ public class Dashboard extends Login{
 		listMuestraIngresos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
 		JLabel label = new JLabel("INGRESOS");
-		label.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
-		label.setBounds(344, 18, 191, 51);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Arial", Font.PLAIN, 28));
+		label.setBounds(10, 35, 1100, 51);
 		ingresos.add(label);
 		
 		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_1.setBounds(225, 93, 132, 31);
+		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(225, 108, 132, 31);
 		ingresos.add(lblNewLabel_1);
 		
 		lblQ = new JLabel("Q ");
 		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQ.setBounds(362, 93, 253, 31);
+		lblQ.setBounds(362, 108, 253, 31);
 		ingresos.add(lblQ);
 		
 		
@@ -473,37 +535,37 @@ public class Dashboard extends Login{
 		ingresarIngresos.setLayout(null);
 		
 		btnRegresar = new JButton("Regresar");
-		btnRegresar.setBackground(new Color(0, 139, 139));
+		btnRegresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRegresar.setBorder(null);
+		btnRegresar.setForeground(Color.WHITE);
+		btnRegresar.setBackground(new Color(93,143,252));
 		btnRegresar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
-		btnRegresar.setBounds(45, 58, 130, 42);
+		btnRegresar.setBounds(10, 11, 130, 34);
 		ingresarIngresos.add(btnRegresar);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 191, 255));
+		panel.setBackground(new Color(93,143,252));
 		panel.setBounds(45, 144, 280, 477);
 		ingresarIngresos.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblEdicion = new JLabel("Edicion");
-		lblEdicion.setForeground(new Color(255, 255, 255));
-		lblEdicion.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblEdicion.setBounds(56, 147, 147, 46);
-		panel.add(lblEdicion);
-		
-		JLabel lblDeIngresos = new JLabel("de Ingresos");
+		JLabel lblDeIngresos = new JLabel("Edici\u00F3n de ingresos");
+		lblDeIngresos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDeIngresos.setForeground(new Color(255, 255, 255));
-		lblDeIngresos.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblDeIngresos.setBounds(56, 194, 197, 55);
+		lblDeIngresos.setFont(new Font("Arial", Font.PLAIN, 26));
+		lblDeIngresos.setBounds(10, 206, 260, 55);
 		panel.add(lblDeIngresos);
 		
 		JLabel lblMonto = new JLabel("Monto:");
-		lblMonto.setFont(new Font("Arial", Font.BOLD, 20));
-		lblMonto.setBounds(387, 217, 78, 35);
+		lblMonto.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMonto.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblMonto.setBounds(499, 242, 111, 35);
 		ingresarIngresos.add(lblMonto);
 		
 		JLabel lblCategoria = new JLabel("Categoria:");
-		lblCategoria.setFont(new Font("Arial", Font.BOLD, 20));
-		lblCategoria.setBounds(354, 170, 111, 35);
+		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCategoria.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblCategoria.setBounds(499, 184, 111, 35);
 		ingresarIngresos.add(lblCategoria);
 		
 		
@@ -512,71 +574,83 @@ public class Dashboard extends Login{
 		cbCategoriaIngresos = new JComboBox();
 		
 		cbCategoriaIngresos.setFont(new Font("Arial", Font.PLAIN, 20));
-		cbCategoriaIngresos.setBounds(477, 174, 178, 29);
+		cbCategoriaIngresos.setBounds(622, 187, 178, 35);
 		ingresarIngresos.add(cbCategoriaIngresos);
 		
 		txtMontoingresos = new JTextField();
-		txtMontoingresos.setBounds(480, 216, 180, 35);
+		txtMontoingresos.setBounds(622, 244, 180, 35);
 		ingresarIngresos.add(txtMontoingresos);
 		txtMontoingresos.setColumns(10);
 		
 		btnGuardar = new JButton("Guardar");
+		btnGuardar.setBorder(null);
+		btnGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnGuardar.setForeground(Color.WHITE);
 		btnGuardar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
 		btnGuardar.setBackground(new Color(0, 139, 139));
-		btnGuardar.setBounds(670, 216, 130, 42);
+		btnGuardar.setBounds(815, 244, 130, 35);
 		ingresarIngresos.add(btnGuardar);
 		btnGuardar.addActionListener(oyente);
 		
 		lblNewLabel = new JLabel("INGRESOS");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
-		lblNewLabel.setBounds(494, 58, 191, 51);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 28));
+		lblNewLabel.setBounds(325, 55, 785, 51);
 		ingresarIngresos.add(lblNewLabel);
 		
-		lblEditaLasCaracteristicas = new JLabel("Edita las caracteristicas de tu ingreso");
-		lblEditaLasCaracteristicas.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
-		lblEditaLasCaracteristicas.setBounds(455, 104, 280, 29);
+		lblEditaLasCaracteristicas = new JLabel("Agregar ingreso");
+		lblEditaLasCaracteristicas.setFont(new Font("Arial", Font.BOLD, 18));
+		lblEditaLasCaracteristicas.setBounds(434, 129, 280, 29);
 		ingresarIngresos.add(lblEditaLasCaracteristicas);
 		
 		lblAgregarCategoria = new JLabel("Agregar Categoria");
-		lblAgregarCategoria.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-		lblAgregarCategoria.setBounds(455, 310, 250, 51);
+		lblAgregarCategoria.setFont(new Font("Arial", Font.BOLD, 18));
+		lblAgregarCategoria.setBounds(435, 333, 250, 29);
 		ingresarIngresos.add(lblAgregarCategoria);
 		
 		lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Arial", Font.BOLD, 20));
-		lblNombre.setBounds(387, 389, 93, 35);
+		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNombre.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblNombre.setBounds(517, 389, 93, 35);
 		ingresarIngresos.add(lblNombre);
 		
 		txtAgregarCategoriaIngresos = new JTextField();
 		txtAgregarCategoriaIngresos.setColumns(10);
-		txtAgregarCategoriaIngresos.setBounds(480, 391, 180, 35);
+		txtAgregarCategoriaIngresos.setBounds(622, 391, 180, 35);
 		ingresarIngresos.add(txtAgregarCategoriaIngresos);
 		
 		btnAgregarNombreIngreso = new JButton("Agregar");
+		btnAgregarNombreIngreso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAgregarNombreIngreso.setBorder(null);
+		btnAgregarNombreIngreso.setForeground(Color.WHITE);
 		btnAgregarNombreIngreso.setFont(new Font("Bangla MN", Font.PLAIN, 15));
 		btnAgregarNombreIngreso.setBackground(new Color(0, 139, 139));
-		btnAgregarNombreIngreso.setBounds(670, 382, 130, 42);
+		btnAgregarNombreIngreso.setBounds(815, 389, 130, 35);
 		ingresarIngresos.add(btnAgregarNombreIngreso);
 		
 		lblEliminarCategoria = new JLabel("Eliminar Categoria");
-		lblEliminarCategoria.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-		lblEliminarCategoria.setBounds(455, 468, 250, 51);
+		lblEliminarCategoria.setFont(new Font("Arial", Font.BOLD, 18));
+		lblEliminarCategoria.setBounds(434, 482, 250, 29);
 		ingresarIngresos.add(lblEliminarCategoria);
 		
 		label_1 = new JLabel("Nombre:");
-		label_1.setFont(new Font("Arial", Font.BOLD, 20));
-		label_1.setBounds(387, 550, 93, 35);
+		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		label_1.setFont(new Font("Arial", Font.PLAIN, 18));
+		label_1.setBounds(517, 550, 93, 35);
 		ingresarIngresos.add(label_1);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBorder(null);
+		btnEliminar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnEliminar.setForeground(Color.WHITE);
 		btnEliminar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
 		btnEliminar.setBackground(new Color(0, 139, 139));
-		btnEliminar.setBounds(670, 550, 130, 42);
+		btnEliminar.setBounds(815, 551, 130, 35);
 		ingresarIngresos.add(btnEliminar);
 		btnEliminar.addActionListener(oyente);
 		
 		cbEliminarIngreso = new JComboBox();
-		cbEliminarIngreso.setBounds(477, 554, 178, 29);
+		cbEliminarIngreso.setBounds(622, 550, 178, 35);
 		ingresarIngresos.add(cbEliminarIngreso);
 		cbEliminarIngreso.setFont(new Font("Arial", Font.PLAIN, 20));
 		btnRegresar.addActionListener(oyente);
@@ -744,8 +818,7 @@ public class Dashboard extends Login{
 		lblPresupuestos.setBounds(425, 227, 200, 118);
 		presupuestos.add(lblPresupuestos);
 		
-		
-		
+
 	}
 	
 	
@@ -769,9 +842,6 @@ public class Dashboard extends Login{
 		
 		lblQ2.setText("Q " + r[1][0].toString());
 	}
-	
-	
-	
 	
 	
 	
@@ -954,7 +1024,6 @@ public class Dashboard extends Login{
 				
 				
 			}
-			
 			
 		}
 		
