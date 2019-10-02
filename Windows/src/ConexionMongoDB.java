@@ -1,12 +1,18 @@
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -16,34 +22,44 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
-
+import javax.imageio.ImageIO;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.bson.Document;
+import org.bson.internal.Base64;
+import org.bson.types.ObjectId;
 //import org.bson.types.ObjectId;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
-
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.gridfs.GridFSBucket;
+import com.mongodb.client.gridfs.GridFSBuckets;
+import com.mongodb.client.gridfs.GridFSUploadStream;
+import com.mongodb.client.gridfs.model.GridFSUploadOptions;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -161,6 +177,7 @@ public class ConexionMongoDB {
 		document.put("contrasena", getMD5(contrasena));
 		document.put("nombre", (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()));
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
+		document.put("imagen", "");
 		usuarios.insertOne(document);
 		
 		Document document1 = new Document();
@@ -197,6 +214,79 @@ public class ConexionMongoDB {
 		
 	}
 	
+	
+	
+	/**
+	 * Funcion para guardar imagen en la base de datos
+	 */
+	public void subirImagen(String correo) {
+		
+		String img = toBase64(getPath());
+		
+		byte[] imagen = img.getBytes();
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put("correo", correo);
+
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("imagen", img);
+					
+		BasicDBObject updateObj = new BasicDBObject();
+		updateObj.put("$set", newDocument);
+		
+		usuarios.updateOne(query, updateObj);
+		
+		
+		
+	}
+	
+	
+	/**
+	 * Funcion para convertir imagen de byte[]
+	 * @param imagen
+	 * @return
+	 */
+	public BufferedImage convImagen(String imageString) {
+		
+		BufferedImage image = null;
+        byte[] imageByte;
+        try {
+            //BASE64Decoder decoder = new BASE64Decoder();
+          //  imageByte = decoder.decodeBuffer(imageString);
+           // ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+          //  image = ImageIO.read(bis);
+           // bis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
+	}
+	
+	
+	/**
+	 * Funcion para poner la imagen del usuario
+	 */
+	public BufferedImage setImagen(String correo) {
+	
+	BasicDBObject searchQuery = new BasicDBObject();
+	searchQuery.put("correo", correo);
+	FindIterable<Document> cursor = usuarios.find(searchQuery);
+	
+	String imagen = null;
+	
+	
+	for(Document doc : cursor) {
+		imagen =  doc.getString("imagen");
+	}
+	
+
+	return convImagen(imagen);
+	
+	
+	
+	
+	
+	}
 	
 	
 	/**
@@ -614,6 +704,7 @@ public class ConexionMongoDB {
 	
 	
 	
+	
 @SuppressWarnings("unchecked")
 public ChartPanel getgrafica(String correo, String cuenta) {
 	
@@ -674,8 +765,8 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		data.setValue(Double.parseDouble(values.get(i)), keys.get(i) + "("+values.get(i)+")", "");	
 	}
 	
-//	.toUpperCase()
-    JFreeChart barra = ChartFactory.createBarChart("Total " + cuenta + " Q 7000", "","Q",data,PlotOrientation.VERTICAL,true,false,false);
+
+    JFreeChart barra = ChartFactory.createBarChart("Total " + cuenta , "","Q",data,PlotOrientation.VERTICAL,true,false,false);
     barra.setBorderVisible(false);
     CategoryPlot p = barra.getCategoryPlot();
     p.setRangeGridlinePaint(Color.black);
@@ -693,7 +784,47 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	
 	
 	
+	public String getPath()  {
+		
+		JFileChooser chooser = new JFileChooser();
+	 	FileNameExtensionFilter filtroImagen =new FileNameExtensionFilter("JPG, PNG & GIF","jpg","png","gif");
+	 	chooser.setFileFilter(filtroImagen);
+	 	File f = null;
+	 	
+		try {
+			f = new File(new File(".").getCanonicalPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    chooser.setCurrentDirectory(f);
+	    chooser.setCurrentDirectory(null);
+	    chooser.showOpenDialog(null);
+	    String path = chooser.getSelectedFile().toString();
+	    return path;
+	}
 	
+	
+	 @SuppressWarnings("unused")
+		public String toBase64(String path){
+	         String encodedfile = null;
+	         File file = new File(path);
+	         try {
+	             @SuppressWarnings("resource")
+				FileInputStream fileInputStreamReader = new FileInputStream(file);
+	             byte[] bytes = new byte[(int)file.length()];
+	             fileInputStreamReader.read(bytes);
+	             encodedfile = Base64.encode(bytes).toString();
+	         } catch (FileNotFoundException e) {
+	             // TODO Auto-generated catch block
+	             e.printStackTrace();
+	         } catch (IOException e) {
+	             // TODO Auto-generated catch block
+	             e.printStackTrace();
+	         }
+
+	         return encodedfile;
+	     }
 	
 	
 	
