@@ -118,6 +118,7 @@ public class Dashboard extends Login{
 	private JPanel panelGraficaGastos;
 	private ChartPanel graph1;
 	private ChartPanel graph2;
+	private JButton btnCambiarFoto;
 	
 	
 
@@ -341,9 +342,25 @@ public class Dashboard extends Login{
 		Image userImg = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
 		
 		lblUserImage = new JLabel(new ImageIcon(userImg) );
-		lblUserImage.setBounds(0, 40, 245, 80);
+		lblUserImage.setBounds(30, 11, 185, 109);
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		BufferedImage img = DB.setImagen(DB.leerUsu());
+		 
+		 if (img != null) {
+			 
+			 ImageIcon imgIcon = new ImageIcon(img);
+		        Image imgEscalada = imgIcon.getImage().getScaledInstance(lblUserImage.getWidth(),
+		        		lblUserImage.getHeight(), Image.SCALE_SMOOTH);
+		        Icon iconoEscalado = new ImageIcon(imgEscalada);
+		        lblUserImage.setIcon(iconoEscalado);
+			 
+			 
+		 }
+		
+		
+		
 		
 		lblSidebarHome = new JLabel("Dashboard");
 		lblSidebarHome.setForeground(new Color(0, 153, 204));
@@ -438,6 +455,26 @@ public class Dashboard extends Login{
 		pSidebarSalir.setBounds(0, 389, 5, 36);
 		sidebar.add(pSidebarSalir);
 		
+		btnCambiarFoto = new JButton("Cambiar foto");
+		btnCambiarFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DB.subirImagen(DB.leerUsu());
+				BufferedImage img = DB.setImagen(DB.leerUsu());
+				
+				ImageIcon imgIcon = new ImageIcon(img);
+		        Image imgEscalada = imgIcon.getImage().getScaledInstance(lblUserImage.getWidth(),
+		        		lblUserImage.getHeight(), Image.SCALE_SMOOTH);
+		        Icon iconoEscalado = new ImageIcon(imgEscalada);
+		        lblUserImage.setIcon(iconoEscalado);
+				
+			}
+		});
+		btnCambiarFoto.setBackground(Color.GREEN);
+		btnCambiarFoto.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnCambiarFoto.setBounds(74, 161, 100, 23);
+		sidebar.add(btnCambiarFoto);
+		
+		
 		main = new JPanel();
 		main.setBackground(Color.WHITE);
 		main.setBounds(245, 0, 1120, 672);
@@ -472,6 +509,7 @@ public class Dashboard extends Login{
 		separator.setBounds(520, 53, 12, 209);
 
 		resumen.add(separator);
+		
 		
 		
 		

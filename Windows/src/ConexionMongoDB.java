@@ -9,13 +9,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,15 +29,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.swing.ImageIcon;
+
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.bson.Document;
 import org.bson.internal.Base64;
-import org.bson.types.ObjectId;
-//import org.bson.types.ObjectId;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -47,18 +46,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.gridfs.GridFSBucket;
-import com.mongodb.client.gridfs.GridFSBuckets;
-import com.mongodb.client.gridfs.GridFSUploadStream;
-import com.mongodb.client.gridfs.model.GridFSUploadOptions;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSInputFile;
+
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -215,79 +209,7 @@ public class ConexionMongoDB {
 	}
 	
 	
-	
-	/**
-	 * Funcion para guardar imagen en la base de datos
-	 */
-	public void subirImagen(String correo) {
 		
-		String img = toBase64(getPath());
-		
-		byte[] imagen = img.getBytes();
-		
-		BasicDBObject query = new BasicDBObject();
-		query.put("correo", correo);
-
-		BasicDBObject newDocument = new BasicDBObject();
-		newDocument.put("imagen", img);
-					
-		BasicDBObject updateObj = new BasicDBObject();
-		updateObj.put("$set", newDocument);
-		
-		usuarios.updateOne(query, updateObj);
-		
-		
-		
-	}
-	
-	
-	/**
-	 * Funcion para convertir imagen de byte[]
-	 * @param imagen
-	 * @return
-	 */
-	public BufferedImage convImagen(String imageString) {
-		
-		BufferedImage image = null;
-        byte[] imageByte;
-        try {
-            //BASE64Decoder decoder = new BASE64Decoder();
-          //  imageByte = decoder.decodeBuffer(imageString);
-           // ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-          //  image = ImageIO.read(bis);
-           // bis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return image;
-	}
-	
-	
-	/**
-	 * Funcion para poner la imagen del usuario
-	 */
-	public BufferedImage setImagen(String correo) {
-	
-	BasicDBObject searchQuery = new BasicDBObject();
-	searchQuery.put("correo", correo);
-	FindIterable<Document> cursor = usuarios.find(searchQuery);
-	
-	String imagen = null;
-	
-	
-	for(Document doc : cursor) {
-		imagen =  doc.getString("imagen");
-	}
-	
-
-	return convImagen(imagen);
-	
-	
-	
-	
-	
-	}
-	
 	
 	/**
 	 * esta funcion manda un correo al usuario que quiere restablecer contrasena y consulta en la base de datos nombre, apellido y guarda el codigo generado en la base de datos
@@ -827,7 +749,75 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	     }
 	
 	
-	
+
+		/**
+		 * Funcion para guardar imagen en la base de datos
+		 */
+		public void subirImagen(String correo) {
+			
+			String img = toBase64(getPath());
+			
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put("imagen", img);
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			
+			usuarios.updateOne(query, updateObj);
+			
+			
+			
+		}
+		
+		
+		/**
+		 * Funcion para convertir imagen de byte[]
+		 * @param imagen
+		 * @return
+		 */
+		public BufferedImage convImagen(String imageString) {
+			
+			byte[] imgBytes = Base64.decode(imageString);
+			BufferedImage img = null;
+			try {
+				img = ImageIO.read(new ByteArrayInputStream(imgBytes));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			
+	        return img;
+		}
+		
+		
+		/**
+		 * Funcion para poner la imagen del usuario
+		 */
+		public BufferedImage setImagen(String correo) {
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = usuarios.find(searchQuery);
+		
+		String imagen = null;
+		
+		
+		for(Document doc : cursor) {
+			imagen =  doc.getString("imagen");
+		}
+		
+		if (imagen.isEmpty()) {
+			return null;
+		}
+
+		return convImagen(imagen);
+		
+		
+		}
+
 	
 	
 	
