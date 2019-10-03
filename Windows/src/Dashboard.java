@@ -350,12 +350,14 @@ public class Dashboard extends Login{
 		 
 		 if (img != null) {
 			 
+			 try {
+			 
 			 ImageIcon imgIcon = new ImageIcon(img);
 		        Image imgEscalada = imgIcon.getImage().getScaledInstance(lblUserImage.getWidth(),
 		        		lblUserImage.getHeight(), Image.SCALE_SMOOTH);
 		        Icon iconoEscalado = new ImageIcon(imgEscalada);
 		        lblUserImage.setIcon(iconoEscalado);
-			 
+			 }catch(Exception e) {}
 			 
 		 }
 		
@@ -461,11 +463,13 @@ public class Dashboard extends Login{
 				DB.subirImagen(DB.leerUsu());
 				BufferedImage img = DB.setImagen(DB.leerUsu());
 				
+				try {
 				ImageIcon imgIcon = new ImageIcon(img);
 		        Image imgEscalada = imgIcon.getImage().getScaledInstance(lblUserImage.getWidth(),
 		        		lblUserImage.getHeight(), Image.SCALE_SMOOTH);
 		        Icon iconoEscalado = new ImageIcon(imgEscalada);
 		        lblUserImage.setIcon(iconoEscalado);
+				}catch(Exception e) {}
 				
 			}
 		});

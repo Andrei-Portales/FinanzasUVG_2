@@ -719,10 +719,16 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		String path = "";
+		try {
 	    chooser.setCurrentDirectory(f);
 	    chooser.setCurrentDirectory(null);
 	    chooser.showOpenDialog(null);
-	    String path = chooser.getSelectedFile().toString();
+	    path = chooser.getSelectedFile().toString();
+		}catch(Exception e) {
+			
+		}
 	    return path;
 	}
 	
@@ -755,7 +761,11 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		 */
 		public void subirImagen(String correo) {
 			
-			String img = toBase64(getPath());
+			String img = "";
+			
+			try {
+			img = toBase64(getPath());
+			}catch(Exception e) {}
 			
 			BasicDBObject query = new BasicDBObject();
 			query.put("correo", correo);
@@ -809,7 +819,11 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 			imagen =  doc.getString("imagen");
 		}
 		
+		try {
 		if (imagen.isEmpty()) {
+			return null;
+		}
+		}catch(Exception e) {
 			return null;
 		}
 
