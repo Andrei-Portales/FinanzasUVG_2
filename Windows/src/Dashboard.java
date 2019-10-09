@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Cursor;
 
 import javax.imageio.ImageIO;
@@ -63,7 +64,7 @@ public class Dashboard extends Login{
 	private JLabel lblSidebarSalirIcon;
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
 	private JLabel lblUserImage, lblUsername;
-	private BufferedImage userImage = null;
+	private BufferedImage userImage = null, perfilImagen = null;
 	private JPanel main;
 	private JPanel resumen;
 	private JPanel ingresos;
@@ -118,6 +119,23 @@ public class Dashboard extends Login{
 	private JPanel panelGraficaGastos;
 	private ChartPanel graph1;
 	private ChartPanel graph2;
+	private JButton btnCambiarFoto;
+	private JPanel pSidebarPerfil;
+
+	private JLabel lblSidebarPerfil;
+	private JPanel perfil;
+
+	private JPanel btnSidebarPerfil;
+
+	private Container lblSidebarPerfilIcon;
+	private JLabel lblPerfilPicture;
+	private JTextField fPerfilUsuario;
+	private JTextField fPerilCorreo;
+
+	private JButton perfilCambiarContrasena;
+
+	private JButton btnGuardarCambios;
+	private JSeparator separator_2;
 	
 	
 
@@ -170,13 +188,45 @@ public class Dashboard extends Login{
 		frame.getContentPane().add(sidebar);
 		sidebar.setLayout(null);
 		
+		btnSidebarPerfil = new JPanel();
+		btnSidebarPerfil.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				pSidebarPerfil.setBackground(new Color(0, 0, 0));
+				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarDashboard.setBackground(new Color(251,251,251));
+				pSidebarIngresos.setBackground(new Color(251,251,251));
+				pSidebarGastos.setBackground(new Color(251,251,251));
+				
+				
+				lblSidebarPerfil.setForeground(new Color(0, 0, 0));
+				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarHome.setForeground(new Color(119,119,119));
+				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarGastos.setForeground(new Color(119,119,119));
+				
+				resumen.setVisible(false);
+				ingresos.setVisible(false);
+				gastos.setVisible(false);
+				presupuestos.setVisible(false);
+				perfil.setVisible(true);
+			}
+		});
+		btnSidebarPerfil.setOpaque(false);
+		btnSidebarPerfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSidebarPerfil.setBorder(new CompoundBorder());
+		btnSidebarPerfil.setBackground(Color.CYAN);
+		btnSidebarPerfil.setBounds(0, 389, 245, 36);
+		sidebar.add(btnSidebarPerfil);
+		
 		
 		
 		lblUsername = new JLabel(DB.getNombre(DB.leerUsu()));
 		lblUsername.setFont(new Font("Arial", Font.BOLD, 12));
 		lblUsername.setToolTipText("");
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUsername.setBounds(0, 131, 245, 30);
+		lblUsername.setBounds(0, 122, 245, 30);
 		sidebar.add(lblUsername);
 		
 		
@@ -193,20 +243,24 @@ public class Dashboard extends Login{
 				panelGraficaIngresos.validate();
 		        panelGraficaGastos.validate();
 		        
-				pSidebarDashboard.setBackground(new Color(0, 153, 204));
+//				pSidebarDashboard.setBackground(new Color(0, 153, 204));
+		        pSidebarDashboard.setBackground(new Color(0, 0, 0));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
-				lblSidebarHome.setForeground(new Color(0, 153, 204));
-				lblSidebarGastos.setForeground(new Color(0, 0, 0));
-				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
-				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				lblSidebarHome.setForeground(new Color(0, 0, 0));
+				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(true);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				perfil.setVisible(true);
 				
 				panelGraficaIngresos.removeAll();
 				panelGraficaGastos.removeAll();
@@ -229,20 +283,23 @@ public class Dashboard extends Login{
 			public void mouseClicked(MouseEvent e) {
 				
 				
-				pSidebarIngresos.setBackground(new Color(0, 153, 204));
+				pSidebarIngresos.setBackground(new Color(0, 0, 0));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
-				lblSidebarIngresos.setForeground(new Color(0, 153, 204));
-				lblSidebarHome.setForeground(new Color(0, 0, 0));
-				lblSidebarGastos.setForeground(new Color(0, 0, 0));
-				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
+				lblSidebarHome.setForeground(new Color(119,119,119));
+				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(true);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				perfil.setVisible(true);
 				
 				try {
 					mostrarIngresos();
@@ -263,20 +320,24 @@ public class Dashboard extends Login{
 				
 				
 				
-				pSidebarGastos.setBackground(new Color(0, 153, 204));
+				pSidebarGastos.setBackground(new Color(0, 0, 0));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarPerfil.setBackground(new Color(251,251,251));
+			
 				
-				lblSidebarGastos.setForeground(new Color(0, 153, 204));
-				lblSidebarHome.setForeground(new Color(0, 0, 0));
-				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
-				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				lblSidebarGastos.setForeground(new Color(0, 0, 0));
+				lblSidebarHome.setForeground(new Color(119,119,119));
+				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(true);
 				presupuestos.setVisible(false);
+				perfil.setVisible(false);
 				
 				try {
 					mostrarGastos();
@@ -294,20 +355,24 @@ public class Dashboard extends Login{
 		btnSidebarPresupuestos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				pSidebarPresupuestos.setBackground(new Color(0, 153, 204));
+				pSidebarPresupuestos.setBackground(new Color(0, 0, 0));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
+				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
-				lblSidebarPresupuestos.setForeground(new Color(0, 153, 204));
-				lblSidebarHome.setForeground(new Color(0, 0, 0));
-				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
-				lblSidebarGastos.setForeground(new Color(0, 0, 0));
+				
+				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+				lblSidebarHome.setForeground(new Color(119,119,119));
+				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(true);
+				perfil.setVisible(false);
 			}
 		});
 		btnSidebarPresupuestos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -330,7 +395,7 @@ public class Dashboard extends Login{
 		btnSidebarSalir.setOpaque(false);
 		btnSidebarSalir.setBorder(new CompoundBorder());
 		btnSidebarSalir.setBackground(Color.CYAN);
-		btnSidebarSalir.setBounds(0, 389, 245, 36);
+		btnSidebarSalir.setBounds(0, 440, 245, 36);
 		sidebar.add(btnSidebarSalir);
 		
 		try {
@@ -341,12 +406,30 @@ public class Dashboard extends Login{
 		Image userImg = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
 		
 		lblUserImage = new JLabel(new ImageIcon(userImg) );
-		lblUserImage.setBounds(0, 40, 245, 80);
+		lblUserImage.setBounds(30, 28, 185, 80);
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		BufferedImage img = DB.setImagen(DB.leerUsu());
+		 
+		 if (img != null) {
+			 
+			 try {
+			 
+			 ImageIcon imgIcon = new ImageIcon(img);
+		        Image imgEscalada = imgIcon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		        Icon iconoEscalado = new ImageIcon(imgEscalada);
+		        lblUserImage.setIcon(iconoEscalado);
+			 }catch(Exception e) {}
+			 
+		 }
+		
+		
+		
+		
 		lblSidebarHome = new JLabel("Dashboard");
-		lblSidebarHome.setForeground(new Color(0, 153, 204));
+//		lblSidebarHome.setForeground(new Color(0, 153, 204));
+		lblSidebarHome.setForeground(new Color(0, 0, 0));
 		lblSidebarHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblSidebarHome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarHome.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -362,16 +445,19 @@ public class Dashboard extends Login{
 		sidebar.add(lblSidebarHomeIcon);
 		
 		pSidebarDashboard = new JPanel();
-		pSidebarDashboard.setBackground(new Color(0, 153, 204));
-		pSidebarDashboard.setBounds(0, 195, 5, 36);
+//		pSidebarDashboard.setBackground(new Color(0, 153, 204));
+		pSidebarDashboard.setBackground(new Color(0, 0, 0));
+		pSidebarDashboard.setBounds(0, 195, 4, 36);
 		sidebar.add(pSidebarDashboard);
 		
 		lblSidebarIngresos = new JLabel("Ingresos");
 		lblSidebarIngresos.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSidebarIngresos.setForeground(new Color(119,119,119));
 		lblSidebarIngresos.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarIngresos.setBounds(60, 241, 185, 36);
 		sidebar.add(lblSidebarIngresos);
 		
+		// 17px
 		Icon ingresosIcon = new ImageIcon("src/ingresos.png");
 		
 		lblSidebarIngresosIcon = new JLabel("", ingresosIcon, JLabel.CENTER);
@@ -383,6 +469,7 @@ public class Dashboard extends Login{
 		lblSidebarGastos = new JLabel("Gastos");
 		lblSidebarGastos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarGastos.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarGastos.setForeground(new Color(119,119,119));
 		lblSidebarGastos.setBounds(60, 287, 185, 36);
 		sidebar.add(lblSidebarGastos);
 		
@@ -396,6 +483,7 @@ public class Dashboard extends Login{
 		lblSidebarPresupuestos = new JLabel("Presupuestos");
 		lblSidebarPresupuestos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarPresupuestos.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarPresupuestos.setForeground(new Color(119,119,119));
 		lblSidebarPresupuestos.setBounds(60, 338, 185, 36);
 		sidebar.add(lblSidebarPresupuestos);
 		
@@ -408,35 +496,56 @@ public class Dashboard extends Login{
 		
 		lblSidebarSalir = new JLabel("Salir");
 		lblSidebarSalir.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarSalir.setBounds(60, 389, 185, 36);
+		lblSidebarSalir.setForeground(new Color(119,119,119));
+		lblSidebarSalir.setBounds(60, 440, 185, 36);
 		sidebar.add(lblSidebarSalir);
 		
 		Icon salirIcon = new ImageIcon("src/exit.png");
 		
 		lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
 		lblSidebarSalirIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarSalirIcon.setBounds(30, 389, 25, 36);
+		lblSidebarSalirIcon.setBounds(30, 440, 25, 36);
 		sidebar.add(lblSidebarSalirIcon);
 		
 		pSidebarIngresos = new JPanel();
 		pSidebarIngresos.setBackground(new Color(251,251,251));
-		pSidebarIngresos.setBounds(0, 241, 5, 36);
+		pSidebarIngresos.setBounds(0, 241, 4, 36);
 		sidebar.add(pSidebarIngresos);
 		
 		pSidebarGastos = new JPanel();
 		pSidebarGastos.setBackground(new Color(251,251,251));
-		pSidebarGastos.setBounds(0, 287, 5, 36);
+		pSidebarGastos.setBounds(0, 287, 4, 36);
 		sidebar.add(pSidebarGastos);
 		
 		pSidebarPresupuestos = new JPanel();
 		pSidebarPresupuestos.setBackground(new Color(251,251,251));
-		pSidebarPresupuestos.setBounds(0, 338, 5, 36);
+		pSidebarPresupuestos.setBounds(0, 338, 4, 36);
 		sidebar.add(pSidebarPresupuestos);
 		
 		pSidebarSalir = new JPanel();
 		pSidebarSalir.setBackground(new Color(251,251,251));
-		pSidebarSalir.setBounds(0, 389, 5, 36);
+		pSidebarSalir.setBounds(0, 440, 4, 36);
 		sidebar.add(pSidebarSalir);
+		
+		pSidebarPerfil = new JPanel();
+		pSidebarPerfil.setBackground(new Color(251, 251, 251));
+		pSidebarPerfil.setBounds(0, 389, 4, 36);
+		sidebar.add(pSidebarPerfil);
+		
+		
+		Icon perfilIcon = new ImageIcon("src/perfil.png");
+		
+		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);;
+		lblSidebarPerfilIcon.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarPerfilIcon.setBounds(30, 389, 25, 36);
+		sidebar.add(lblSidebarPerfilIcon);
+		
+		lblSidebarPerfil = new JLabel("Perfil");
+		lblSidebarPerfil.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarPerfil.setForeground(new Color(119,119,119));
+		lblSidebarPerfil.setBounds(60, 389, 185, 36);
+		sidebar.add(lblSidebarPerfil);
+		
 		
 		main = new JPanel();
 		main.setBackground(Color.WHITE);
@@ -472,6 +581,7 @@ public class Dashboard extends Login{
 		separator.setBounds(520, 53, 12, 209);
 
 		resumen.add(separator);
+		
 		
 		
 		
@@ -820,6 +930,103 @@ public class Dashboard extends Login{
 		lblPresupuestos = new JLabel("PRESUPUESTOS");
 		lblPresupuestos.setBounds(425, 227, 200, 118);
 		presupuestos.add(lblPresupuestos);
+		
+		perfil = new JPanel();
+		perfil.setBackground(Color.WHITE);
+		main.add(perfil, "name_656442519169700");
+		perfil.setLayout(null);
+		
+		
+		try {
+			perfilImagen = ImageIO.read(new File("src/user.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+				
+		lblPerfilPicture = new JLabel(new ImageIcon(userImg) );
+		lblPerfilPicture.setBounds(462, 32, 276, 168);
+		perfil.add(lblPerfilPicture);
+		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		fPerfilUsuario = new JTextField();
+		fPerfilUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		fPerfilUsuario.setText(DB.getNombre(DB.leerUsu()));
+		fPerfilUsuario.setBounds(170, 285, 207, 30);
+		perfil.add(fPerfilUsuario);
+		fPerfilUsuario.setColumns(10);
+		
+		fPerilCorreo = new JTextField();
+		fPerilCorreo.setText("Correo");
+		fPerilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		fPerilCorreo.setBounds(170, 348, 207, 30);
+		perfil.add(fPerilCorreo);
+		fPerilCorreo.setColumns(10);
+		
+		perfilCambiarContrasena = new JButton("Cambiar contrasena");
+		perfilCambiarContrasena.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		perfilCambiarContrasena.setForeground(Color.WHITE);
+		perfilCambiarContrasena.setBackground(new Color(93,143,252));
+		perfilCambiarContrasena.setBorder(null);
+		perfilCambiarContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		perfilCambiarContrasena.setBounds(170, 395, 207, 30);
+		perfil.add(perfilCambiarContrasena);
+		
+		btnGuardarCambios = new JButton("Guardar cambios");
+		btnGuardarCambios.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnGuardarCambios.setForeground(Color.WHITE);
+		btnGuardarCambios.setBackground(new Color(93,143,252));
+		btnGuardarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnGuardarCambios.setBounds(515, 490, 207, 30);
+		perfil.add(btnGuardarCambios);
+		
+		btnCambiarFoto = new JButton("Cambiar foto");
+		btnCambiarFoto.setForeground(Color.WHITE);
+		btnCambiarFoto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnCambiarFoto.setBounds(542, 211, 120, 30);
+		perfil.add(btnCambiarFoto);
+		btnCambiarFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DB.subirImagen(DB.leerUsu());
+				BufferedImage img = DB.setImagen(DB.leerUsu());
+				
+				try {
+				ImageIcon imgIcon = new ImageIcon(img);
+		        Image imgEscalada = imgIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+		        Icon iconoEscalado = new ImageIcon(imgEscalada);
+		        lblUserImage.setIcon(iconoEscalado);
+		        lblPerfilPicture.setIcon(iconoEscalado);
+				}catch(Exception e) {}
+				
+			}
+		});
+		btnCambiarFoto.setBackground(new Color(93,143,252));
+		btnCambiarFoto.setBorder(null);
+		btnCambiarFoto.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(170, 315, 210, 1);
+		perfil.add(separator_1);
+		
+		separator_2 = new JSeparator();
+		separator_2.setBounds(170, 378, 210, 1);
+		perfil.add(separator_2);
+		
+		///
+		
+		BufferedImage perfilFoto = DB.setImagen(DB.leerUsu());
+		 
+		 if (perfilFoto != null) {
+			 
+			 try {
+			 
+			 ImageIcon imgIcon = new ImageIcon(perfilFoto);
+		        Image imgEscalada = imgIcon.getImage();
+		        Icon iconoEscalado = new ImageIcon(imgEscalada);
+		        
+		        lblPerfilPicture.setIcon(iconoEscalado);
+			 }catch(Exception e) {}
+			 
+		 }
 		
 
 	}
