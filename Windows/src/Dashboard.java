@@ -146,6 +146,7 @@ public class Dashboard extends Login{
 
 	private JLabel topbarSettingsIcon;
 	private JSeparator separator_3;
+
 	
 	
 	Settings settings;
@@ -429,6 +430,7 @@ public class Dashboard extends Login{
 		
 		lblUserImage = new JLabel(new ImageIcon(userImg) );
 		lblUserImage.setBounds(30, 28, 185, 80);
+
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -440,6 +442,7 @@ public class Dashboard extends Login{
 			 
 			 ImageIcon imgIcon = new ImageIcon(img);
 		        Image imgEscalada = imgIcon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+
 		        Icon iconoEscalado = new ImageIcon(imgEscalada);
 		        lblUserImage.setIcon(iconoEscalado);
 			 }catch(Exception e) {}
@@ -548,7 +551,7 @@ public class Dashboard extends Login{
 		pSidebarSalir.setBackground(new Color(251,251,251));
 		pSidebarSalir.setBounds(0, 450, 4, 36);
 		sidebar.add(pSidebarSalir);
-		
+
 		pSidebarPerfil = new JPanel();
 		pSidebarPerfil.setBackground(new Color(251, 251, 251));
 		pSidebarPerfil.setBounds(0, 399, 4, 36);
@@ -567,6 +570,7 @@ public class Dashboard extends Login{
 		lblSidebarPerfil.setForeground(new Color(119,119,119));
 		lblSidebarPerfil.setBounds(60, 399, 185, 36);
 		sidebar.add(lblSidebarPerfil);
+
 		
 		
 		main = new JPanel();
@@ -649,6 +653,7 @@ public class Dashboard extends Login{
 		separator_3 = new JSeparator();
 		separator_3.setBounds(360, 42, 370, 1);
 		topbar.add(separator_3);
+		
 		
 		
 		
