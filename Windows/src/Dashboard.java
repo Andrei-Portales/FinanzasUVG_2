@@ -136,7 +136,29 @@ public class Dashboard extends Login{
 
 	private JButton btnGuardarCambios;
 	private JSeparator separator_2;
+	private JTextField textField;
+
+	private JLabel topbarBrandIcon;
+
+	private JPanel topbar;
+
+	private JLabel topbarBuscarIcon;
+
+	private JLabel topbarSettingsIcon;
+	private JSeparator separator_3;
 	
+	
+	Settings settings;
+	private JPanel panel_2;
+	private JLabel label_2;
+	private JTextField textField_1;
+	private JLabel label_3;
+	private JLabel label_4;
+	private JSeparator separator_4;
+
+	private JTextField fPerilApellido;
+	private JLabel lblApellido;
+	private JLabel lblCorre;
 	
 
 
@@ -217,7 +239,7 @@ public class Dashboard extends Login{
 		btnSidebarPerfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSidebarPerfil.setBorder(new CompoundBorder());
 		btnSidebarPerfil.setBackground(Color.CYAN);
-		btnSidebarPerfil.setBounds(0, 389, 245, 36);
+		btnSidebarPerfil.setBounds(0, 399, 245, 36);
 		sidebar.add(btnSidebarPerfil);
 		
 		
@@ -310,7 +332,7 @@ public class Dashboard extends Login{
 		btnSidebarIngresos.setOpaque(false);
 		btnSidebarIngresos.setBorder(new CompoundBorder());
 		btnSidebarIngresos.setBackground(Color.CYAN);
-		btnSidebarIngresos.setBounds(0, 241, 245, 36);
+		btnSidebarIngresos.setBounds(0, 251, 245, 36);
 		sidebar.add(btnSidebarIngresos);
 		
 		btnSidebarGastos = new JPanel();
@@ -348,7 +370,7 @@ public class Dashboard extends Login{
 		btnSidebarGastos.setOpaque(false);
 		btnSidebarGastos.setBorder(new CompoundBorder());
 		btnSidebarGastos.setBackground(Color.CYAN);
-		btnSidebarGastos.setBounds(0, 287, 245, 36);
+		btnSidebarGastos.setBounds(0, 297, 245, 36);
 		sidebar.add(btnSidebarGastos);
 		
 		btnSidebarPresupuestos = new JPanel();
@@ -379,7 +401,7 @@ public class Dashboard extends Login{
 		btnSidebarPresupuestos.setOpaque(false);
 		btnSidebarPresupuestos.setBorder(new CompoundBorder());
 		btnSidebarPresupuestos.setBackground(Color.CYAN);
-		btnSidebarPresupuestos.setBounds(0, 338, 245, 36);
+		btnSidebarPresupuestos.setBounds(0, 348, 245, 36);
 		sidebar.add(btnSidebarPresupuestos);
 		
 		btnSidebarSalir = new JPanel();
@@ -395,7 +417,7 @@ public class Dashboard extends Login{
 		btnSidebarSalir.setOpaque(false);
 		btnSidebarSalir.setBorder(new CompoundBorder());
 		btnSidebarSalir.setBackground(Color.CYAN);
-		btnSidebarSalir.setBounds(0, 440, 245, 36);
+		btnSidebarSalir.setBounds(0, 450, 245, 36);
 		sidebar.add(btnSidebarSalir);
 		
 		try {
@@ -454,7 +476,7 @@ public class Dashboard extends Login{
 		lblSidebarIngresos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarIngresos.setForeground(new Color(119,119,119));
 		lblSidebarIngresos.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarIngresos.setBounds(60, 241, 185, 36);
+		lblSidebarIngresos.setBounds(60, 251, 185, 36);
 		sidebar.add(lblSidebarIngresos);
 		
 		// 17px
@@ -462,7 +484,7 @@ public class Dashboard extends Login{
 		
 		lblSidebarIngresosIcon = new JLabel("", ingresosIcon, JLabel.CENTER);
 		lblSidebarIngresosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarIngresosIcon.setBounds(30, 241, 25, 36);
+		lblSidebarIngresosIcon.setBounds(30, 251, 25, 36);
 		sidebar.add(lblSidebarIngresosIcon);
 		
 		
@@ -470,80 +492,80 @@ public class Dashboard extends Login{
 		lblSidebarGastos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarGastos.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarGastos.setForeground(new Color(119,119,119));
-		lblSidebarGastos.setBounds(60, 287, 185, 36);
+		lblSidebarGastos.setBounds(60, 297, 185, 36);
 		sidebar.add(lblSidebarGastos);
 		
 		Icon gastosIcon = new ImageIcon("src/gastos.png");
 		
 		lblSidebarGastosIcon = new JLabel("", gastosIcon, JLabel.CENTER);
 		lblSidebarGastosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarGastosIcon.setBounds(30, 287, 25, 36);
+		lblSidebarGastosIcon.setBounds(30, 297, 25, 36);
 		sidebar.add(lblSidebarGastosIcon);
 		
 		lblSidebarPresupuestos = new JLabel("Presupuestos");
 		lblSidebarPresupuestos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarPresupuestos.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarPresupuestos.setForeground(new Color(119,119,119));
-		lblSidebarPresupuestos.setBounds(60, 338, 185, 36);
+		lblSidebarPresupuestos.setBounds(60, 348, 185, 36);
 		sidebar.add(lblSidebarPresupuestos);
 		
 		Icon presupuestosIcon = new ImageIcon("src/presupuestos.png");
 		
 		lblSidebarPrespuestosIcon = new JLabel("", presupuestosIcon, JLabel.CENTER);
 		lblSidebarPrespuestosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarPrespuestosIcon.setBounds(30, 338, 25, 36);
+		lblSidebarPrespuestosIcon.setBounds(30, 348, 25, 36);
 		sidebar.add(lblSidebarPrespuestosIcon);
 		
 		lblSidebarSalir = new JLabel("Salir");
 		lblSidebarSalir.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarSalir.setForeground(new Color(119,119,119));
-		lblSidebarSalir.setBounds(60, 440, 185, 36);
+		lblSidebarSalir.setBounds(60, 450, 185, 36);
 		sidebar.add(lblSidebarSalir);
 		
 		Icon salirIcon = new ImageIcon("src/exit.png");
 		
 		lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
 		lblSidebarSalirIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarSalirIcon.setBounds(30, 440, 25, 36);
+		lblSidebarSalirIcon.setBounds(30, 450, 25, 36);
 		sidebar.add(lblSidebarSalirIcon);
 		
 		pSidebarIngresos = new JPanel();
 		pSidebarIngresos.setBackground(new Color(251,251,251));
-		pSidebarIngresos.setBounds(0, 241, 4, 36);
+		pSidebarIngresos.setBounds(0, 251, 4, 36);
 		sidebar.add(pSidebarIngresos);
 		
 		pSidebarGastos = new JPanel();
 		pSidebarGastos.setBackground(new Color(251,251,251));
-		pSidebarGastos.setBounds(0, 287, 4, 36);
+		pSidebarGastos.setBounds(0, 297, 4, 36);
 		sidebar.add(pSidebarGastos);
 		
 		pSidebarPresupuestos = new JPanel();
 		pSidebarPresupuestos.setBackground(new Color(251,251,251));
-		pSidebarPresupuestos.setBounds(0, 338, 4, 36);
+		pSidebarPresupuestos.setBounds(0, 348, 4, 36);
 		sidebar.add(pSidebarPresupuestos);
 		
 		pSidebarSalir = new JPanel();
 		pSidebarSalir.setBackground(new Color(251,251,251));
-		pSidebarSalir.setBounds(0, 440, 4, 36);
+		pSidebarSalir.setBounds(0, 450, 4, 36);
 		sidebar.add(pSidebarSalir);
 		
 		pSidebarPerfil = new JPanel();
 		pSidebarPerfil.setBackground(new Color(251, 251, 251));
-		pSidebarPerfil.setBounds(0, 389, 4, 36);
+		pSidebarPerfil.setBounds(0, 399, 4, 36);
 		sidebar.add(pSidebarPerfil);
 		
 		
 		Icon perfilIcon = new ImageIcon("src/perfil.png");
 		
-		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);;
+		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);
 		lblSidebarPerfilIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarPerfilIcon.setBounds(30, 389, 25, 36);
+		lblSidebarPerfilIcon.setBounds(30, 399, 25, 36);
 		sidebar.add(lblSidebarPerfilIcon);
 		
 		lblSidebarPerfil = new JLabel("Perfil");
 		lblSidebarPerfil.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarPerfil.setForeground(new Color(119,119,119));
-		lblSidebarPerfil.setBounds(60, 389, 185, 36);
+		lblSidebarPerfil.setBounds(60, 399, 185, 36);
 		sidebar.add(lblSidebarPerfil);
 		
 		
@@ -561,7 +583,7 @@ public class Dashboard extends Login{
 		
 		graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
 		panelGraficaIngresos = new JPanel(new BorderLayout());
-		panelGraficaIngresos.setBounds(40, 54, 450, 230);
+		panelGraficaIngresos.setBounds(40, 118, 450, 230);
 
 		resumen.add(panelGraficaIngresos);
         panelGraficaIngresos.add(graph1);
@@ -569,7 +591,7 @@ public class Dashboard extends Login{
 		
 		graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
 		panelGraficaGastos = new JPanel(new BorderLayout());
-		panelGraficaGastos.setBounds(550, 54, 450, 230);
+		panelGraficaGastos.setBounds(550, 118, 450, 230);
 
 		resumen.add(panelGraficaGastos);
 		panelGraficaGastos.add(graph2);
@@ -578,9 +600,55 @@ public class Dashboard extends Login{
 		separator.setBackground(Color.BLACK);
 		separator.setForeground(Color.BLACK);
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(520, 53, 12, 209);
+		separator.setBounds(520, 117, 12, 209);
 
 		resumen.add(separator);
+		
+		topbar = new JPanel();
+		topbar.setBounds(0, 0, 1120, 55);
+		topbar.setBackground(new Color(251, 251, 251));
+		resumen.add(topbar);
+		topbar.setLayout(null);
+		
+		Icon topbarBrandIcono = new ImageIcon("src/google.png");
+		
+		topbarBrandIcon = new JLabel("",topbarBrandIcono, JLabel.CENTER );
+		topbarBrandIcon.setBounds(79, 12, 60, 33);
+		topbar.add(topbarBrandIcon);
+		
+		textField = new JTextField();
+		textField.setBounds(360, 12, 370, 30);
+		textField.setBackground(new Color(251, 251, 251));
+		textField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		topbar.add(textField);
+		textField.setColumns(10);
+		TextPrompt oculto = new TextPrompt("Buscar contenido", textField);
+		
+		Icon topbarBuscarIcono = new ImageIcon("src/search.png");
+		
+		topbarBuscarIcon = new JLabel("", topbarBuscarIcono, JLabel.CENTER);
+		topbarBuscarIcon.setBounds(731, 12, 35, 27);
+		topbarBuscarIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		topbar.add(topbarBuscarIcon);
+		
+		Icon topbarSettingsIcono = new ImageIcon("src/settings.png");
+		
+		topbarSettingsIcon = new JLabel("", topbarSettingsIcono, JLabel.CENTER);
+		topbarSettingsIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				settings = new Settings();
+				settings.setVisible(true);
+			}
+		});
+		topbarSettingsIcon.setBounds(883, 15, 46, 25);
+		topbarSettingsIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		topbar.add(topbarSettingsIcon);
+		
+		separator_3 = new JSeparator();
+		separator_3.setBounds(360, 42, 370, 1);
+		topbar.add(separator_3);
 		
 		
 		
@@ -944,23 +1012,32 @@ public class Dashboard extends Login{
 		}
 				
 		lblPerfilPicture = new JLabel(new ImageIcon(userImg) );
-		lblPerfilPicture.setBounds(462, 32, 276, 168);
+		lblPerfilPicture.setBounds(464, 117, 276, 168);
 		perfil.add(lblPerfilPicture);
 		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		fPerfilUsuario = new JTextField();
 		fPerfilUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilUsuario.setText(DB.getNombre(DB.leerUsu()));
-		fPerfilUsuario.setBounds(170, 285, 207, 30);
+		fPerfilUsuario.setBounds(170, 332, 207, 30);
 		perfil.add(fPerfilUsuario);
 		fPerfilUsuario.setColumns(10);
+		
+		fPerilApellido = new JTextField();
+		fPerilApellido.setText("Apellido");
+		fPerilApellido.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		fPerilApellido.setBounds(170, 396, 207, 30);
+		perfil.add(fPerilApellido);
+		fPerilApellido.setColumns(10);
 		
 		fPerilCorreo = new JTextField();
 		fPerilCorreo.setText("Correo");
 		fPerilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerilCorreo.setBounds(170, 348, 207, 30);
+		fPerilCorreo.setBounds(170, 453, 207, 30);
 		perfil.add(fPerilCorreo);
 		fPerilCorreo.setColumns(10);
+		
+		
 		
 		perfilCambiarContrasena = new JButton("Cambiar contrasena");
 		perfilCambiarContrasena.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -968,7 +1045,7 @@ public class Dashboard extends Login{
 		perfilCambiarContrasena.setBackground(new Color(93,143,252));
 		perfilCambiarContrasena.setBorder(null);
 		perfilCambiarContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		perfilCambiarContrasena.setBounds(170, 395, 207, 30);
+		perfilCambiarContrasena.setBounds(170, 495, 207, 30);
 		perfil.add(perfilCambiarContrasena);
 		
 		btnGuardarCambios = new JButton("Guardar cambios");
@@ -976,13 +1053,13 @@ public class Dashboard extends Login{
 		btnGuardarCambios.setForeground(Color.WHITE);
 		btnGuardarCambios.setBackground(new Color(93,143,252));
 		btnGuardarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnGuardarCambios.setBounds(515, 490, 207, 30);
+		btnGuardarCambios.setBounds(516, 551, 207, 30);
 		perfil.add(btnGuardarCambios);
 		
 		btnCambiarFoto = new JButton("Cambiar foto");
 		btnCambiarFoto.setForeground(Color.WHITE);
 		btnCambiarFoto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnCambiarFoto.setBounds(542, 211, 120, 30);
+		btnCambiarFoto.setBounds(544, 296, 120, 30);
 		perfil.add(btnCambiarFoto);
 		btnCambiarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1004,12 +1081,64 @@ public class Dashboard extends Login{
 		btnCambiarFoto.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(170, 315, 210, 1);
+		separator_1.setBounds(170, 362, 210, 1);
 		perfil.add(separator_1);
 		
 		separator_2 = new JSeparator();
-		separator_2.setBounds(170, 378, 210, 1);
+		separator_2.setBounds(170, 483, 210, 1);
 		perfil.add(separator_2);
+		
+		panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBackground(new Color(251, 251, 251));
+		panel_2.setBounds(0, 0, 1120, 55);
+		perfil.add(panel_2);
+		
+		label_2 = new JLabel("", topbarBrandIcono, JLabel.CENTER );
+		label_2.setBounds(79, 12, 60, 33);
+		panel_2.add(label_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		textField_1.setBackground(new Color(251, 251, 251));
+		textField_1.setBounds(360, 12, 370, 30);
+		panel_2.add(textField_1);
+		TextPrompt oculto2 = new TextPrompt("Buscar contenido", textField_1);
+		
+		label_3 = new JLabel("", topbarBuscarIcono, JLabel.CENTER );
+		label_3.setBounds(731, 12, 35, 27);
+		panel_2.add(label_3);
+		
+		label_4 = new JLabel("", topbarSettingsIcono, JLabel.CENTER );
+		label_4.setBounds(883, 15, 46, 25);
+		panel_2.add(label_4);
+		
+		separator_4 = new JSeparator();
+		separator_4.setBounds(360, 42, 370, 1);
+		panel_2.add(separator_4);
+		
+		JLabel lblNewLabel_2 = new JLabel("Nombre:   ");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 13));
+		lblNewLabel_2.setBounds(57, 332, 103, 30);
+		perfil.add(lblNewLabel_2);
+		
+		JSeparator separator_5 = new JSeparator();
+		separator_5.setBounds(167, 426, 210, 1);
+		perfil.add(separator_5);
+		
+		lblApellido = new JLabel("Apellido:   ");
+		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblApellido.setFont(new Font("Arial", Font.PLAIN, 13));
+		lblApellido.setBounds(57, 396, 103, 30);
+		perfil.add(lblApellido);
+		
+		lblCorre = new JLabel("Corre:   ");
+		lblCorre.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCorre.setFont(new Font("Arial", Font.PLAIN, 13));
+		lblCorre.setBounds(57, 453, 103, 30);
+		perfil.add(lblCorre);
 		
 		///
 		
