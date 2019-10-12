@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -37,6 +38,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.JToggleButton;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JTextField;
@@ -49,6 +51,8 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.AbstractListModel;
 import java.awt.LayoutManager;
+import java.awt.RenderingHints;
+
 import javax.swing.JSeparator;
 
 public class Dashboard extends Login{
@@ -75,7 +79,7 @@ public class Dashboard extends Login{
 	private JLabel lblPresupuestos;
 	private JButton btnGuardar,btnAgregarNombreIngreso;
 	private JPanel ingresarIngresos;
-	private JButton btnAgregarIngreso;
+	private JLabel btnAgregarIngreso;
 	private MiListener oyente;
 	private JButton btnRegresar;
 	private JTextField txtMontoingresos;
@@ -95,7 +99,7 @@ public class Dashboard extends Login{
 	private JLabel lblGastos;
 	private JLabel lblTotalGastos;
 	private JLabel lblQ2;
-	private JButton btnAgregarGastos;
+	private JLabel btnAgregarGasto;
 	private JLabel lblAgregarUnNuevo;
 	private JList listGastos;
 	private JScrollPane scrollPane_1;
@@ -162,6 +166,12 @@ public class Dashboard extends Login{
 	private JLabel lblApellido;
 	private JLabel lblCorre;
 	private JPanel pIngreso1;
+	
+	ImageIcon imgPerfil;
+	Image imgPer;
+
+	private JLabel topbarNotificationIcon;
+	private JLabel btbRegresarIngresos;
 	
 
 
@@ -436,23 +446,49 @@ public class Dashboard extends Login{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Image userImg = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
 		
-		lblUserImage = new JLabel(new ImageIcon(userImg) );
+		Image userImge = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+		
+		lblUserImage = new JLabel(new ImageIcon(userImge) );
 		lblUserImage.setBounds(30, 28, 185, 80);
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		lblPerfilPicture = new JLabel("");			
+		lblPerfilPicture.setBounds(465, 44, 276, 168);
+		
 		BufferedImage img = DB.setImagen(DB.leerUsu());
 		 
 		 if (img != null) {
+			 ImageIcon imIcon = new ImageIcon(img);
+			 Image imImg = imIcon.getImage().getScaledInstance(lblPerfilPicture.getWidth(), lblPerfilPicture.getHeight(), Image.SCALE_SMOOTH);
+			 lblPerfilPicture.setIcon(new ImageIcon(imImg));
 			 
 			 try {
-			 
-			 ImageIcon imgIcon = new ImageIcon(img);
+		        
+		        int diameter = Math.min(img.getWidth(), img.getHeight());
+			    BufferedImage mask = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+			    Graphics2D g2d = mask.createGraphics();
+			    applyQualityRenderingHints(g2d);
+			    g2d.fillOval(0, 0, diameter - 1, diameter - 1);
+			    g2d.dispose();
+
+			    BufferedImage masked = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
+			    g2d = masked.createGraphics();
+			    applyQualityRenderingHints(g2d);
+			    int x = (diameter - img.getWidth()) / 2;
+			    int y = (diameter - img.getHeight()) / 2;
+			    g2d.drawImage(img, x, y, null);
+			    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.DST_IN));
+			    g2d.drawImage(mask, 0, 0, null);
+			    g2d.dispose();
+			    
+			    ImageIcon imgIcon = new ImageIcon(masked);
 		        Image imgEscalada = imgIcon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
-		        Icon iconoEscalado = new ImageIcon(imgEscalada);
-		        lblUserImage.setIcon(iconoEscalado);
+			    lblUserImage.setIcon(new ImageIcon(imgEscalada));
+		        
+		        
 			 }catch(Exception e) {}
 			 
 		 }
@@ -621,6 +657,11 @@ public class Dashboard extends Login{
 		
 		Icon topbarSettingsIcono = new ImageIcon("src/settings.png");
 		
+		Icon topbarNotificationIcono = new ImageIcon("src/notification.png");
+		
+		Icon ingresosBackIcon = new ImageIcon("src/back.png");
+		
+		Icon iconAgregar = new ImageIcon("src/add.png");
 		
 		
 		
@@ -633,17 +674,9 @@ public class Dashboard extends Login{
 		JLabel lblIngresos = new JLabel("Agregar un nuevo ingreso");
 		lblIngresos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIngresos.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblIngresos.setBounds(471, 233, 189, 31);
+		lblIngresos.setBounds(0, 233, 1120, 31);
 		ingresos.add(lblIngresos);
 		
-		btnAgregarIngreso = new JButton("+");
-		btnAgregarIngreso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnAgregarIngreso.setBorder(null);
-		btnAgregarIngreso.setForeground(Color.WHITE);
-		btnAgregarIngreso.setBackground(new Color(93,143,252));
-		btnAgregarIngreso.setFont(new Font("Arial", Font.PLAIN, 30));
-		btnAgregarIngreso.setBounds(528, 195, 70, 40);
-		ingresos.add(btnAgregarIngreso);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(600, 275, 328, 194);
@@ -662,17 +695,17 @@ public class Dashboard extends Login{
 		JLabel label = new JLabel("INGRESOS");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Arial", Font.PLAIN, 22));
-		label.setBounds(10, 80, 1100, 30);
+		label.setBounds(0, 35, 1120, 30);
 		ingresos.add(label);
 		
 		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(225, 135, 132, 31);
+		lblNewLabel_1.setBounds(222, 91, 132, 31);
 		ingresos.add(lblNewLabel_1);
 		
 		lblQ = new JLabel("Q ");
 		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQ.setBounds(362, 135, 253, 31);
+		lblQ.setBounds(359, 91, 253, 31);
 		ingresos.add(lblQ);
 		
 		pIngreso1 = new JPanel();
@@ -713,10 +746,24 @@ public class Dashboard extends Login{
 		lblIngreso22.setBounds(203, 0, 223, 30);
 		pIngreso2.add(lblIngreso22);
 		
+		btnAgregarIngreso = new JLabel("", iconAgregar, JLabel.CENTER);
+		btnAgregarIngreso.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String[][] a = DB.getCuenta(DB.leerUsu(), "ingresos");
+				cbCategoriaIngresos.setModel(new DefaultComboBoxModel(a[2]));
+				cbEliminarIngreso.setModel(new DefaultComboBoxModel(a[2]));
+				
+				ingresarIngresos.setVisible(true);
+				ingresos.setVisible(false);
+			}
+		});
+		btnAgregarIngreso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAgregarIngreso.setBounds(0, 177, 1120, 55);
+		ingresos.add(btnAgregarIngreso);
 		
 		
-	
-		btnAgregarIngreso.addActionListener(oyente);
+
 		
 		
 		ingresarIngresos = new JPanel();
@@ -724,14 +771,7 @@ public class Dashboard extends Login{
 		main.add(ingresarIngresos, "name_773665362949");
 		ingresarIngresos.setLayout(null);
 		
-		btnRegresar = new JButton("Regresar");
-		btnRegresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRegresar.setBorder(null);
-		btnRegresar.setForeground(Color.WHITE);
-		btnRegresar.setBackground(new Color(93,143,252));
-		btnRegresar.setFont(new Font("Bangla MN", Font.PLAIN, 15));
-		btnRegresar.setBounds(10, 11, 130, 34);
-		ingresarIngresos.add(btnRegresar);
+
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(93,143,252));
@@ -843,7 +883,20 @@ public class Dashboard extends Login{
 		cbEliminarIngreso.setBounds(622, 550, 178, 35);
 		ingresarIngresos.add(cbEliminarIngreso);
 		cbEliminarIngreso.setFont(new Font("Arial", Font.PLAIN, 20));
-		btnRegresar.addActionListener(oyente);
+		
+		btbRegresarIngresos = new JLabel("", ingresosBackIcon, JLabel.CENTER);
+		btbRegresarIngresos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ingresarIngresos.setVisible(false);
+				ingresos.setVisible(true);
+				mostrarIngresos();
+			}
+		});
+		btbRegresarIngresos.setBounds(10, 11, 93, 25);
+		btbRegresarIngresos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		ingresarIngresos.add(btbRegresarIngresos);
+		
 		btnAgregarNombreIngreso.addActionListener(oyente);
 		
 		gastos = new JPanel();
@@ -853,8 +906,9 @@ public class Dashboard extends Login{
 		gastos.setLayout(null);
 		
 		lblGastos = new JLabel("GASTOS");
-		lblGastos.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
-		lblGastos.setBounds(348, 29, 191, 65);
+		lblGastos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGastos.setFont(new Font("Dialog", Font.PLAIN, 22));
+		lblGastos.setBounds(0, 35, 1120, 30);
 		gastos.add(lblGastos);
 		
 		lblTotalGastos = new JLabel("Total Gastos:");
@@ -867,15 +921,11 @@ public class Dashboard extends Login{
 		lblQ2.setBounds(348, 106, 253, 31);
 		gastos.add(lblQ2);
 		
-		btnAgregarGastos = new JButton("+");
-		btnAgregarGastos.setFont(new Font("Arial", Font.PLAIN, 30));
-		btnAgregarGastos.setBackground(new Color(0, 191, 255));
-		btnAgregarGastos.setBounds(367, 164, 107, 65);
-		gastos.add(btnAgregarGastos);
-		btnAgregarGastos.addActionListener(oyente);
 		
 		lblAgregarUnNuevo = new JLabel("Agregar un nuevo gasto");
-		lblAgregarUnNuevo.setBounds(342, 227, 189, 31);
+		lblAgregarUnNuevo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAgregarUnNuevo.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblAgregarUnNuevo.setBounds(0, 233, 1120, 31);
 		gastos.add(lblAgregarUnNuevo);
 		
 		scrollPane_1 = new JScrollPane();
@@ -886,6 +936,22 @@ public class Dashboard extends Login{
 		scrollPane_1.setViewportView(listGastos);
 		listGastos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		listGastos.setBorder(null);
+		
+		btnAgregarGasto = new JLabel("", iconAgregar, JLabel.CENTER);
+		btnAgregarGasto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String[][] s = DB.getCuenta(DB.leerUsu(), "gastos");
+				cbCategoriaGastos.setModel(new DefaultComboBoxModel(s[2]));
+				cbEliminarGasto.setModel(new DefaultComboBoxModel(s[2]));
+				
+				gastos.setVisible(false);
+				ingresarGastos.setVisible(true);
+			}
+		});
+		btnAgregarGasto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAgregarGasto.setBounds(0, 177, 1120, 55);
+		gastos.add(btnAgregarGasto);
 		
 		ingresarGastos = new JPanel();
 		main.add(ingresarGastos, "name_23803773230142");
@@ -1012,18 +1078,9 @@ public class Dashboard extends Login{
 		perfil.setBackground(Color.WHITE);
 		main.add(perfil, "name_656442519169700");
 		perfil.setLayout(null);
+
 		
 		
-		try {
-			perfilImagen = ImageIO.read(new File("src/user.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-				
-		lblPerfilPicture = new JLabel(new ImageIcon(userImg) );
-		lblPerfilPicture.setBounds(465, 44, 276, 168);
-		perfil.add(lblPerfilPicture);
-		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
 		fPerfilNombre = new JTextField();
@@ -1139,12 +1196,33 @@ public class Dashboard extends Login{
 				DB.subirImagen(DB.leerUsu());
 				BufferedImage img = DB.setImagen(DB.leerUsu());
 				
+				imgPerfil = new ImageIcon(img);
+				imgPer = imgPerfil.getImage().getScaledInstance(lblPerfilPicture.getWidth(), lblPerfilPicture.getHeight(), Image.SCALE_SMOOTH);
+			    lblPerfilPicture.setIcon(new ImageIcon(imgPer));
+				
 				try {
-				ImageIcon imgIcon = new ImageIcon(img);
-		        Image imgEscalada = imgIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-		        Icon iconoEscalado = new ImageIcon(imgEscalada);
-		        lblUserImage.setIcon(iconoEscalado);
-		        lblPerfilPicture.setIcon(iconoEscalado);
+					int diameter = Math.min(img.getWidth(), img.getHeight());
+				    BufferedImage mask = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+				    Graphics2D g2d = mask.createGraphics();
+				    applyQualityRenderingHints(g2d);
+				    g2d.fillOval(0, 0, diameter - 1, diameter - 1);
+				    g2d.dispose();
+
+				    BufferedImage masked = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
+				    g2d = masked.createGraphics();
+				    applyQualityRenderingHints(g2d);
+				    int x = (diameter - img.getWidth()) / 2;
+				    int y = (diameter - img.getHeight()) / 2;
+				    g2d.drawImage(img, x, y, null);
+				    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.DST_IN));
+				    g2d.drawImage(mask, 0, 0, null);
+				    g2d.dispose();
+				    
+				    ImageIcon imgIcon = new ImageIcon(masked);
+			        Image imgEscalada = imgIcon.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+				    lblUserImage.setIcon(new ImageIcon(imgEscalada));
+				      
 				}catch(Exception e) {}
 				
 			}
@@ -1152,6 +1230,9 @@ public class Dashboard extends Login{
 		btnCambiarFoto.setBackground(new Color(93,143,252));
 		btnCambiarFoto.setBorder(null);
 		btnCambiarFoto.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+	
+		perfil.add(lblPerfilPicture);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(170, 362, 210, 1);
@@ -1218,7 +1299,7 @@ public class Dashboard extends Login{
 				settings.setVisible(true);
 			}
 		});
-		topbarSettingsIcon.setBounds(883, 15, 46, 25);
+		topbarSettingsIcon.setBounds(950, 15, 46, 25);
 		topbarSettingsIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarSettingsIcon);
 		
@@ -1227,23 +1308,12 @@ public class Dashboard extends Login{
 		topbar.add(separator_3);
 		TextPrompt oculto3 = new TextPrompt("Buscar contenido", textField);
 		
-		///
+		topbarNotificationIcon = new JLabel("", topbarNotificationIcono, JLabel.CENTER);
+		topbarNotificationIcon.setBounds(895, 15, 46, 25);
+		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		topbar.add(topbarNotificationIcon);
 		
-		BufferedImage perfilFoto = DB.setImagen(DB.leerUsu());
-		 
-		 if (perfilFoto != null) {
-			 
-			 try {
-			 
-			 ImageIcon imgIcon = new ImageIcon(perfilFoto);
-		        Image imgEscalada = imgIcon.getImage();
-		        Icon iconoEscalado = new ImageIcon(imgEscalada);
-		        
-		        lblPerfilPicture.setIcon(iconoEscalado);
-			 }catch(Exception e) {}
-			 
-		 }
-		
+
 
 	}
 	
@@ -1298,22 +1368,6 @@ public class Dashboard extends Login{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource() == btnAgregarIngreso){
-				
-				String[][] a = DB.getCuenta(DB.leerUsu(), "ingresos");
-				cbCategoriaIngresos.setModel(new DefaultComboBoxModel(a[2]));
-				cbEliminarIngreso.setModel(new DefaultComboBoxModel(a[2]));
-				
-				ingresarIngresos.setVisible(true);
-				ingresos.setVisible(false);
-			}
-			
-			
-			if (e.getSource() == btnRegresar){
-				ingresarIngresos.setVisible(false);
-				ingresos.setVisible(true);
-				mostrarIngresos();
-			}
 			
 			
 			if (e.getSource() == btnGuardar){
@@ -1376,15 +1430,6 @@ public class Dashboard extends Login{
 			}
 			
 			
-			if (e.getSource() == btnAgregarGastos){
-				
-				String[][] s = DB.getCuenta(DB.leerUsu(), "gastos");
-				cbCategoriaGastos.setModel(new DefaultComboBoxModel(s[2]));
-				cbEliminarGasto.setModel(new DefaultComboBoxModel(s[2]));
-				
-				gastos.setVisible(false);
-				ingresarGastos.setVisible(true);
-			}
 			
 			if (e.getSource() == btnRegresar2){
 				
@@ -1459,6 +1504,21 @@ public class Dashboard extends Login{
 		
 		}
 		
+	}
+
+
+
+	public static void applyQualityRenderingHints(Graphics2D g2d) {
+
+	    g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+	    g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+	    g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+	    g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+	    g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+
 	}
 }
 
