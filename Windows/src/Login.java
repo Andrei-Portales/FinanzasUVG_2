@@ -41,6 +41,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login {
 
@@ -183,6 +185,10 @@ public class Login {
 		ingresar.add(lblBienvenidoAUvg);
 		
 		btnIngresar = new JButton("Ingresar");
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnIngresar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent m) {
@@ -284,6 +290,45 @@ public class Login {
 		ingresar.add(separator_1);
 		
 		txtPassword = new JPasswordField(null);
+		txtPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					boolean verificado = false;
+					
+					if (txtUsuario.getText().isEmpty()) {
+//						JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
+						lblIngresarError.setText("¡Tiene una casilla vacia!");
+						txtUsuario.setText(null);
+					}else if (txtPassword.getText().isEmpty()) {
+//						JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
+						lblIngresarError.setText("¡Tiene una casilla vacia!");
+						txtPassword.setText(null);
+					}else {
+						
+						verificado = DB.verificarUsuario(txtUsuario.getText(), txtPassword.getText());
+						
+						if (verificado == true) {
+							frame.dispose();
+							DB.tempUsu(txtUsuario.getText());
+							Dashboard.main(null);
+							
+							
+						}
+						
+						if (verificado == false){
+//							JOptionPane.showMessageDialog(null, "¡Usuario Incorrecto!");
+							lblIngresarError.setText("¡Usuario incorrecto!");
+						}
+						
+						txtUsuario.setText(null);
+						txtPassword.setText(null);
+						
+					}
+				}
+			}
+		});
 		txtPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtPassword.setForeground(new Color(51,51,51));
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
