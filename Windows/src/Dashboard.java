@@ -231,9 +231,10 @@ public class Dashboard extends Login{
 		
 		
 		// VARIABLES
-		String tempNombre = DB.getNombre(DB.leerUsu());
-		String tempApellido = "Apellido";
-		String tempCorreo = "edmancota@gmail.com";
+		String[] nombres = DB.getNombre(DB.leerUsu());
+		String tempNombre =nombres[0];
+		String tempApellido = nombres[1];
+		String tempCorreo = DB.leerUsu();
 		
 		
 		
@@ -277,7 +278,7 @@ public class Dashboard extends Login{
 		
 		
 		
-		lblUsername = new JLabel(DB.getNombre(DB.leerUsu()));
+		lblUsername = new JLabel(tempNombre + " " + tempApellido );
 		lblUsername.setFont(new Font("Arial", Font.BOLD, 12));
 		lblUsername.setToolTipText("");
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1174,20 +1175,20 @@ public class Dashboard extends Login{
 		
 		fPerfilNombre = new JTextField();
 		fPerfilNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerfilNombre.setText(DB.getNombre(DB.leerUsu()));
+		fPerfilNombre.setText(tempNombre);
 		fPerfilNombre.setBounds(672, 252, 207, 30);
 		perfil.add(fPerfilNombre);
 		fPerfilNombre.setColumns(10);
 		
 		fPerfilApellido = new JTextField();
-		fPerfilApellido.setText("Apellido");
+		fPerfilApellido.setText(tempApellido);
 		fPerfilApellido.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilApellido.setBounds(672, 316, 207, 30);
 		perfil.add(fPerfilApellido);
 		fPerfilApellido.setColumns(10);
 		
 		fPerfilCorreo = new JTextField();
-		fPerfilCorreo.setText("edmancota@gmail.com");
+		fPerfilCorreo.setText(DB.leerUsu());
 		fPerfilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilCorreo.setBounds(672, 373, 207, 30);
 		perfil.add(fPerfilCorreo);
@@ -1599,23 +1600,68 @@ public class Dashboard extends Login{
 			if(e.getSource() == btnGuardarCambios) {
 				// verificamos si alguno de los campos siguen siendo iguales, si son iguales entonces solo actualizamos los que son diferentes
 				// o los datos seguiran siendo los mismo
+				
 			}
 			
 			// Metodo para cambiar la contrasena del usuarario ya estando dentro de la aplicacion. 
 			if(e.getSource() == perfilCambiarContrasena) {
 				pCambiarContrasena.setVisible(true);
+				perfilCambiarContrasena.setVisible(false);
 				
 			}
 			
 			// Metodo para guardar la nueva contrasena
 			if(e.getSource() == btnGuardarContrasena) {
 				//AQUI VAMOS HACER TODOS LOS INTENTOS DE VEIRIFCAR SI LA CONTRASENA ES VALIDA PARA CAMBIAR
-				pCambiarContrasena.setVisible(false);
+				
+				if (fNuevaContrasena.getText().isEmpty() == false &&  fConfirmarContrasena.getText().isEmpty() == false) {
+					
+					if (fNuevaContrasena.getText().equals(fConfirmarContrasena.getText())  ) {
+						
+						
+						if (fConfirmarContrasena.getText().length() >=8) {
+							boolean resp = DB.cambiarContrasena(DB.leerUsu(), fConfirmarContrasena.getText());
+							if (resp == true) {
+								JOptionPane.showMessageDialog(null, "La constrasena se ha cambiado correctamente");
+							}
+							else if (resp == false) {
+								JOptionPane.showMessageDialog(null, "No se logro cambiar la contrasena");
+							}
+							perfilCambiarContrasena.setVisible(true);
+							fNuevaContrasena.setText(null);
+							fConfirmarContrasena.setText(null);
+							pCambiarContrasena.setVisible(false);
+						}else {
+							JOptionPane.showMessageDialog(null, "La contrasena debe contener 8 o mas caracteres");
+							fNuevaContrasena.setText(null);
+							fConfirmarContrasena.setText(null);
+						}
+						
+						
+						
+						
+					}else {
+						JOptionPane.showMessageDialog(null, "Las casillas no son iguales");
+						fNuevaContrasena.setText(null);
+						fConfirmarContrasena.setText(null);
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Hay casillas vacias");
+				}
+				
+				
+					
+					
+				
 			}
 			
 			// Metdo para cancelar el proceso de cambiar contrasena
 			if(e.getSource() == btnCancelarCambio) {
 				pCambiarContrasena.setVisible(false);
+				perfilCambiarContrasena.setVisible(true);
+				fNuevaContrasena.setText(null);
+				fConfirmarContrasena.setText(null);
 			}
 		
 		}

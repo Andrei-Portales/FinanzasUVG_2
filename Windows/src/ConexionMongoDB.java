@@ -406,7 +406,8 @@ public class ConexionMongoDB {
 	 * Esta fuencion es para pedir el nombre del usuario en la base de datos para mostrarlo en el dashboard
 	 * @return nombre del usuario
 	 */
-	public String getNombre(String correo) {
+	public String[] getNombre(String correo) {
+		String[] retorno = new String[2];
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.put("correo", correo);
 		FindIterable<Document> cursor = usuarios.find(searchQuery);
@@ -418,7 +419,9 @@ public class ConexionMongoDB {
 			apellido = doc.getString("apellido");
 		}
 		
-		return nombre + " " + apellido;
+		retorno[0] = nombre;
+		retorno[1] = apellido;
+		return retorno;
 		
 		
 	}
