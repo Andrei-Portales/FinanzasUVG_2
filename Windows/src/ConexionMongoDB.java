@@ -432,7 +432,7 @@ public class ConexionMongoDB {
 	 * Funcion para guardar el usuario que ingreso en un txt para poder usarlo en las demas vistas de la aplicacion
 	 * @param usuario
 	 */
-	public void tempUsu(String usuario) {
+	public void tempUsu(String usuario, boolean estado) {
 		
 		File f;
 		FileWriter w;
@@ -446,6 +446,7 @@ public class ConexionMongoDB {
 			wr = new PrintWriter(bw);
 			
 			wr.write(usuario);
+			wr.append("\n" + Boolean.toString(estado));
 			
 			
 			wr.close();
@@ -462,12 +463,13 @@ public class ConexionMongoDB {
 	 * Funcion para leer el usuario que ingreso guardado en un txt temporal
 	 * @return
 	 */
-	public String leerUsu() {
+	public ArrayList<String> leerUsu() {
 		
 		File archivo;
 		FileReader fr;
 		BufferedReader br;
-		String retorno = "";
+		ArrayList<String> retorno = new ArrayList<String>();
+		
 		try {
 			
 			archivo = new File("tempUsuario.txt");
@@ -477,7 +479,7 @@ public class ConexionMongoDB {
 			String linea;
 			
 			while((linea = br.readLine()) != null) {
-				retorno =linea;
+				retorno.add(linea);
 				
 			}
 			

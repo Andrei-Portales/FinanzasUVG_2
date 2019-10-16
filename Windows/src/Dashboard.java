@@ -24,6 +24,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.DocumentEvent;
@@ -184,6 +185,7 @@ public class Dashboard extends Login{
 	private JLabel lblContrasenaDebe;
 	private JLabel lblDiferenteAl;
 	private JLabel lblPerfilError;
+	private ArrayList<String> usuarioLeer;
 	
 
 
@@ -215,7 +217,7 @@ public class Dashboard extends Login{
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
-		
+		usuarioLeer = DB.leerUsu();
 		
 		oyente = new MiListener();
 		frame = new JFrame();
@@ -231,10 +233,10 @@ public class Dashboard extends Login{
 		
 		
 		// VARIABLES
-		String[] nombres = DB.getNombre(DB.leerUsu());
+		String[] nombres = DB.getNombre(usuarioLeer.get(0));
 		String tempNombre =nombres[0];
 		String tempApellido = nombres[1];
-		String tempCorreo = DB.leerUsu();
+		String tempCorreo = usuarioLeer.get(0);
 		
 		
 		
@@ -321,8 +323,8 @@ public class Dashboard extends Login{
 				panelGraficaIngresos.removeAll();
 				panelGraficaGastos.removeAll();
 				
-				graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
-				graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+				graph1 = DB.getgrafica(usuarioLeer.get(0), "ingresos");
+				graph2 = DB.getgrafica(usuarioLeer.get(0), "gastos");
 				
 				panelGraficaIngresos.add(graph1);
 				panelGraficaGastos.add(graph2);
@@ -444,6 +446,8 @@ public class Dashboard extends Login{
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
 				Login.main(null);
+				DB.tempUsu(usuarioLeer.get(0), false);
+				
 				
 			}
 		});
@@ -471,7 +475,7 @@ public class Dashboard extends Login{
 		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPerfilPicture.setBounds(120, 0, 276, 607);
 		
-		BufferedImage img = DB.setImagen(DB.leerUsu());
+		BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 		 
 		 if (img != null) {
 			 ImageIcon imIcon = new ImageIcon(img);
@@ -642,7 +646,7 @@ public class Dashboard extends Login{
 		resumen.setBounds(245, 0, 1121, 746);
 		resumen.setLayout(null);
 		
-		graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
+		graph1 = DB.getgrafica(usuarioLeer.get(0), "ingresos");
 		panelGraficaIngresos = new JPanel(new BorderLayout());
 		panelGraficaIngresos.setBounds(40, 31, 450, 230);
 
@@ -650,7 +654,7 @@ public class Dashboard extends Login{
         panelGraficaIngresos.add(graph1);
         
 		
-		graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+		graph2 = DB.getgrafica(usuarioLeer.get(0), "gastos");
 		panelGraficaGastos = new JPanel(new BorderLayout());
 		panelGraficaGastos.setBounds(550, 31, 450, 230);
 
@@ -764,7 +768,7 @@ public class Dashboard extends Login{
 		btnAgregarIngreso.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String[][] a = DB.getCuenta(DB.leerUsu(), "ingresos");
+				String[][] a = DB.getCuenta(usuarioLeer.get(0), "ingresos");
 				cbCategoriaIngresos.setModel(new DefaultComboBoxModel(a[2]));
 				cbEliminarIngreso.setModel(new DefaultComboBoxModel(a[2]));
 				
@@ -955,7 +959,7 @@ public class Dashboard extends Login{
 		btnAgregarGasto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String[][] s = DB.getCuenta(DB.leerUsu(), "gastos");
+				String[][] s = DB.getCuenta(usuarioLeer.get(0), "gastos");
 				cbCategoriaGastos.setModel(new DefaultComboBoxModel(s[2]));
 				cbEliminarGasto.setModel(new DefaultComboBoxModel(s[2]));
 				
@@ -1188,7 +1192,7 @@ public class Dashboard extends Login{
 		fPerfilApellido.setColumns(10);
 		
 		fPerfilCorreo = new JTextField();
-		fPerfilCorreo.setText(DB.leerUsu());
+		fPerfilCorreo.setText(usuarioLeer.get(0));
 		fPerfilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilCorreo.setBounds(672, 373, 207, 30);
 		perfil.add(fPerfilCorreo);
@@ -1285,8 +1289,8 @@ public class Dashboard extends Login{
 		perfil.add(btnCambiarFoto);
 		btnCambiarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DB.subirImagen(DB.leerUsu());
-				BufferedImage img = DB.setImagen(DB.leerUsu());
+				DB.subirImagen(usuarioLeer.get(0));
+				BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 				
 				imgPerfil = new ImageIcon(img);
 				imgPer = imgPerfil.getImage().getScaledInstance(275, 160, Image.SCALE_SMOOTH);
@@ -1421,7 +1425,7 @@ public class Dashboard extends Login{
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void mostrarGastos() {
 		
-		String[][] r = DB.getCuenta(DB.leerUsu(), "gastos");
+		String[][] r = DB.getCuenta(usuarioLeer.get(0), "gastos");
 		
 		listGastos.setModel(new AbstractListModel() {
 			
@@ -1443,7 +1447,7 @@ public class Dashboard extends Login{
 	@SuppressWarnings({ "unchecked", "rawtypes", "unused", "serial" })
 	private void mostrarIngresos(){
 		
-		String[][] r = DB.getCuenta(DB.leerUsu(), "ingresos");
+		String[][] r = DB.getCuenta(usuarioLeer.get(0), "ingresos");
 		
 		listMuestraIngresos.setModel(new AbstractListModel() {
 			
@@ -1473,7 +1477,7 @@ public class Dashboard extends Login{
 			if (e.getSource() == btnGuardar){
 				
 				try{
-				DB.modificarCuenta(DB.leerUsu(), "ingresos", cbCategoriaIngresos.getSelectedItem().toString(), Double.parseDouble(txtMontoingresos.getText()));
+				DB.modificarCuenta(usuarioLeer.get(0), "ingresos", cbCategoriaIngresos.getSelectedItem().toString(), Double.parseDouble(txtMontoingresos.getText()));
 				ingresarIngresos.setVisible(false);
 				ingresos.setVisible(true);
 				txtMontoingresos.setText(null);
@@ -1495,7 +1499,7 @@ public class Dashboard extends Login{
 				
 				try{
 					String nombre = txtAgregarCategoriaIngresos.getText();
-					DB.modificarCuenta(DB.leerUsu(), "ingresos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
+					DB.modificarCuenta(usuarioLeer.get(0), "ingresos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
 					
 					ingresarIngresos.setVisible(false);
 					ingresos.setVisible(true);
@@ -1516,7 +1520,7 @@ public class Dashboard extends Login{
 			
 			if (e.getSource() == btnEliminar){
 				
-				DB.eliminarCuenta(DB.leerUsu(), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
+				DB.eliminarCuenta(usuarioLeer.get(0), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
 				
 				
 				ingresarIngresos.setVisible(false);
@@ -1544,7 +1548,7 @@ public class Dashboard extends Login{
 			if (e.getSource() == btnGuardar2){
 				
 			try{
-				DB.modificarCuenta(DB.leerUsu(), "gastos", cbCategoriaGastos.getSelectedItem().toString(), Double.parseDouble(txtMontoGasto.getText()));
+				DB.modificarCuenta(usuarioLeer.get(0), "gastos", cbCategoriaGastos.getSelectedItem().toString(), Double.parseDouble(txtMontoGasto.getText()));
 				ingresarGastos.setVisible(false);
 				gastos.setVisible(true);
 				txtMontoGasto.setText(null);
@@ -1562,7 +1566,7 @@ public class Dashboard extends Login{
 			
 			if (e.getSource() == btnEliminarCategoriaGastos){
 				
-				DB.eliminarCuenta(DB.leerUsu(), "gastos", cbEliminarGasto.getSelectedItem().toString());
+				DB.eliminarCuenta(usuarioLeer.get(0), "gastos", cbEliminarGasto.getSelectedItem().toString());
 				ingresarGastos.setVisible(false);
 				gastos.setVisible(true);
 				txtMontoGasto.setText(null);
@@ -1578,7 +1582,7 @@ public class Dashboard extends Login{
 				
 				try{
 					String nombre = txtNombreGasto.getText();
-					DB.modificarCuenta(DB.leerUsu(), "gastos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
+					DB.modificarCuenta(usuarioLeer.get(0), "gastos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
 					
 					ingresarGastos.setVisible(false);
 					gastos.setVisible(true);
@@ -1620,7 +1624,7 @@ public class Dashboard extends Login{
 						
 						
 						if (fConfirmarContrasena.getText().length() >=8) {
-							boolean resp = DB.cambiarContrasena(DB.leerUsu(), fConfirmarContrasena.getText());
+							boolean resp = DB.cambiarContrasena(usuarioLeer.get(0), fConfirmarContrasena.getText());
 							if (resp == true) {
 								JOptionPane.showMessageDialog(null, "La constrasena se ha cambiado correctamente");
 							}

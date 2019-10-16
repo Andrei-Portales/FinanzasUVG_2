@@ -110,6 +110,7 @@ public class Login {
 	
 	private JLabel lblIngresarError;
 	private JLabel lblCorreoError;
+	private JCheckBox chckbxMantenerseConectado;
 	
 	/**
 	 * Launch the application.
@@ -209,7 +210,7 @@ public class Login {
 					
 					if (verificado == true) {
 						frame.dispose();
-						DB.tempUsu(txtUsuario.getText());
+						DB.tempUsu(txtUsuario.getText(),chckbxMantenerseConectado.isSelected());
 						Dashboard.main(null);
 						
 						
@@ -311,7 +312,7 @@ public class Login {
 						
 						if (verificado == true) {
 							frame.dispose();
-							DB.tempUsu(txtUsuario.getText());
+							DB.tempUsu(txtUsuario.getText(),chckbxMantenerseConectado.isSelected());
 							Dashboard.main(null);
 							
 							
@@ -361,8 +362,14 @@ public class Login {
 		lblIngresarError = new JLabel("");
 		lblIngresarError.setFont(new Font("Arial", Font.BOLD, 13));
 		lblIngresarError.setForeground(Color.RED);
-		lblIngresarError.setBounds(100, 260, 250, 34);
+		lblIngresarError.setBounds(100, 260, 250, 21);
 		ingresar.add(lblIngresarError);
+		
+		chckbxMantenerseConectado = new JCheckBox("Mantenerse conectado");
+		chckbxMantenerseConectado.setBackground(Color.WHITE);
+		chckbxMantenerseConectado.setFont(new Font("Arial", Font.BOLD, 11));
+		chckbxMantenerseConectado.setBounds(100, 288, 154, 23);
+		ingresar.add(chckbxMantenerseConectado);
 		
 		
 		
