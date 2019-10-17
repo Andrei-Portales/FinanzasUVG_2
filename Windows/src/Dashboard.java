@@ -186,6 +186,10 @@ public class Dashboard extends Login{
 	private JLabel lblDiferenteAl;
 	private JLabel lblPerfilError;
 	private ArrayList<String> usuarioLeer;
+	private String[] nombres;
+	private String tempNombre;
+	private String tempApellido;
+	private String tempCorreo;
 	
 
 
@@ -233,10 +237,10 @@ public class Dashboard extends Login{
 		
 		
 		// VARIABLES
-		String[] nombres = DB.getNombre(usuarioLeer.get(0));
-		String tempNombre =nombres[0];
-		String tempApellido = nombres[1];
-		String tempCorreo = usuarioLeer.get(0);
+		nombres = DB.getNombre(usuarioLeer.get(0));
+		tempNombre =nombres[0];
+		tempApellido = nombres[1];
+		tempCorreo = usuarioLeer.get(0);
 		
 		
 		
@@ -286,6 +290,8 @@ public class Dashboard extends Login{
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsername.setBounds(0, 122, 245, 30);
 		sidebar.add(lblUsername);
+		
+		
 		
 		
 		
@@ -1281,6 +1287,7 @@ public class Dashboard extends Login{
 		btnGuardarCambios.setEnabled(false);
 		btnGuardarCambios.setBounds(672, 449, 207, 30);
 		perfil.add(btnGuardarCambios);
+		btnGuardarCambios.addActionListener(oyente);
 		
 		btnCambiarFoto = new JButton("Cambiar foto");
 		btnCambiarFoto.setForeground(Color.WHITE);
@@ -1606,12 +1613,21 @@ public class Dashboard extends Login{
 				boolean ret = false;
 				try {
 				ret = DB.cambiarPerfil(fPerfilCorreo.getText(), fPerfilNombre.getText(), fPerfilApellido.getText());
-				}catch (Exception ex) {}
+				}catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "error");
+				}
 				
-				if (ret == true)
+				if (ret == true) {
 					JOptionPane.showMessageDialog(null, "Los cambios se guardaron exitosamente");
-				else if (ret == false)
+					nombres = DB.getNombre(usuarioLeer.get(0));
+					tempNombre =nombres[0];
+					tempApellido = nombres[1];
+					tempCorreo = usuarioLeer.get(0);
+					lblUsername.setText(tempNombre + " " + tempApellido);
+				}
+				else if (ret == false) {
 					JOptionPane.showMessageDialog(null, "No se logro guardar los cambios");
+				}
 				
 				
 				
