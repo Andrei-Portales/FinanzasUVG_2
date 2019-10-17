@@ -198,8 +198,10 @@ public class Dashboard extends Login{
 	private String tempApellido;
 	private String tempCorreo;
 
+
 	private JLabel lblEliminarPresupuesto;
 	private JLabel lblPresupuesto;
+
 	
 
 

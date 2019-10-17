@@ -406,7 +406,8 @@ public class ConexionMongoDB {
 	 * Esta fuencion es para pedir el nombre del usuario en la base de datos para mostrarlo en el dashboard
 	 * @return nombre del usuario
 	 */
-	public String getNombre(String correo) {
+	public String[] getNombre(String correo) {
+		String[] retorno = new String[2];
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.put("correo", correo);
 		FindIterable<Document> cursor = usuarios.find(searchQuery);
@@ -418,7 +419,9 @@ public class ConexionMongoDB {
 			apellido = doc.getString("apellido");
 		}
 		
-		return nombre + " " + apellido;
+		retorno[0] = nombre;
+		retorno[1] = apellido;
+		return retorno;
 		
 		
 	}
@@ -429,7 +432,7 @@ public class ConexionMongoDB {
 	 * Funcion para guardar el usuario que ingreso en un txt para poder usarlo en las demas vistas de la aplicacion
 	 * @param usuario
 	 */
-	public void tempUsu(String usuario) {
+	public void tempUsu(String usuario, boolean estado) {
 		
 		File f;
 		FileWriter w;
@@ -443,6 +446,7 @@ public class ConexionMongoDB {
 			wr = new PrintWriter(bw);
 			
 			wr.write(usuario);
+			wr.append("\n" + Boolean.toString(estado));
 			
 			
 			wr.close();
@@ -459,12 +463,13 @@ public class ConexionMongoDB {
 	 * Funcion para leer el usuario que ingreso guardado en un txt temporal
 	 * @return
 	 */
-	public String leerUsu() {
+	public ArrayList<String> leerUsu() {
 		
 		File archivo;
 		FileReader fr;
 		BufferedReader br;
-		String retorno = "";
+		ArrayList<String> retorno = new ArrayList<String>();
+		
 		try {
 			
 			archivo = new File("tempUsuario.txt");
@@ -474,7 +479,7 @@ public class ConexionMongoDB {
 			String linea;
 			
 			while((linea = br.readLine()) != null) {
-				retorno =linea;
+				retorno.add(linea);
 				
 			}
 			
@@ -833,7 +838,29 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		}
 
 	
-	
+	public boolean cambiarPerfil(String correo,String nombre, String apellido) {
+		
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put("correo",  correo);
+			newDocument.put("nombre",  nombre);
+			newDocument.put("apellido",  apellido);
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			
+			usuarios.updateOne(query, updateObj);
+			return true;
+			
+		}catch (Exception e) {
+				return false;
+		}
+		
+	}
 	
 	
 	
