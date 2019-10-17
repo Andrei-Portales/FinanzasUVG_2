@@ -24,6 +24,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.DocumentEvent;
@@ -38,6 +39,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.JToggleButton;
 
+import java.awt.AWTException;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -50,10 +52,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
 
 import javax.swing.JSeparator;
+import java.awt.Dimension;
 
 public class Dashboard extends Login{
 	
@@ -76,7 +85,6 @@ public class Dashboard extends Login{
 	private JPanel ingresos;
 	private JPanel gastos,panelGraficaIngresos;
 	private JPanel presupuestos;
-	private JLabel lblPresupuestos;
 	private JButton btnGuardar,btnAgregarNombreIngreso;
 	private JPanel ingresarIngresos;
 	private JLabel btnAgregarIngreso;
@@ -184,6 +192,14 @@ public class Dashboard extends Login{
 	private JLabel lblContrasenaDebe;
 	private JLabel lblDiferenteAl;
 	private JLabel lblPerfilError;
+	private ArrayList<String> usuarioLeer;
+	private String[] nombres;
+	private String tempNombre;
+	private String tempApellido;
+	private String tempCorreo;
+
+	private JLabel lblEliminarPresupuesto;
+	private JLabel lblPresupuesto;
 	
 
 
@@ -215,7 +231,7 @@ public class Dashboard extends Login{
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
-		
+		usuarioLeer = DB.leerUsu();
 		
 		oyente = new MiListener();
 		frame = new JFrame();
@@ -231,9 +247,10 @@ public class Dashboard extends Login{
 		
 		
 		// VARIABLES
-		String tempNombre = DB.getNombre(DB.leerUsu());
-		String tempApellido = "Apellido";
-		String tempCorreo = "edmancota@gmail.com";
+		nombres = DB.getNombre(usuarioLeer.get(0));
+		tempNombre =nombres[0];
+		tempApellido = nombres[1];
+		tempCorreo = usuarioLeer.get(0);
 		
 		
 		
@@ -277,12 +294,14 @@ public class Dashboard extends Login{
 		
 		
 		
-		lblUsername = new JLabel(DB.getNombre(DB.leerUsu()));
+		lblUsername = new JLabel(tempNombre + " " + tempApellido );
 		lblUsername.setFont(new Font("Arial", Font.BOLD, 12));
 		lblUsername.setToolTipText("");
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsername.setBounds(0, 122, 245, 30);
 		sidebar.add(lblUsername);
+		
+		
 		
 		
 		
@@ -320,8 +339,8 @@ public class Dashboard extends Login{
 				panelGraficaIngresos.removeAll();
 				panelGraficaGastos.removeAll();
 				
-				graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
-				graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+				graph1 = DB.getgrafica(usuarioLeer.get(0), "ingresos");
+				graph2 = DB.getgrafica(usuarioLeer.get(0), "gastos");
 				
 				panelGraficaIngresos.add(graph1);
 				panelGraficaGastos.add(graph2);
@@ -443,6 +462,8 @@ public class Dashboard extends Login{
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
 				Login.main(null);
+				DB.tempUsu(usuarioLeer.get(0), false);
+				
 				
 			}
 		});
@@ -470,7 +491,7 @@ public class Dashboard extends Login{
 		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPerfilPicture.setBounds(120, 0, 276, 607);
 		
-		BufferedImage img = DB.setImagen(DB.leerUsu());
+		BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 		 
 		 if (img != null) {
 			 ImageIcon imIcon = new ImageIcon(img);
@@ -641,7 +662,7 @@ public class Dashboard extends Login{
 		resumen.setBounds(245, 0, 1121, 746);
 		resumen.setLayout(null);
 		
-		graph1 = DB.getgrafica(DB.leerUsu(), "ingresos");
+		graph1 = DB.getgrafica(usuarioLeer.get(0), "ingresos");
 		panelGraficaIngresos = new JPanel(new BorderLayout());
 		panelGraficaIngresos.setBounds(40, 31, 450, 230);
 
@@ -649,7 +670,7 @@ public class Dashboard extends Login{
         panelGraficaIngresos.add(graph1);
         
 		
-		graph2 = DB.getgrafica(DB.leerUsu(), "gastos");
+		graph2 = DB.getgrafica(usuarioLeer.get(0), "gastos");
 		panelGraficaGastos = new JPanel(new BorderLayout());
 		panelGraficaGastos.setBounds(550, 31, 450, 230);
 
@@ -705,11 +726,11 @@ public class Dashboard extends Login{
 		scrollPane.setViewportView(listMuestraIngresos);
 		listMuestraIngresos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
-		JLabel label = new JLabel("INGRESOS");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Arial", Font.PLAIN, 22));
-		label.setBounds(0, 35, 1120, 30);
-		ingresos.add(label);
+		JLabel lblIngresis = new JLabel("Ingresos");
+		lblIngresis.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIngresis.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblIngresis.setBounds(0, 35, 1120, 30);
+		ingresos.add(lblIngresis);
 		
 		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -763,7 +784,7 @@ public class Dashboard extends Login{
 		btnAgregarIngreso.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String[][] a = DB.getCuenta(DB.leerUsu(), "ingresos");
+				String[][] a = DB.getCuenta(usuarioLeer.get(0), "ingresos");
 				cbCategoriaIngresos.setModel(new DefaultComboBoxModel(a[2]));
 				cbEliminarIngreso.setModel(new DefaultComboBoxModel(a[2]));
 				
@@ -918,7 +939,7 @@ public class Dashboard extends Login{
 		main.add(gastos, "name_337042041258590");
 		gastos.setLayout(null);
 		
-		lblGastos = new JLabel("GASTOS");
+		lblGastos = new JLabel("Gastos");
 		lblGastos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGastos.setFont(new Font("Dialog", Font.PLAIN, 22));
 		lblGastos.setBounds(0, 35, 1120, 30);
@@ -954,7 +975,7 @@ public class Dashboard extends Login{
 		btnAgregarGasto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String[][] s = DB.getCuenta(DB.leerUsu(), "gastos");
+				String[][] s = DB.getCuenta(usuarioLeer.get(0), "gastos");
 				cbCategoriaGastos.setModel(new DefaultComboBoxModel(s[2]));
 				cbEliminarGasto.setModel(new DefaultComboBoxModel(s[2]));
 				
@@ -1083,9 +1104,46 @@ public class Dashboard extends Login{
 		main.add(presupuestos, "name_337073441194312");
 		presupuestos.setLayout(null);
 		
-		lblPresupuestos = new JLabel("PRESUPUESTOS");
-		lblPresupuestos.setBounds(425, 227, 200, 118);
-		presupuestos.add(lblPresupuestos);
+		JPanel panel_3 = new JPanel();
+		panel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(false);
+			}
+		});
+		panel_3.setBounds(83, 182, 350, 30);
+		presupuestos.add(panel_3);
+		panel_3.setLayout(null);
+		
+		lblEliminarPresupuesto = new JLabel("x");
+		lblEliminarPresupuesto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(false);
+			}
+		});
+		lblEliminarPresupuesto.setToolTipText("Eliminar presupuesto");
+		lblEliminarPresupuesto.setForeground(Color.RED);
+		lblEliminarPresupuesto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblEliminarPresupuesto.setVisible(false);
+		lblEliminarPresupuesto.setFont(new Font("Arial", Font.BOLD, 15));
+		lblEliminarPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminarPresupuesto.setBounds(320, 0, 30, 15);
+		panel_3.add(lblEliminarPresupuesto);
+		
+		lblPresupuesto = new JLabel("Presupuestos");
+		lblPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPresupuesto.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblPresupuesto.setBounds(0, 35, 1120, 30);
+		presupuestos.add(lblPresupuesto);
 		
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
@@ -1108,7 +1166,7 @@ public class Dashboard extends Login{
 		fNuevaContrasena = new JTextField();
 		fNuevaContrasena.setFont(new Font("Arial", Font.PLAIN, 14));
 		fNuevaContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		TextPrompt nuevacontrasea = new TextPrompt("Nueva contraseña", fNuevaContrasena);
+		TextPrompt nuevacontrasea = new TextPrompt("Nueva contraseï¿½a", fNuevaContrasena);
 		nuevacontrasea.setFont(new Font("Arial", Font.PLAIN, 13));
 		fNuevaContrasena.setBounds(433, 222, 263, 30);
 		pCambiarContrasena.add(fNuevaContrasena);
@@ -1116,7 +1174,7 @@ public class Dashboard extends Login{
 		
 		fConfirmarContrasena = new JTextField();
 		fConfirmarContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		TextPrompt cambiarContra2 = new TextPrompt("Confirmar contraseña", fConfirmarContrasena);
+		TextPrompt cambiarContra2 = new TextPrompt("Confirmar contraseï¿½a", fConfirmarContrasena);
 		cambiarContra2.setFont(new Font("Arial", Font.PLAIN, 13));
 		fConfirmarContrasena.setColumns(10);
 		fConfirmarContrasena.setBounds(433, 283, 263, 30);
@@ -1174,20 +1232,20 @@ public class Dashboard extends Login{
 		
 		fPerfilNombre = new JTextField();
 		fPerfilNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerfilNombre.setText(DB.getNombre(DB.leerUsu()));
+		fPerfilNombre.setText(tempNombre);
 		fPerfilNombre.setBounds(672, 252, 207, 30);
 		perfil.add(fPerfilNombre);
 		fPerfilNombre.setColumns(10);
 		
 		fPerfilApellido = new JTextField();
-		fPerfilApellido.setText("Apellido");
+		fPerfilApellido.setText(tempApellido);
 		fPerfilApellido.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilApellido.setBounds(672, 316, 207, 30);
 		perfil.add(fPerfilApellido);
 		fPerfilApellido.setColumns(10);
 		
 		fPerfilCorreo = new JTextField();
-		fPerfilCorreo.setText("edmancota@gmail.com");
+		fPerfilCorreo.setText(usuarioLeer.get(0));
 		fPerfilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilCorreo.setBounds(672, 373, 207, 30);
 		perfil.add(fPerfilCorreo);
@@ -1276,6 +1334,7 @@ public class Dashboard extends Login{
 		btnGuardarCambios.setEnabled(false);
 		btnGuardarCambios.setBounds(672, 449, 207, 30);
 		perfil.add(btnGuardarCambios);
+		btnGuardarCambios.addActionListener(oyente);
 		
 		btnCambiarFoto = new JButton("Cambiar foto");
 		btnCambiarFoto.setForeground(Color.WHITE);
@@ -1284,8 +1343,8 @@ public class Dashboard extends Login{
 		perfil.add(btnCambiarFoto);
 		btnCambiarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DB.subirImagen(DB.leerUsu());
-				BufferedImage img = DB.setImagen(DB.leerUsu());
+				DB.subirImagen(usuarioLeer.get(0));
+				BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 				
 				imgPerfil = new ImageIcon(img);
 				imgPer = imgPerfil.getImage().getScaledInstance(275, 160, Image.SCALE_SMOOTH);
@@ -1368,6 +1427,7 @@ public class Dashboard extends Login{
 		topbar.setBounds(245, 0, 1120, 55);
 		frame.getContentPane().add(topbar);
 		topbar.setBackground(new Color(251, 251, 251));
+//		topbar.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(249, 249, 249)));
 		topbar.setLayout(null);
 		
 		topbarBrandIcon = new JLabel("",topbarBrandIcono, JLabel.CENTER );
@@ -1406,6 +1466,21 @@ public class Dashboard extends Login{
 		TextPrompt oculto3 = new TextPrompt("Buscar contenido", textField);
 		
 		topbarNotificationIcon = new JLabel("", topbarNotificationIcono, JLabel.CENTER);
+		topbarNotificationIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SystemTray.isSupported()) {
+		            try {
+						displayTray();
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        } else {
+		            System.err.println("System tray not supported!");
+		        }
+			}
+		});
 		topbarNotificationIcon.setBounds(895, 15, 46, 25);
 		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarNotificationIcon);
@@ -1420,7 +1495,7 @@ public class Dashboard extends Login{
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void mostrarGastos() {
 		
-		String[][] r = DB.getCuenta(DB.leerUsu(), "gastos");
+		String[][] r = DB.getCuenta(usuarioLeer.get(0), "gastos");
 		
 		listGastos.setModel(new AbstractListModel() {
 			
@@ -1442,7 +1517,7 @@ public class Dashboard extends Login{
 	@SuppressWarnings({ "unchecked", "rawtypes", "unused", "serial" })
 	private void mostrarIngresos(){
 		
-		String[][] r = DB.getCuenta(DB.leerUsu(), "ingresos");
+		String[][] r = DB.getCuenta(usuarioLeer.get(0), "ingresos");
 		
 		listMuestraIngresos.setModel(new AbstractListModel() {
 			
@@ -1459,6 +1534,26 @@ public class Dashboard extends Login{
 		
 	}
 	
+	public void displayTray() throws AWTException {
+        //Obtain only one instance of the SystemTray object
+        SystemTray tray = SystemTray.getSystemTray();
+
+        //If the icon is a file
+        Image image = Toolkit.getDefaultToolkit().createImage("src/google.png");
+        //Alternative (if the icon is on the classpath):
+        //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
+
+        TrayIcon trayIcon = new TrayIcon(image, "Finanzas UVG");
+        //Let the system resize the image if needed
+        trayIcon.setImageAutoSize(true);
+        //Set tooltip text for the tray icon
+        trayIcon.setToolTip("Finanzas UVG");
+        tray.add(trayIcon);
+
+        trayIcon.displayMessage("Finanzas UVG", "Nueva actualizacion disponible", MessageType.INFO);
+    }
+	
+	
 	private class MiListener implements ActionListener{
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -1472,7 +1567,7 @@ public class Dashboard extends Login{
 			if (e.getSource() == btnGuardar){
 				
 				try{
-				DB.modificarCuenta(DB.leerUsu(), "ingresos", cbCategoriaIngresos.getSelectedItem().toString(), Double.parseDouble(txtMontoingresos.getText()));
+				DB.modificarCuenta(usuarioLeer.get(0), "ingresos", cbCategoriaIngresos.getSelectedItem().toString(), Double.parseDouble(txtMontoingresos.getText()));
 				ingresarIngresos.setVisible(false);
 				ingresos.setVisible(true);
 				txtMontoingresos.setText(null);
@@ -1494,7 +1589,7 @@ public class Dashboard extends Login{
 				
 				try{
 					String nombre = txtAgregarCategoriaIngresos.getText();
-					DB.modificarCuenta(DB.leerUsu(), "ingresos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
+					DB.modificarCuenta(usuarioLeer.get(0), "ingresos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
 					
 					ingresarIngresos.setVisible(false);
 					ingresos.setVisible(true);
@@ -1515,7 +1610,7 @@ public class Dashboard extends Login{
 			
 			if (e.getSource() == btnEliminar){
 				
-				DB.eliminarCuenta(DB.leerUsu(), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
+				DB.eliminarCuenta(usuarioLeer.get(0), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
 				
 				
 				ingresarIngresos.setVisible(false);
@@ -1543,7 +1638,7 @@ public class Dashboard extends Login{
 			if (e.getSource() == btnGuardar2){
 				
 			try{
-				DB.modificarCuenta(DB.leerUsu(), "gastos", cbCategoriaGastos.getSelectedItem().toString(), Double.parseDouble(txtMontoGasto.getText()));
+				DB.modificarCuenta(usuarioLeer.get(0), "gastos", cbCategoriaGastos.getSelectedItem().toString(), Double.parseDouble(txtMontoGasto.getText()));
 				ingresarGastos.setVisible(false);
 				gastos.setVisible(true);
 				txtMontoGasto.setText(null);
@@ -1561,7 +1656,7 @@ public class Dashboard extends Login{
 			
 			if (e.getSource() == btnEliminarCategoriaGastos){
 				
-				DB.eliminarCuenta(DB.leerUsu(), "gastos", cbEliminarGasto.getSelectedItem().toString());
+				DB.eliminarCuenta(usuarioLeer.get(0), "gastos", cbEliminarGasto.getSelectedItem().toString());
 				ingresarGastos.setVisible(false);
 				gastos.setVisible(true);
 				txtMontoGasto.setText(null);
@@ -1577,7 +1672,7 @@ public class Dashboard extends Login{
 				
 				try{
 					String nombre = txtNombreGasto.getText();
-					DB.modificarCuenta(DB.leerUsu(), "gastos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
+					DB.modificarCuenta(usuarioLeer.get(0), "gastos", nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase(), 0);
 					
 					ingresarGastos.setVisible(false);
 					gastos.setVisible(true);
@@ -1597,25 +1692,97 @@ public class Dashboard extends Login{
 			
 			// Guarda la informacion que se modifico por el usuario en su perfil
 			if(e.getSource() == btnGuardarCambios) {
+				
+				boolean ret = false;
+				try {
+				ret = DB.cambiarPerfil(fPerfilCorreo.getText(), fPerfilNombre.getText(), fPerfilApellido.getText());
+				}catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "error");
+				}
+				
+				if (ret == true) {
+					JOptionPane.showMessageDialog(null, "Los cambios se guardaron exitosamente");
+					nombres = DB.getNombre(usuarioLeer.get(0));
+					tempNombre =nombres[0];
+					tempApellido = nombres[1];
+					tempCorreo = usuarioLeer.get(0);
+					lblUsername.setText(tempNombre + " " + tempApellido);
+				}
+				else if (ret == false) {
+					JOptionPane.showMessageDialog(null, "No se logro guardar los cambios");
+				}
+				
+				
+				
+				
+				
+				
+				
+				
 				// verificamos si alguno de los campos siguen siendo iguales, si son iguales entonces solo actualizamos los que son diferentes
 				// o los datos seguiran siendo los mismo
+				
 			}
 			
 			// Metodo para cambiar la contrasena del usuarario ya estando dentro de la aplicacion. 
 			if(e.getSource() == perfilCambiarContrasena) {
 				pCambiarContrasena.setVisible(true);
+				perfilCambiarContrasena.setVisible(false);
 				
 			}
 			
 			// Metodo para guardar la nueva contrasena
 			if(e.getSource() == btnGuardarContrasena) {
 				//AQUI VAMOS HACER TODOS LOS INTENTOS DE VEIRIFCAR SI LA CONTRASENA ES VALIDA PARA CAMBIAR
-				pCambiarContrasena.setVisible(false);
+				
+				if (fNuevaContrasena.getText().isEmpty() == false &&  fConfirmarContrasena.getText().isEmpty() == false) {
+					
+					if (fNuevaContrasena.getText().equals(fConfirmarContrasena.getText())  ) {
+						
+						
+						if (fConfirmarContrasena.getText().length() >=8) {
+							boolean resp = DB.cambiarContrasena(usuarioLeer.get(0), fConfirmarContrasena.getText());
+							if (resp == true) {
+								JOptionPane.showMessageDialog(null, "La constrasena se ha cambiado correctamente");
+							}
+							else if (resp == false) {
+								JOptionPane.showMessageDialog(null, "No se logro cambiar la contrasena");
+							}
+							perfilCambiarContrasena.setVisible(true);
+							fNuevaContrasena.setText(null);
+							fConfirmarContrasena.setText(null);
+							pCambiarContrasena.setVisible(false);
+						}else {
+							JOptionPane.showMessageDialog(null, "La contrasena debe contener 8 o mas caracteres");
+							fNuevaContrasena.setText(null);
+							fConfirmarContrasena.setText(null);
+						}
+						
+						
+						
+						
+					}else {
+						JOptionPane.showMessageDialog(null, "Las casillas no son iguales");
+						fNuevaContrasena.setText(null);
+						fConfirmarContrasena.setText(null);
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Hay casillas vacias");
+				}
+				
+				
+					
+					
+				
 			}
 			
 			// Metdo para cancelar el proceso de cambiar contrasena
 			if(e.getSource() == btnCancelarCambio) {
 				pCambiarContrasena.setVisible(false);
+				perfilCambiarContrasena.setVisible(true);
+				fNuevaContrasena.setText(null);
+				fConfirmarContrasena.setText(null);
 			}
 		
 		}
