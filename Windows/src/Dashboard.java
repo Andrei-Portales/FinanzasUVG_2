@@ -1113,7 +1113,7 @@ public class Dashboard extends Login{
 		fNuevaContrasena = new JTextField();
 		fNuevaContrasena.setFont(new Font("Arial", Font.PLAIN, 14));
 		fNuevaContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		TextPrompt nuevacontrasea = new TextPrompt("Nueva contraseña", fNuevaContrasena);
+		TextPrompt nuevacontrasea = new TextPrompt("Nueva contraseï¿½a", fNuevaContrasena);
 		nuevacontrasea.setFont(new Font("Arial", Font.PLAIN, 13));
 		fNuevaContrasena.setBounds(433, 222, 263, 30);
 		pCambiarContrasena.add(fNuevaContrasena);
@@ -1121,7 +1121,7 @@ public class Dashboard extends Login{
 		
 		fConfirmarContrasena = new JTextField();
 		fConfirmarContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		TextPrompt cambiarContra2 = new TextPrompt("Confirmar contraseña", fConfirmarContrasena);
+		TextPrompt cambiarContra2 = new TextPrompt("Confirmar contraseï¿½a", fConfirmarContrasena);
 		cambiarContra2.setFont(new Font("Arial", Font.PLAIN, 13));
 		fConfirmarContrasena.setColumns(10);
 		fConfirmarContrasena.setBounds(433, 283, 263, 30);
@@ -1602,6 +1602,24 @@ public class Dashboard extends Login{
 			
 			// Guarda la informacion que se modifico por el usuario en su perfil
 			if(e.getSource() == btnGuardarCambios) {
+				
+				boolean ret = false;
+				try {
+				ret = DB.cambiarPerfil(fPerfilCorreo.getText(), fPerfilNombre.getText(), fPerfilApellido.getText());
+				}catch (Exception ex) {}
+				
+				if (ret == true)
+					JOptionPane.showMessageDialog(null, "Los cambios se guardaron exitosamente");
+				else if (ret == false)
+					JOptionPane.showMessageDialog(null, "No se logro guardar los cambios");
+				
+				
+				
+				
+				
+				
+				
+				
 				// verificamos si alguno de los campos siguen siendo iguales, si son iguales entonces solo actualizamos los que son diferentes
 				// o los datos seguiran siendo los mismo
 				

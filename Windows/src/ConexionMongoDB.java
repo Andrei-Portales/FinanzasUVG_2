@@ -838,7 +838,29 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		}
 
 	
-	
+	public boolean cambiarPerfil(String correo,String nombre, String apellido) {
+		
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put("correo",  correo);
+			newDocument.put("nombre",  nombre);
+			newDocument.put("apellido",  apellido);
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			
+			usuarios.updateOne(query, updateObj);
+			return true;
+			
+		}catch (Exception e) {
+				return false;
+		}
+		
+	}
 	
 	
 	
