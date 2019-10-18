@@ -57,7 +57,13 @@ import com.mongodb.client.MongoDatabase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+*@author: POO
+*Esta clase permite crear una conexion con MongoDB
+*Posee metodos que interactuan con la base de datos, como creacion de usuarios, cambios de contrasena
+*encriptacion de datos privados y envio de correos electronicos con codigo de verificacacion para 
+*recuperacion de contrasenas
+*/
 public class ConexionMongoDB {
 	/*	External Archives
 	 * 	mongodb-driver-3.6.3.jar
