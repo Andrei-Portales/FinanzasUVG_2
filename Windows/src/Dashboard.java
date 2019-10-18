@@ -39,6 +39,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.JToggleButton;
 
+import java.awt.AWTException;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -51,10 +52,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
 
 import javax.swing.JSeparator;
+import java.awt.Dimension;
 
 public class Dashboard extends Login{
 	
@@ -77,7 +85,6 @@ public class Dashboard extends Login{
 	private JPanel ingresos;
 	private JPanel gastos,panelGraficaIngresos;
 	private JPanel presupuestos;
-	private JLabel lblPresupuestos;
 	private JButton btnGuardar,btnAgregarNombreIngreso;
 	private JPanel ingresarIngresos;
 	private JLabel btnAgregarIngreso;
@@ -190,6 +197,11 @@ public class Dashboard extends Login{
 	private String tempNombre;
 	private String tempApellido;
 	private String tempCorreo;
+
+
+	private JLabel lblEliminarPresupuesto;
+	private JLabel lblPresupuesto;
+
 	
 
 
@@ -716,11 +728,11 @@ public class Dashboard extends Login{
 		scrollPane.setViewportView(listMuestraIngresos);
 		listMuestraIngresos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
-		JLabel label = new JLabel("INGRESOS");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Arial", Font.PLAIN, 22));
-		label.setBounds(0, 35, 1120, 30);
-		ingresos.add(label);
+		JLabel lblIngresis = new JLabel("Ingresos");
+		lblIngresis.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIngresis.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblIngresis.setBounds(0, 35, 1120, 30);
+		ingresos.add(lblIngresis);
 		
 		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -929,7 +941,7 @@ public class Dashboard extends Login{
 		main.add(gastos, "name_337042041258590");
 		gastos.setLayout(null);
 		
-		lblGastos = new JLabel("GASTOS");
+		lblGastos = new JLabel("Gastos");
 		lblGastos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGastos.setFont(new Font("Dialog", Font.PLAIN, 22));
 		lblGastos.setBounds(0, 35, 1120, 30);
@@ -1094,9 +1106,46 @@ public class Dashboard extends Login{
 		main.add(presupuestos, "name_337073441194312");
 		presupuestos.setLayout(null);
 		
-		lblPresupuestos = new JLabel("PRESUPUESTOS");
-		lblPresupuestos.setBounds(425, 227, 200, 118);
-		presupuestos.add(lblPresupuestos);
+		JPanel panel_3 = new JPanel();
+		panel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(false);
+			}
+		});
+		panel_3.setBounds(83, 182, 350, 30);
+		presupuestos.add(panel_3);
+		panel_3.setLayout(null);
+		
+		lblEliminarPresupuesto = new JLabel("x");
+		lblEliminarPresupuesto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(false);
+			}
+		});
+		lblEliminarPresupuesto.setToolTipText("Eliminar presupuesto");
+		lblEliminarPresupuesto.setForeground(Color.RED);
+		lblEliminarPresupuesto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblEliminarPresupuesto.setVisible(false);
+		lblEliminarPresupuesto.setFont(new Font("Arial", Font.BOLD, 15));
+		lblEliminarPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminarPresupuesto.setBounds(320, 0, 30, 15);
+		panel_3.add(lblEliminarPresupuesto);
+		
+		lblPresupuesto = new JLabel("Presupuestos");
+		lblPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPresupuesto.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblPresupuesto.setBounds(0, 35, 1120, 30);
+		presupuestos.add(lblPresupuesto);
 		
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
@@ -1380,6 +1429,7 @@ public class Dashboard extends Login{
 		topbar.setBounds(245, 0, 1120, 55);
 		frame.getContentPane().add(topbar);
 		topbar.setBackground(new Color(251, 251, 251));
+//		topbar.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(249, 249, 249)));
 		topbar.setLayout(null);
 		
 		topbarBrandIcon = new JLabel("",topbarBrandIcono, JLabel.CENTER );
@@ -1418,6 +1468,21 @@ public class Dashboard extends Login{
 		TextPrompt oculto3 = new TextPrompt("Buscar contenido", textField);
 		
 		topbarNotificationIcon = new JLabel("", topbarNotificationIcono, JLabel.CENTER);
+		topbarNotificationIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SystemTray.isSupported()) {
+		            try {
+						displayTray();
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        } else {
+		            System.err.println("System tray not supported!");
+		        }
+			}
+		});
 		topbarNotificationIcon.setBounds(895, 15, 46, 25);
 		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarNotificationIcon);
@@ -1470,6 +1535,26 @@ public class Dashboard extends Login{
 		lblQ.setText("Q " + r[1][0].toString());
 		
 	}
+	
+	public void displayTray() throws AWTException {
+        //Obtain only one instance of the SystemTray object
+        SystemTray tray = SystemTray.getSystemTray();
+
+        //If the icon is a file
+        Image image = Toolkit.getDefaultToolkit().createImage("src/google.png");
+        //Alternative (if the icon is on the classpath):
+        //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
+
+        TrayIcon trayIcon = new TrayIcon(image, "Finanzas UVG");
+        //Let the system resize the image if needed
+        trayIcon.setImageAutoSize(true);
+        //Set tooltip text for the tray icon
+        trayIcon.setToolTip("Finanzas UVG");
+        tray.add(trayIcon);
+
+        trayIcon.displayMessage("Finanzas UVG", "Nueva actualizacion disponible", MessageType.INFO);
+    }
+	
 	
 	private class MiListener implements ActionListener{
 
