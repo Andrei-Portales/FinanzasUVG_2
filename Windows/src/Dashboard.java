@@ -202,6 +202,15 @@ public class Dashboard extends Login{
 	private JLabel lblEliminarPresupuesto;
 	private JLabel lblPresupuesto;
 
+	private JPanel btnSidebarCalendario;
+
+	private JPanel pSidebarCalendario;
+	private JPanel calendario;
+
+	private JLabel lblSidebarCalendarioIcon;
+
+	private JLabel lblSidebarCalendario;
+
 	
 
 
@@ -271,6 +280,7 @@ public class Dashboard extends Login{
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				
 				
@@ -278,12 +288,14 @@ public class Dashboard extends Login{
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(true);
 			}
 		});
@@ -291,7 +303,7 @@ public class Dashboard extends Login{
 		btnSidebarPerfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSidebarPerfil.setBorder(new CompoundBorder());
 		btnSidebarPerfil.setBackground(Color.CYAN);
-		btnSidebarPerfil.setBounds(0, 399, 245, 36);
+		btnSidebarPerfil.setBounds(0, 450, 245, 36);
 		sidebar.add(btnSidebarPerfil);
 		
 		
@@ -324,18 +336,21 @@ public class Dashboard extends Login{
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
 				lblSidebarHome.setForeground(new Color(0, 0, 0));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(true);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(true);
 				
 				panelGraficaIngresos.removeAll();
@@ -363,18 +378,21 @@ public class Dashboard extends Login{
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
 				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(true);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(true);
 				
 				try {
@@ -400,6 +418,7 @@ public class Dashboard extends Login{
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 			
 				
@@ -407,12 +426,14 @@ public class Dashboard extends Login{
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(true);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(false);
 				
 				try {
@@ -435,6 +456,7 @@ public class Dashboard extends Login{
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
 				
@@ -442,12 +464,14 @@ public class Dashboard extends Login{
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(true);
+				calendario.setVisible(false);
 				perfil.setVisible(false);
 			}
 		});
@@ -473,7 +497,7 @@ public class Dashboard extends Login{
 		btnSidebarSalir.setOpaque(false);
 		btnSidebarSalir.setBorder(new CompoundBorder());
 		btnSidebarSalir.setBackground(Color.CYAN);
-		btnSidebarSalir.setBounds(0, 450, 245, 36);
+		btnSidebarSalir.setBounds(0, 501, 245, 36);
 		sidebar.add(btnSidebarSalir);
 		
 		try {
@@ -602,14 +626,14 @@ public class Dashboard extends Login{
 		lblSidebarSalir = new JLabel("Salir");
 		lblSidebarSalir.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarSalir.setForeground(new Color(119,119,119));
-		lblSidebarSalir.setBounds(60, 450, 185, 36);
+		lblSidebarSalir.setBounds(60, 501, 185, 36);
 		sidebar.add(lblSidebarSalir);
 		
 		Icon salirIcon = new ImageIcon("src/exit.png");
 		
 		lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
 		lblSidebarSalirIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarSalirIcon.setBounds(30, 450, 25, 36);
+		lblSidebarSalirIcon.setBounds(30, 501, 25, 36);
 		sidebar.add(lblSidebarSalirIcon);
 		
 		pSidebarIngresos = new JPanel();
@@ -629,12 +653,12 @@ public class Dashboard extends Login{
 		
 		pSidebarSalir = new JPanel();
 		pSidebarSalir.setBackground(new Color(251,251,251));
-		pSidebarSalir.setBounds(0, 450, 4, 36);
+		pSidebarSalir.setBounds(0, 501, 4, 36);
 		sidebar.add(pSidebarSalir);
 		
 		pSidebarPerfil = new JPanel();
 		pSidebarPerfil.setBackground(new Color(251, 251, 251));
-		pSidebarPerfil.setBounds(0, 399, 4, 36);
+		pSidebarPerfil.setBounds(0, 450, 4, 36);
 		sidebar.add(pSidebarPerfil);
 		
 		
@@ -642,14 +666,68 @@ public class Dashboard extends Login{
 		
 		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);
 		lblSidebarPerfilIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarPerfilIcon.setBounds(30, 399, 25, 36);
+		lblSidebarPerfilIcon.setBounds(30, 450, 25, 36);
 		sidebar.add(lblSidebarPerfilIcon);
 		
 		lblSidebarPerfil = new JLabel("Perfil");
 		lblSidebarPerfil.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarPerfil.setForeground(new Color(119,119,119));
-		lblSidebarPerfil.setBounds(60, 399, 185, 36);
+		lblSidebarPerfil.setBounds(60, 450, 185, 36);
 		sidebar.add(lblSidebarPerfil);
+		
+		
+		btnSidebarCalendario = new JPanel();
+		btnSidebarCalendario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				pSidebarCalendario.setBackground(new Color(0, 0, 0));
+				pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
+				pSidebarDashboard.setBackground(new Color(251,251,251));
+				pSidebarIngresos.setBackground(new Color(251,251,251));
+				pSidebarGastos.setBackground(new Color(251,251,251));
+				pSidebarPerfil.setBackground(new Color(251,251,251));
+				
+				
+				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarHome.setForeground(new Color(119,119,119));
+				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(0, 0, 0));
+				lblSidebarPerfil.setForeground(new Color(119,119,119));
+				
+				resumen.setVisible(false);
+				ingresos.setVisible(false);
+				gastos.setVisible(false);
+				calendario.setVisible(true);
+				presupuestos.setVisible(false);
+				perfil.setVisible(false);
+			}
+		});
+		btnSidebarCalendario.setOpaque(false);
+		btnSidebarCalendario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSidebarCalendario.setBorder(new CompoundBorder());
+		btnSidebarCalendario.setBackground(Color.CYAN);
+		btnSidebarCalendario.setBounds(0, 399, 245, 36);
+		sidebar.add(btnSidebarCalendario);
+		
+		lblSidebarCalendario = new JLabel("Calendario");
+		lblSidebarCalendario.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSidebarCalendario.setForeground(new Color(119, 119, 119));
+		lblSidebarCalendario.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarCalendario.setBounds(60, 399, 185, 36);
+		sidebar.add(lblSidebarCalendario);
+		
+		Icon calendarioIcon = new ImageIcon("src/calendario.png");
+		
+		lblSidebarCalendarioIcon = new JLabel("", calendarioIcon, JLabel.CENTER);
+		lblSidebarCalendarioIcon.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarCalendarioIcon.setBounds(30, 399, 25, 36);
+		sidebar.add(lblSidebarCalendarioIcon);
+		
+		pSidebarCalendario = new JPanel();
+		pSidebarCalendario.setBackground(new Color(251, 251, 251));
+		pSidebarCalendario.setBounds(0, 399, 4, 36);
+		sidebar.add(pSidebarCalendario);
 		
 		
 		main = new JPanel();
@@ -1424,6 +1502,11 @@ public class Dashboard extends Login{
 		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblContrasena.setBounds(559, 190, 103, 30);
 		perfil.add(lblContrasena);
+		
+		calendario = new JPanel();
+		calendario.setBackground(Color.WHITE);
+		main.add(calendario, "name_1698860894200");
+		calendario.setLayout(null);
 		
 		topbar = new JPanel();
 		topbar.setBounds(245, 0, 1120, 55);
