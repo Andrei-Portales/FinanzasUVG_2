@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.DocumentEvent;
@@ -63,6 +64,12 @@ import java.awt.TrayIcon.MessageType;
 
 import javax.swing.JSeparator;
 import java.awt.Dimension;
+import com.toedter.calendar.JCalendar;
+import javax.swing.border.LineBorder;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class Dashboard extends Login{
 	
@@ -74,7 +81,7 @@ public class Dashboard extends Login{
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
 	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir;
 	private JPanel sidebar;
-		
+	private JList listMostrarEventos;
 	private JPanel btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
 	private JLabel lblSidebarSalirIcon;
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
@@ -135,7 +142,7 @@ public class Dashboard extends Login{
 	private ChartPanel graph2;
 	private JButton btnCambiarFoto;
 	private JPanel pSidebarPerfil;
-
+	private JCalendar calendar;
 	private JLabel lblSidebarPerfil;
 	private JPanel perfil;
 
@@ -169,7 +176,7 @@ public class Dashboard extends Login{
 	private JLabel label_3;
 	private JLabel label_4;
 	private JSeparator separator_4;
-
+	private JDateChooser dcEstablecerEventos,dcMostrarEventos;
 	private JTextField fPerfilApellido;
 	private JLabel lblApellido;
 	private JLabel lblCorre;
@@ -183,10 +190,10 @@ public class Dashboard extends Login{
 	private JLabel lblContrasena;
 	private JTextField fNuevaContrasena;
 	private JTextField fConfirmarContrasena;
-
+	private JTextArea txtDescripcion,txtADescripcionMostrar;
 	private JButton btnGuardarContrasena;
 
-	private JButton btnCancelarCambio;
+	private JButton btnCancelarCambio,btnAgregarEvento;
 
 	private JPanel pCambiarContrasena;
 	private JLabel lblContrasenaDebe;
@@ -210,6 +217,10 @@ public class Dashboard extends Login{
 	private JLabel lblSidebarCalendarioIcon;
 
 	private JLabel lblSidebarCalendario;
+	private JLabel lblMostrarEventos;
+	private JLabel label;
+	private JButton btnMostrar;
+	private JTextField txtTitulo;
 
 	
 
@@ -248,7 +259,7 @@ public class Dashboard extends Login{
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setExtendedState(frame.MAXIMIZED_BOTH);
-		frame.setSize(1268, 700);
+		frame.setSize(1354, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
 		frame.setIconImage(new ImageIcon("src/google.png").getImage());
@@ -680,6 +691,7 @@ public class Dashboard extends Login{
 		btnSidebarCalendario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				txtADescripcionMostrar.setText(null);
 				pSidebarCalendario.setBackground(new Color(0, 0, 0));
 				pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -701,6 +713,22 @@ public class Dashboard extends Login{
 				calendario.setVisible(true);
 				presupuestos.setVisible(false);
 				perfil.setVisible(false);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				listMostrarEventos.setModel(new AbstractListModel() {
+					
+					public int getSize() {
+						return titulos.size();
+					}
+					public Object getElementAt(int index) {
+						return titulos.get(index);
+					}
+				
+				});
+				
+				
+			
+				
 			}
 		});
 		btnSidebarCalendario.setOpaque(false);
@@ -756,6 +784,7 @@ public class Dashboard extends Login{
 
 		resumen.add(panelGraficaGastos);
 		panelGraficaGastos.add(graph2);
+		
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
@@ -1508,6 +1537,133 @@ public class Dashboard extends Login{
 		main.add(calendario, "name_1698860894200");
 		calendario.setLayout(null);
 		
+		calendar = new JCalendar();
+		
+		
+		calendar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		calendar.setBounds(59, 76, 554, 231);
+		calendario.add(calendar);
+		
+		JLabel lblCalendario = new JLabel("Calendario");
+		lblCalendario.setFont(new Font("Arial", Font.BOLD, 18));
+		lblCalendario.setBounds(71, 30, 117, 34);
+		calendario.add(lblCalendario);
+		
+		dcEstablecerEventos = new JDateChooser();
+		dcEstablecerEventos.setBounds(733, 89, 159, 26);
+		calendario.add(dcEstablecerEventos);
+		
+		JLabel lblEstablecerRecordatorio = new JLabel("Establecer Evento");
+		lblEstablecerRecordatorio.setFont(new Font("Arial", Font.BOLD, 18));
+		lblEstablecerRecordatorio.setBounds(680, 31, 212, 34);
+		calendario.add(lblEstablecerRecordatorio);
+		
+		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha.setBounds(680, 89, 61, 16);
+		calendario.add(lblFecha);
+		
+		JSeparator separator_8 = new JSeparator();
+		separator_8.setForeground(Color.BLACK);
+		separator_8.setOrientation(SwingConstants.VERTICAL);
+		separator_8.setBounds(653, 6, 15, 378);
+		calendario.add(separator_8);
+		
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setBounds(680, 175, 96, 16);
+		calendario.add(lblDescripcion);
+		
+		btnAgregarEvento = new JButton("Agregar");
+		btnAgregarEvento.setBounds(945, 355, 117, 29);
+		calendario.add(btnAgregarEvento);
+		btnAgregarEvento.addActionListener(oyente);
+		
+		txtDescripcion = new JTextArea();
+		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtDescripcion.setBounds(680, 203, 375, 140);
+		calendario.add(txtDescripcion);
+		txtDescripcion.setLineWrap(true);
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		
+		dcMostrarEventos = new JDateChooser();
+		dcMostrarEventos.setBounds(110, 396, 119, 26);
+		calendario.add(dcMostrarEventos);
+		
+		lblMostrarEventos = new JLabel("Mostrar Eventos");
+		lblMostrarEventos.setFont(new Font("Arial", Font.BOLD, 18));
+		lblMostrarEventos.setBounds(59, 350, 170, 34);
+		calendario.add(lblMostrarEventos);
+		
+		label = new JLabel("Fecha:");
+		label.setBounds(59, 396, 61, 16);
+		calendario.add(label);
+		
+		btnMostrar = new JButton("Mostrar");
+		btnMostrar.setBounds(241, 396, 117, 29);
+		calendario.add(btnMostrar);
+		btnMostrar.addActionListener(oyente);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(59, 440, 428, 147);
+		calendario.add(scrollPane_2);
+		
+		listMostrarEventos = new JList();
+		listMostrarEventos.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				Date an = dcMostrarEventos.getDate();
+				String fecha = "";
+				
+				if (an != null) {
+				String[] datee = an.toString().split(" ");
+				fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				
+				}
+				
+				String split = listMostrarEventos.getSelectedValue().toString();
+				String[] a = split.split(" - ");
+				
+				ArrayList<String> get = DB.getEventos(tempCorreo, fecha);
+				
+				for (String z:get) {
+					String[] as = z.split(" @@ ");
+
+					if (fecha.equals(as[0]) && a[1].equals(as[1])) {
+						txtADescripcionMostrar.setText(as[2]);
+					}
+					
+				}
+				
+				
+			}
+		});
+		listMostrarEventos.setFont(new Font("Arial", Font.PLAIN, 16));
+		
+		scrollPane_2.setViewportView(listMostrarEventos);
+		
+		JLabel label_5 = new JLabel("Descripcion:");
+		label_5.setBounds(514, 412, 96, 16);
+		calendario.add(label_5);
+		
+		 txtADescripcionMostrar = new JTextArea();
+		txtADescripcionMostrar.setWrapStyleWord(true);
+		txtADescripcionMostrar.setLineWrap(true);
+		txtADescripcionMostrar.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtADescripcionMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		txtADescripcionMostrar.setBounds(514, 440, 375, 140);
+		calendario.add(txtADescripcionMostrar);
+		
+		JLabel lblTitulo = new JLabel("Titulo:");
+		lblTitulo.setBounds(680, 147, 61, 16);
+		calendario.add(lblTitulo);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setBounds(740, 142, 212, 26);
+		calendario.add(txtTitulo);
+		txtTitulo.setColumns(10);
+		
+		
+		
 		topbar = new JPanel();
 		topbar.setBounds(245, 0, 1120, 55);
 		frame.getContentPane().add(topbar);
@@ -1869,6 +2025,73 @@ public class Dashboard extends Login{
 				fNuevaContrasena.setText(null);
 				fConfirmarContrasena.setText(null);
 			}
+			
+			if(e.getSource() == btnAgregarEvento) {
+				Date d = dcEstablecerEventos.getDate();
+				
+				if (d != null && txtDescripcion.getText().isEmpty() == false && txtTitulo.getText().isEmpty() == false) {
+					if (txtTitulo.getText().length() <= 15) {
+						String[] date = d.toString().split(" ");
+						String fecha = date[1] +"/"+ date[2] +"/"+ date[5];
+					
+						try {
+							DB.agregarEvento(tempCorreo, fecha, txtTitulo.getText(), txtDescripcion.getText());
+							JOptionPane.showMessageDialog(null, "Evento se agrego exitosamente");
+							txtDescripcion.setText(null);
+							txtTitulo.setText(null);
+							dcEstablecerEventos.setDate(null);
+					}
+					catch(Exception ex){}
+						
+				}else {
+					JOptionPane.showMessageDialog(null, "Titulo tiene que ser manor a 15 caracteres");
+					txtTitulo.setText(null);
+				}
+					
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Te falta llenar campos");
+				}
+			}
+			
+			if(e.getSource() == btnMostrar) {
+				txtADescripcionMostrar.setText(null);
+				try {
+				Date a = dcMostrarEventos.getDate();
+				
+				if (a != null) {
+					
+				String[] datee = a.toString().split(" ");
+				String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				ArrayList<String> eventos = DB.getEventos(tempCorreo, fecha);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				int contador = 1;
+				for (String elemento : eventos) {
+					String[] split = elemento.split(" @@ ");
+					titulos.add(contador + ". " + split[0]+ " - " +  split[1]);
+					contador++;
+					
+				}
+				
+				
+				listMostrarEventos.setModel(new AbstractListModel() {
+					
+					public int getSize() {
+						return titulos.size();
+					}
+					public Object getElementAt(int index) {
+						return titulos.get(index);
+					}
+				
+				});
+				}
+				}catch(Exception es) {}	
+			}
+			
+			
+			
+			
 		
 		}
 		

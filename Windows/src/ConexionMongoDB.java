@@ -17,6 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -75,6 +76,7 @@ public class ConexionMongoDB {
 	private MongoCollection<Document> usuarios;
 	private MongoCollection<Document> datos;
 	private MongoCollection<Document> codigorr;
+	private MongoCollection<Document> calendario;
 	
 	
 	public ConexionMongoDB() {
@@ -89,6 +91,7 @@ public class ConexionMongoDB {
 		usuarios = mongoDatabase.getCollection("usuarios");
 		codigorr = mongoDatabase.getCollection("codigo");
 		datos = mongoDatabase.getCollection("datos");
+		calendario = mongoDatabase.getCollection("calendario");
 		
 		
 		}catch(Exception e) {
@@ -208,6 +211,9 @@ public class ConexionMongoDB {
 		gasto.put("Inversiones","0");
 		gasto.put("Otros","0");
 		datos.insertOne(gasto);
+		Document calendar = new Document();
+		calendar.put("correo", correo);
+		calendario.insertOne(calendar);
 		
 		
 		return "completado";
@@ -869,7 +875,118 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	}
 	
 	
+	public boolean agregarEvento(String correo, String fecha, String titulo,String desc) {
+		
+			String descripcion = fecha + " @@ " +titulo + " @@ " + desc;
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put(crearCodigoEventos(),  descripcion);
+			
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			
+			calendario.updateOne(query, updateObj);
+			return true;
+			
+		}catch (Exception e) {
+				return false;
+		}
+		
+		
+	}
 	
+	
+	public String crearCodigoEventos() {
+		Random r = new Random();
+		
+		String codigo = "";
+		
+		for(int i = 1; i <= 8; i = i + 1){
+			char c = (char)(r.nextInt(26) + 'A');
+			int numero = (int) (Math.random() * 9) + 1;
+			codigo = codigo + c + numero;
+		}
+		
+		return codigo;
+				
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> getEventos(String correo, String fecha){
+		
+		
+
+		ArrayList<String> informacion= new ArrayList<String>() ;
+		
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = calendario.find(searchQuery);
+		
+		String json = "";
+		
+		for(Document doc : cursor) {
+			json = doc.toJson();
+		}
+		
+		Gson gson = new Gson(); 
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String,String>) gson.fromJson(json, map.getClass());
+		
+		
+		Object[] array = map.entrySet().toArray();
+		
+		for (Object a : array) {
+			
+			String o = a.toString();
+			String[] ar = o.split("=");
+			String[] arr = ar[1].split(" @@ ");
+			String h = arr[0] + " // " +fecha;
+			if (arr[0].equals(fecha)) {
+				informacion.add(ar[1]);
+			}
+			
+		}
+		
+	
+		return informacion;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public boolean eliminarEvento(String correo, String fecha, String titulo,String descripcion){
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put(fecha,  descripcion);
+			
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$unset", newDocument);
+			
+			calendario.updateOne(query, updateObj);
+			return true;
+			
+		}catch (Exception e) {
+				return false;
+		}
+	}
 	
 	
 	
