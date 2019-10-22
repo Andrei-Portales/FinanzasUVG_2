@@ -83,7 +83,7 @@ public class ConexionMongoDB {
 		
 		try {
 			
-
+			
 		MongoClientURI uri = new MongoClientURI("mongodb://utqvfn9edhohqnxtn5rr:0Y6VR4AXz3k8QUMPMvk9@bhwcmxxhfbpi38d-mongodb.services.clever-cloud.com:27017/bhwcmxxhfbpi38d");
 
 		mongoClient = new MongoClient(uri);
@@ -180,6 +180,7 @@ public class ConexionMongoDB {
 		document.put("contrasena", getMD5(contrasena));
 		document.put("nombre", (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()));
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
+		document.put("estado", "");
 		document.put("imagen", "");
 		usuarios.insertOne(document);
 		
