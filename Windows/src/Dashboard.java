@@ -161,7 +161,7 @@ public class Dashboard extends Login{
 
 	private JLabel topbarBrandIcon;
 
-	private JPanel topbar;
+	private JPanel topbar,panel_6;
 
 	private JLabel topbarBuscarIcon;
 
@@ -204,14 +204,14 @@ public class Dashboard extends Login{
 	private String tempNombre;
 	private String tempApellido;
 	private String tempCorreo;
-
+	private JComboBox cbEliminar;
 
 	private JLabel lblEliminarPresupuesto;
 	private JLabel lblPresupuesto;
 
 	private JPanel btnSidebarCalendario;
 
-	private JPanel pSidebarCalendario;
+	private JPanel pSidebarCalendario,panel_4;
 	private JPanel calendario;
 
 	private JLabel lblSidebarCalendarioIcon;
@@ -221,6 +221,22 @@ public class Dashboard extends Login{
 	private JLabel label;
 	private JButton btnMostrar;
 	private JTextField txtTitulo;
+	private JScrollPane scrollPane_3;
+	private JScrollPane scrollPane_4;
+	private JSeparator separator_9;
+	private JPanel panel_5;
+	private JButton btnEliminarEvento;
+	private JButton btnEstablecerEvento;
+	private JLabel lblEliminarEvento;
+	private JLabel label_7;
+	private JDateChooser dcEliminar;
+	private JButton btnMostrareliminar;
+	private JLabel lblTitulo_1;
+	private JButton btnEliminar_1;
+	private JLabel lblNewLabel_3;
+	private JButton btnSi;
+	private JButton btnNo;
+	private JPanel panel_7;
 
 	
 
@@ -726,7 +742,7 @@ public class Dashboard extends Login{
 				
 				});
 				
-				
+				dcMostrarEventos.setDate(null);
 			
 				
 			}
@@ -1549,41 +1565,11 @@ public class Dashboard extends Login{
 		lblCalendario.setBounds(71, 30, 117, 34);
 		calendario.add(lblCalendario);
 		
-		dcEstablecerEventos = new JDateChooser();
-		dcEstablecerEventos.setBounds(733, 89, 159, 26);
-		calendario.add(dcEstablecerEventos);
-		
-		JLabel lblEstablecerRecordatorio = new JLabel("Establecer Evento");
-		lblEstablecerRecordatorio.setFont(new Font("Arial", Font.BOLD, 18));
-		lblEstablecerRecordatorio.setBounds(680, 31, 212, 34);
-		calendario.add(lblEstablecerRecordatorio);
-		
-		JLabel lblFecha = new JLabel("Fecha:");
-		lblFecha.setBounds(680, 89, 61, 16);
-		calendario.add(lblFecha);
-		
 		JSeparator separator_8 = new JSeparator();
 		separator_8.setForeground(Color.BLACK);
 		separator_8.setOrientation(SwingConstants.VERTICAL);
-		separator_8.setBounds(653, 6, 15, 378);
+		separator_8.setBounds(653, 6, 15, 314);
 		calendario.add(separator_8);
-		
-		JLabel lblDescripcion = new JLabel("Descripcion:");
-		lblDescripcion.setBounds(680, 175, 96, 16);
-		calendario.add(lblDescripcion);
-		
-		btnAgregarEvento = new JButton("Agregar");
-		btnAgregarEvento.setBounds(945, 355, 117, 29);
-		calendario.add(btnAgregarEvento);
-		btnAgregarEvento.addActionListener(oyente);
-		
-		txtDescripcion = new JTextArea();
-		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 15));
-		txtDescripcion.setBounds(680, 203, 375, 140);
-		calendario.add(txtDescripcion);
-		txtDescripcion.setLineWrap(true);
-		txtDescripcion.setWrapStyleWord(true);
-		txtDescripcion.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		dcMostrarEventos = new JDateChooser();
 		dcMostrarEventos.setBounds(110, 396, 119, 26);
@@ -1611,6 +1597,7 @@ public class Dashboard extends Login{
 		listMostrarEventos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				
+				try {
 				Date an = dcMostrarEventos.getDate();
 				String fecha = "";
 				
@@ -1630,9 +1617,9 @@ public class Dashboard extends Login{
 
 					if (fecha.equals(as[0]) && a[1].equals(as[1])) {
 						txtADescripcionMostrar.setText(as[2]);
-					}
-					
+					}	
 				}
+				}catch (Exception f) {}
 				
 				
 			}
@@ -1644,23 +1631,214 @@ public class Dashboard extends Login{
 		JLabel label_5 = new JLabel("Descripcion:");
 		label_5.setBounds(514, 412, 96, 16);
 		calendario.add(label_5);
+		 
+		 scrollPane_4 = new JScrollPane();
+		 scrollPane_4.setBounds(514, 440, 375, 140);
+		 calendario.add(scrollPane_4);
 		
 		 txtADescripcionMostrar = new JTextArea();
+		 scrollPane_4.setViewportView(txtADescripcionMostrar);
 		txtADescripcionMostrar.setWrapStyleWord(true);
 		txtADescripcionMostrar.setLineWrap(true);
 		txtADescripcionMostrar.setFont(new Font("Arial", Font.PLAIN, 15));
 		txtADescripcionMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		txtADescripcionMostrar.setBounds(514, 440, 375, 140);
-		calendario.add(txtADescripcionMostrar);
+		
+		separator_9 = new JSeparator();
+		separator_9.setForeground(Color.BLACK);
+		separator_9.setBounds(6, 315, 653, 14);
+		calendario.add(separator_9);
+		
+		panel_5 = new JPanel();
+		panel_5.setBounds(680, 6, 428, 418);
+		calendario.add(panel_5);
+		panel_5.setLayout(new CardLayout(0, 0));
+		
+		panel_4 = new JPanel();
+		panel_4.setBackground(Color.WHITE);
+		panel_5.add(panel_4, "name_41518890215445");
+		panel_4.setLayout(null);
+		
+		panel_6 = new JPanel();
+		panel_6.setBackground(Color.WHITE);
+		panel_5.add(panel_6, "name_41518890215446");
+		panel_6.setLayout(null);
+		
+		btnEstablecerEvento = new JButton("Establecer evento");
+		btnEstablecerEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				cbEliminar.setModel(new DefaultComboBoxModel(new String[] {}));
+				dcEliminar.setDate(null);
+				
+				panel_4.setVisible(true);
+				panel_6.setVisible(false);
+			}
+		});
+		btnEstablecerEvento.setBounds(242, 16, 141, 29);
+		panel_6.add(btnEstablecerEvento);
+		
+		lblEliminarEvento = new JLabel("Eliminar Evento");
+		lblEliminarEvento.setFont(new Font("Arial", Font.BOLD, 18));
+		lblEliminarEvento.setBounds(18, 11, 212, 34);
+		panel_6.add(lblEliminarEvento);
+		
+		label_7 = new JLabel("Fecha:");
+		label_7.setBounds(18, 57, 61, 16);
+		panel_6.add(label_7);
+		
+		dcEliminar = new JDateChooser();
+		dcEliminar.setBounds(69, 57, 119, 26);
+		panel_6.add(dcEliminar);
+		
+		btnMostrareliminar = new JButton("Mostrar");
+		btnMostrareliminar.setBounds(200, 57, 117, 29);
+		panel_6.add(btnMostrareliminar);
+		
+		cbEliminar = new JComboBox();
+		
+		cbEliminar.setBounds(76, 138, 261, 34);
+		panel_6.add(cbEliminar);
+		
+		lblTitulo_1 = new JLabel("Titulo:");
+		lblTitulo_1.setBounds(18, 146, 61, 16);
+		panel_6.add(lblTitulo_1);
+		
+		btnEliminar_1 = new JButton("Eliminar");
+		btnEliminar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEliminar_1.setEnabled(false);
+				panel_7.setVisible(true);
+				btnMostrareliminar.setEnabled(false);
+				
+				cbEliminar.setEnabled(false);
+				dcEliminar.setEnabled(false);
+				btnEstablecerEvento.setEnabled(false);
+				
+				
+			}
+		});
+		btnEliminar_1.setBounds(224, 184, 117, 29);
+		panel_6.add(btnEliminar_1);
+		
+		panel_7 = new JPanel();
+		panel_7.setBounds(130, 225, 165, 89);
+		panel_6.add(panel_7);
+		panel_7.setLayout(null);
+		panel_7.setVisible(false);
+		
+		lblNewLabel_3 = new JLabel("¿Estas seguro?");
+		lblNewLabel_3.setBounds(38, 6, 119, 26);
+		panel_7.add(lblNewLabel_3);
+		
+		btnSi = new JButton("Si");
+		btnSi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Date f = dcEliminar.getDate();
+				
+				if (f != null) {
+					String[] datee = f.toString().split(" ");
+					String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+					
+					String cb = cbEliminar.getSelectedItem().toString();
+					String[] bc = cb.split(" - ");
+					
+					boolean resultado = DB.eliminarEvento(tempCorreo, fecha, bc[1]);
+					
+					if ( resultado == true) {
+						JOptionPane.showMessageDialog(null, "Se elimino evento con exito");
+					}else {
+						JOptionPane.showMessageDialog(null, "No se ha podido eliminar el evento");
+					}
+					
+
+					
+					btnEliminar_1.setEnabled(true);
+					panel_7.setVisible(false);
+					btnMostrareliminar.setEnabled(true);
+					cbEliminar.setEnabled(true);
+					dcEliminar.setEnabled(true);
+					btnEstablecerEvento.setEnabled(true);
+					cbEliminar.setModel(new DefaultComboBoxModel(new String[] {}));
+					dcEliminar.setDate(null);
+					
+				}
+						
+				
+			}
+		});
+		btnSi.setBounds(33, 36, 43, 34);
+		panel_7.add(btnSi);
+		
+		btnNo = new JButton("No");
+		btnNo.setBounds(88, 36, 43, 34);
+		panel_7.add(btnNo);
+		btnNo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEliminar_1.setEnabled(true);
+				panel_7.setVisible(false);
+				btnMostrareliminar.setEnabled(true);
+				cbEliminar.setEnabled(true);
+				dcEliminar.setEnabled(true);
+				btnEstablecerEvento.setEnabled(true);
+			}
+		});
+		btnMostrareliminar.addActionListener(oyente);
+		
+		
+		dcEstablecerEventos = new JDateChooser();
+		dcEstablecerEventos.setBounds(91, 75, 159, 26);
+		panel_4.add(dcEstablecerEventos);
+		
+		JLabel lblEstablecerRecordatorio = new JLabel("Establecer Evento");
+		lblEstablecerRecordatorio.setBackground(Color.WHITE);
+		lblEstablecerRecordatorio.setBounds(38, 17, 212, 34);
+		panel_4.add(lblEstablecerRecordatorio);
+		lblEstablecerRecordatorio.setFont(new Font("Arial", Font.BOLD, 18));
+		
+		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha.setBounds(38, 75, 61, 16);
+		panel_4.add(lblFecha);
+		
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setBounds(38, 161, 96, 16);
+		panel_4.add(lblDescripcion);
+		
+		btnAgregarEvento = new JButton("Agregar");
+		btnAgregarEvento.setBounds(303, 341, 117, 29);
+		panel_4.add(btnAgregarEvento);
+		
+		scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(38, 189, 375, 140);
+		panel_4.add(scrollPane_3);
+		
+		txtDescripcion = new JTextArea();
+		scrollPane_3.setViewportView(txtDescripcion);
+		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtDescripcion.setLineWrap(true);
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		JLabel lblTitulo = new JLabel("Titulo:");
-		lblTitulo.setBounds(680, 147, 61, 16);
-		calendario.add(lblTitulo);
+		lblTitulo.setBounds(38, 133, 61, 16);
+		panel_4.add(lblTitulo);
 		
 		txtTitulo = new JTextField();
-		txtTitulo.setBounds(740, 142, 212, 26);
-		calendario.add(txtTitulo);
+		txtTitulo.setBounds(98, 128, 212, 26);
+		panel_4.add(txtTitulo);
 		txtTitulo.setColumns(10);
+		
+		btnEliminarEvento = new JButton("Eliminar Evento");
+		btnEliminarEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_4.setVisible(false);
+				panel_6.setVisible(true);
+				
+			}
+		});
+		btnEliminarEvento.setBounds(262, 6, 141, 29);
+		panel_4.add(btnEliminarEvento);
+		btnAgregarEvento.addActionListener(oyente);
 		
 		
 		
@@ -1695,6 +1873,7 @@ public class Dashboard extends Login{
 				
 				settings = new Settings();
 				settings.setVisible(true);
+				
 			}
 		});
 		topbarSettingsIcon.setBounds(950, 15, 46, 25);
@@ -2085,6 +2264,39 @@ public class Dashboard extends Login{
 					}
 				
 				});
+				}
+				}catch(Exception es) {}	
+			}
+			
+			
+			
+			
+			if(e.getSource() == btnMostrareliminar) {
+				txtADescripcionMostrar.setText(null);
+				try {
+				Date a = dcEliminar.getDate();
+				
+				if (a != null) {
+					
+				String[] datee = a.toString().split(" ");
+				String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				ArrayList<String> eventos = DB.getEventos(tempCorreo, fecha);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				int contador = 1;
+				for (String elemento : eventos) {
+					String[] split = elemento.split(" @@ ");
+					titulos.add(contador + ". " + split[0]+ " - " +  split[1]);
+					contador++;
+					
+				}
+				String[] tituloss = new String[titulos.size()];
+				for(int i = 0;i<= titulos.size() - 1; i++) {
+					tituloss[i] = titulos.get(i);
+				}
+				
+				cbEliminar.setModel(new DefaultComboBoxModel(tituloss));
+				
 				}
 				}catch(Exception es) {}	
 			}
