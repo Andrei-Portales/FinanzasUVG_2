@@ -237,6 +237,8 @@ public class Dashboard extends Login{
 	private JButton btnSi;
 	private JButton btnNo;
 	private JPanel panel_7;
+	private JPanel pPerfilMain;
+
 
 	
 
@@ -535,14 +537,15 @@ public class Dashboard extends Login{
 		
 		Image userImge = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
 		
-		lblUserImage = new JLabel(new ImageIcon(userImge) );
+		lblUserImage = new JLabel(new ImageIcon(userImge));
 		lblUserImage.setBounds(30, 28, 185, 80);
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		lblPerfilPicture = new JLabel("");			
+		lblPerfilPicture = new JLabel(new ImageIcon(userImge));			
+		lblPerfilPicture.setLocation(122, 224);
+		lblPerfilPicture.setSize(356, 200);
 		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPerfilPicture.setBounds(120, 0, 276, 607);
 		
 		BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 		 
@@ -1273,13 +1276,17 @@ public class Dashboard extends Login{
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
 		main.add(perfil, "name_656442519169700");
-		perfil.setLayout(null);
 		
 		pCambiarContrasena = new JPanel();
 		pCambiarContrasena.setVisible(false);
+		perfil.setLayout(new CardLayout(0, 0));
+		
+		pPerfilMain = new JPanel();
+		pPerfilMain.setBackground(Color.WHITE);
+		perfil.add(pPerfilMain, "name_151000322866600");
+		pPerfilMain.setLayout(null);
 		pCambiarContrasena.setBackground(new Color(255, 255, 255));
-		pCambiarContrasena.setBounds(0, 0, 1120, 691);
-		perfil.add(pCambiarContrasena);
+		perfil.add(pCambiarContrasena, "name_151000425973700");
 		pCambiarContrasena.setLayout(null);
 		
 		JLabel lblCambiarContrasea = new JLabel("Cambiar Contrase\u00F1a");
@@ -1356,24 +1363,27 @@ public class Dashboard extends Login{
 		
 		
 		fPerfilNombre = new JTextField();
+		fPerfilNombre.setLocation(660, 170);
+		fPerfilNombre.setSize(250, 30);
 		fPerfilNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilNombre.setText(tempNombre);
-		fPerfilNombre.setBounds(672, 252, 207, 30);
-		perfil.add(fPerfilNombre);
+		pPerfilMain.add(fPerfilNombre, "name_151000515415800");
 		fPerfilNombre.setColumns(10);
 		
 		fPerfilApellido = new JTextField();
+		fPerfilApellido.setLocation(660, 220);
+		fPerfilApellido.setSize(250, 30);
 		fPerfilApellido.setText(tempApellido);
 		fPerfilApellido.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerfilApellido.setBounds(672, 316, 207, 30);
-		perfil.add(fPerfilApellido);
+		pPerfilMain.add(fPerfilApellido, "name_151000570008400");
 		fPerfilApellido.setColumns(10);
 		
 		fPerfilCorreo = new JTextField();
+		fPerfilCorreo.setLocation(660, 265);
+		fPerfilCorreo.setSize(250, 30);
 		fPerfilCorreo.setText(usuarioLeer.get(0));
 		fPerfilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerfilCorreo.setBounds(672, 373, 207, 30);
-		perfil.add(fPerfilCorreo);
+		pPerfilMain.add(fPerfilCorreo, "name_151000619920200");
 		fPerfilCorreo.setColumns(10);
 		
 		
@@ -1441,6 +1451,8 @@ public class Dashboard extends Login{
 		fPerfilCorreo.getDocument().addDocumentListener(dl);
 		
 		perfilCambiarContrasena = new JButton("Cambiar contrasena");
+		perfilCambiarContrasena.setLocation(660, 122);
+		perfilCambiarContrasena.setSize(250, 30);
 		MiListener oyentePerfilCambiarContrasena = new MiListener();
 		perfilCambiarContrasena.addActionListener(oyentePerfilCambiarContrasena);
 		perfilCambiarContrasena.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -1448,24 +1460,25 @@ public class Dashboard extends Login{
 		perfilCambiarContrasena.setBackground(new Color(93,143,252));
 		perfilCambiarContrasena.setBorder(null);
 		perfilCambiarContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		perfilCambiarContrasena.setBounds(672, 190, 207, 30);
-		perfil.add(perfilCambiarContrasena);
+		pPerfilMain.add(perfilCambiarContrasena, "name_151000669620600");
 		
 		btnGuardarCambios = new JButton("Guardar cambios");
+		btnGuardarCambios.setLocation(660, 394);
+		btnGuardarCambios.setSize(250, 30);
 		btnGuardarCambios.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnGuardarCambios.setForeground(Color.WHITE);
 		btnGuardarCambios.setBackground(Color.LIGHT_GRAY);
 		btnGuardarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGuardarCambios.setEnabled(false);
-		btnGuardarCambios.setBounds(672, 449, 207, 30);
-		perfil.add(btnGuardarCambios);
+		pPerfilMain.add(btnGuardarCambios, "name_151000716498700");
 		btnGuardarCambios.addActionListener(oyente);
 		
 		btnCambiarFoto = new JButton("Cambiar foto");
+		btnCambiarFoto.setLocation(176, 435);
+		btnCambiarFoto.setSize(250, 30);
 		btnCambiarFoto.setForeground(Color.WHITE);
 		btnCambiarFoto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnCambiarFoto.setBounds(200, 412, 120, 30);
-		perfil.add(btnCambiarFoto);
+		pPerfilMain.add(btnCambiarFoto, "name_151000756312900");
 		btnCambiarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DB.subirImagen(usuarioLeer.get(0));
@@ -1507,46 +1520,53 @@ public class Dashboard extends Login{
 		btnCambiarFoto.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 	
-		perfil.add(lblPerfilPicture);
+		pPerfilMain.add(lblPerfilPicture, "name_151000800914400");
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(672, 282, 210, 1);
-		perfil.add(separator_1);
+		separator_1.setLocation(660, 200);
+		separator_1.setSize(250, 1);
+		pPerfilMain.add(separator_1, "name_151000840562400");
 		
 		separator_2 = new JSeparator();
-		separator_2.setBounds(672, 403, 210, 1);
-		perfil.add(separator_2);
+		separator_2.setLocation(660, 250);
+		separator_2.setSize(250, 1);
+		pPerfilMain.add(separator_2, "name_151000882103600");
 		
 		
 	
 		
 		JLabel lblNewLabel_2 = new JLabel("Nombre:   ");
+		lblNewLabel_2.setLocation(452, 170);
+		lblNewLabel_2.setSize(200, 30);
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblNewLabel_2.setBounds(559, 252, 103, 30);
-		perfil.add(lblNewLabel_2);
+		pPerfilMain.add(lblNewLabel_2, "name_151000925900900");
 		
 		JSeparator separator_5 = new JSeparator();
-		separator_5.setBounds(669, 346, 210, 1);
-		perfil.add(separator_5);
+		separator_5.setLocation(660, 295);
+		separator_5.setSize(250, 1);
+		pPerfilMain.add(separator_5, "name_151000964773500");
 		
 		lblApellido = new JLabel("Apellido:   ");
+		lblApellido.setLocation(452, 220);
+		lblApellido.setSize(200, 30);
 		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblApellido.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblApellido.setBounds(559, 316, 103, 30);
-		perfil.add(lblApellido);
+		pPerfilMain.add(lblApellido, "name_151001001733700");
 		
 		lblCorre = new JLabel("Correo:   ");
+		lblCorre.setLocation(450, 265);
+		lblCorre.setSize(200, 30);
 		lblCorre.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCorre.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblCorre.setBounds(559, 373, 103, 30);
-		perfil.add(lblCorre);
+		pPerfilMain.add(lblCorre, "name_151001034996400");
 		
 		lblContrasena = new JLabel("Contrasena:   ");
+		lblContrasena.setSize(200, 30);
+		lblContrasena.setLocation(450, 122);
 		lblContrasena.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblContrasena.setBounds(559, 190, 103, 30);
-		perfil.add(lblContrasena);
+		pPerfilMain.add(lblContrasena, "name_151001068787000");
 		
 		calendario = new JPanel();
 		calendario.setBackground(Color.WHITE);
@@ -2146,8 +2166,8 @@ public class Dashboard extends Login{
 			
 			// Metodo para cambiar la contrasena del usuarario ya estando dentro de la aplicacion. 
 			if(e.getSource() == perfilCambiarContrasena) {
+				pPerfilMain.setVisible(false);
 				pCambiarContrasena.setVisible(true);
-				perfilCambiarContrasena.setVisible(false);
 				
 			}
 			
@@ -2200,7 +2220,7 @@ public class Dashboard extends Login{
 			// Metdo para cancelar el proceso de cambiar contrasena
 			if(e.getSource() == btnCancelarCambio) {
 				pCambiarContrasena.setVisible(false);
-				perfilCambiarContrasena.setVisible(true);
+				pPerfilMain.setVisible(true);
 				fNuevaContrasena.setText(null);
 				fConfirmarContrasena.setText(null);
 			}
