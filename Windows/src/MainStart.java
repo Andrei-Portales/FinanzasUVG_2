@@ -5,8 +5,12 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Esta clase es el Main principal del programa
+ * Dependiendo de si el usuario esta permanentemente registro, abre el Login o el Dashboard directamente
+ */
 public class MainStart {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -25,7 +29,7 @@ public class MainStart {
 		}
 	}
 		
-
+		//Guarda el nombre de usuario en un archivo de texto momentaneo para comunicarse con el Dashboard
 		private static  ArrayList<String> leerUsu() {
 			
 			

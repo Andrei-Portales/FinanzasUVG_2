@@ -44,6 +44,12 @@ import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+*@author: POO
+*Esta clase crea la interfaz grafica del Login, que es la primera ventana del programa.
+*Contiene opciones como ingreso de usuario, recuperacion de contrasena y sesion siempre activa.
+*
+*/
 public class Login {
 
 	JFrame frame;
@@ -190,6 +196,8 @@ public class Login {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		
+		//Validaciones del ingreso de datos del usuario si no se ingresa un campo o no existe un usuario con esa contrasena
 		btnIngresar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent m) {
@@ -198,11 +206,11 @@ public class Login {
 					
 				if (txtUsuario.getText().isEmpty()) {
 //					JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
-					lblIngresarError.setText("¡Tiene una casilla vacia!");
+					lblIngresarError.setText("Â¡Tiene una casilla vacia!");
 					txtUsuario.setText(null);
 				}else if (txtPassword.getText().isEmpty()) {
 //					JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
-					lblIngresarError.setText("¡Tiene una casilla vacia!");
+					lblIngresarError.setText("Â¡Tiene una casilla vacia!");
 					txtPassword.setText(null);
 				}else {
 					
@@ -217,8 +225,8 @@ public class Login {
 					}
 					
 					if (verificado == false){
-//						JOptionPane.showMessageDialog(null, "¡Usuario Incorrecto!");
-						lblIngresarError.setText("¡Usuario incorrecto!");
+//						JOptionPane.showMessageDialog(null, "Â¡Usuario Incorrecto!");
+						lblIngresarError.setText("Â¡Usuario incorrecto!");
 					}
 					
 					txtUsuario.setText(null);
@@ -243,6 +251,7 @@ public class Login {
 		lblTituloIngresar.setBounds(100, 95, 200, 34);
 		ingresar.add(lblTituloIngresar);
 		
+		//Cambia la ventana del Login a la de recupaeracion de contrasena
 		lblOlvidoContrasena = new JLabel("\u00BFOlvid\u00F3 contrase\u00F1a?");
 		lblOlvidoContrasena.addMouseListener(new MouseAdapter() {
 			@Override
@@ -290,6 +299,7 @@ public class Login {
 		separator_1.setBounds(100, 192, 250, 1);
 		ingresar.add(separator_1);
 		
+		//Validaciones del ingreso de datos en caso de un keyevent
 		txtPassword = new JPasswordField(null);
 		txtPassword.addKeyListener(new KeyAdapter() {
 			@Override
@@ -300,11 +310,11 @@ public class Login {
 					
 					if (txtUsuario.getText().isEmpty()) {
 //						JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
-						lblIngresarError.setText("¡Tiene una casilla vacia!");
+						lblIngresarError.setText("Â¡Tiene una casilla vacia!");
 						txtUsuario.setText(null);
 					}else if (txtPassword.getText().isEmpty()) {
 //						JOptionPane.showMessageDialog(null, "Tiene una casilla vacia");
-						lblIngresarError.setText("¡Tiene una casilla vacia!");
+						lblIngresarError.setText("Â¡Tiene una casilla vacia!");
 						txtPassword.setText(null);
 					}else {
 						
@@ -319,8 +329,8 @@ public class Login {
 						}
 						
 						if (verificado == false){
-//							JOptionPane.showMessageDialog(null, "¡Usuario Incorrecto!");
-							lblIngresarError.setText("¡Usuario incorrecto!");
+//							JOptionPane.showMessageDialog(null, "Â¡Usuario Incorrecto!");
+							lblIngresarError.setText("Â¡Usuario incorrecto!");
 						}
 						
 						txtUsuario.setText(null);
@@ -335,7 +345,7 @@ public class Login {
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtPassword.setBounds(100, 214, 250, 34);
 		ingresar.add(txtPassword);
-		oculto_1 = new TextPrompt("Contraseña", txtPassword);
+		oculto_1 = new TextPrompt("ContraseÃ±a", txtPassword);
 		
 		lblAbout = new JLabel("About");
 		lblAbout.addMouseListener(new MouseAdapter() {
@@ -370,8 +380,6 @@ public class Login {
 		chckbxMantenerseConectado.setFont(new Font("Arial", Font.BOLD, 11));
 		chckbxMantenerseConectado.setBounds(100, 288, 154, 23);
 		ingresar.add(chckbxMantenerseConectado);
-		
-		
 		
 		
 		
@@ -416,6 +424,8 @@ public class Login {
 		registrar.add(txtNombre);
 		oculto = new TextPrompt("Nombre", txtNombre);
 		
+		
+		//Validacion de campos de registro de nueva cuenta en caso de datos erroneos
 		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -466,7 +476,7 @@ public class Login {
 				
 				if (respuesta.equals("contrasenaCorta")) {
 					txtRegistrarPassword.setText(null);
-					lblAdvertencia.setText("¡La contraseña debe tener 8 o mas caracteres!");
+					lblAdvertencia.setText("Â¡La contraseÃ±a debe tener 8 o mas caracteres!");
 				}
 				
 				
@@ -537,7 +547,7 @@ public class Login {
 		txtRegistrarPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtRegistrarPassword.setBounds(100, 326, 250, 34);
 		registrar.add(txtRegistrarPassword);
-		oculto_2 = new TextPrompt("Contraseña", txtRegistrarPassword);
+		oculto_2 = new TextPrompt("ContraseÃ±a", txtRegistrarPassword);
 		oculto_2.setFont(new Font("Arial", Font.PLAIN, 15));
 		
 		txtApellido = new JTextField();
@@ -588,6 +598,7 @@ public class Login {
 		oculto_3.setText("Correo electr\u00F3nico");
 		oculto_3.setFont(new Font("Arial", Font.PLAIN, 14));
 		
+		//Envio de correo de recuperacion de contrasena usando los datos de la DB, en caso se proporcione un correo valido
 		btnRecuperar = new JButton("Recuperar");
 		btnRecuperar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -651,6 +662,8 @@ public class Login {
 		recuperar.add(separator_3);
 		recuperar.add(lblIngresarCodigo);
 		
+		//Verifica la autenticidad del codigo que se le envio al correo del usuario que desea cambiar contrasena
+		//Se compara el dato con el guardado en la DB al enviar el correo
 		btnVerificarCodigo = new JButton("Verificar codigo");
 		btnVerificarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -705,7 +718,8 @@ public class Login {
 		recuperar.add(lblNuevaContrasena);
 		lblNuevaContrasena.setVisible(false);
 		
-		
+		//Se piden los datos para un cambio de contrasena de recuperacion
+		//Se valida la entrada de la nueva contrasena y se actualiza la DB
 		btnCambiarContrasena = new JButton("Cambiar contrase\u00F1a");
 		btnCambiarContrasena.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -725,7 +739,7 @@ public class Login {
 						boolean r = DB.cambiarContrasena(txtCorreoRecuperacion.getText(), txtConfirmarContrasenaNueva.getText());
 						
 						if (r == true) {
-							JOptionPane.showMessageDialog(null, "La contraseña se cambio correctamente");
+							JOptionPane.showMessageDialog(null, "La contraseÃ±a se cambio correctamente");
 							txtUsuario.setText(txtCorreoRecuperacion.getText());
 							ingresar.setVisible(true);
 							recuperar.setVisible(false);
@@ -749,11 +763,11 @@ public class Login {
 							
 							
 						}else if (r == false) {
-							JOptionPane.showMessageDialog(null, "No se logro cambiar la contraseña\nIntente hacer el proceso de nuevo");
+							JOptionPane.showMessageDialog(null, "No se logro cambiar la contraseÃ±a\nIntente hacer el proceso de nuevo");
 						}
 						
 					}else {
-						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+						JOptionPane.showMessageDialog(null, "Las contraseÃ±as no coinciden");
 						txtContrasenaNueva.setText(null);
 						txtConfirmarContrasenaNueva.setText(null);
 					}
@@ -773,7 +787,7 @@ public class Login {
 		txtConfirmarContrasenaNueva.setFont(new Font("Arial", Font.PLAIN, 15));
 		txtConfirmarContrasenaNueva.setBounds(330, 360, 263, 33);
 		recuperar.add(txtConfirmarContrasenaNueva);
-		oculto_8 = new TextPrompt("Confirmar contraseña", txtConfirmarContrasenaNueva);
+		oculto_8 = new TextPrompt("Confirmar contraseÃ±a", txtConfirmarContrasenaNueva);
 		oculto_8.setFont(new Font("Arial", Font.PLAIN, 15));
 		txtConfirmarContrasenaNueva.setVisible(false);
 		
@@ -782,11 +796,12 @@ public class Login {
 		txtContrasenaNueva.setFont(new Font("Arial", Font.PLAIN, 15));
 		txtContrasenaNueva.setBounds(330, 310, 263, 33);
 		recuperar.add(txtContrasenaNueva);
-		oculto_7 = new TextPrompt("Contraseña nueva", txtContrasenaNueva);
+		oculto_7 = new TextPrompt("ContraseÃ±a nueva", txtContrasenaNueva);
 		oculto_7.setFont(new Font("Arial", Font.PLAIN, 15));
 		txtContrasenaNueva.setVisible(false);
 		btnCambiarContrasena.setVisible(false);
 		
+		//Permite al usuario salir de la operacion de recuperacion de contrasenas al presionar cancelar
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

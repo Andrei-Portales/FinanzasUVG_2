@@ -12,11 +12,12 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 import java.math.BigInteger;
-
+import java.security.KeyStore.Entry;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -57,7 +58,13 @@ import com.mongodb.client.MongoDatabase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+*@author: POO
+*Esta clase permite crear una conexion con MongoDB
+*Posee metodos que interactuan con la base de datos, como creacion de usuarios, cambios de contrasena
+*encriptacion de datos privados y envio de correos electronicos con codigo de verificacacion para 
+*recuperacion de contrasenas
+*/
 public class ConexionMongoDB {
 	/*	External Archives
 	 * 	mongodb-driver-3.6.3.jar
@@ -69,13 +76,14 @@ public class ConexionMongoDB {
 	private MongoCollection<Document> usuarios;
 	private MongoCollection<Document> datos;
 	private MongoCollection<Document> codigorr;
+	private MongoCollection<Document> calendario;
 	
 	
 	public ConexionMongoDB() {
 		
 		try {
 			
-
+			
 		MongoClientURI uri = new MongoClientURI("mongodb://utqvfn9edhohqnxtn5rr:0Y6VR4AXz3k8QUMPMvk9@bhwcmxxhfbpi38d-mongodb.services.clever-cloud.com:27017/bhwcmxxhfbpi38d");
 
 		mongoClient = new MongoClient(uri);
@@ -83,6 +91,7 @@ public class ConexionMongoDB {
 		usuarios = mongoDatabase.getCollection("usuarios");
 		codigorr = mongoDatabase.getCollection("codigo");
 		datos = mongoDatabase.getCollection("datos");
+		calendario = mongoDatabase.getCollection("calendario");
 		
 		
 		}catch(Exception e) {
@@ -171,6 +180,7 @@ public class ConexionMongoDB {
 		document.put("contrasena", getMD5(contrasena));
 		document.put("nombre", (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()));
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
+		document.put("estado", "");
 		document.put("imagen", "");
 		usuarios.insertOne(document);
 		
@@ -202,6 +212,9 @@ public class ConexionMongoDB {
 		gasto.put("Inversiones","0");
 		gasto.put("Otros","0");
 		datos.insertOne(gasto);
+		Document calendar = new Document();
+		calendar.put("correo", correo);
+		calendario.insertOne(calendar);
 		
 		
 		return "completado";
@@ -631,7 +644,12 @@ public class ConexionMongoDB {
 	
 	
 	
-	
+/**
+ * funcion para generar las graficas de ingresos y gastos
+ * @param correo
+ * @param cuenta
+ * @return
+ */
 @SuppressWarnings("unchecked")
 public ChartPanel getgrafica(String correo, String cuenta) {
 	
@@ -710,7 +728,10 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	
 	
 	
-	
+	/**
+	 * funcion para buscar un archivo en el equipo y obtener su ruta
+	 * @return
+	 */
 	public String getPath()  {
 		
 		JFileChooser chooser = new JFileChooser();
@@ -737,7 +758,11 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	    return path;
 	}
 	
-	
+	/**
+	 * funcion para convertir una imagen a base64
+	 * @param path
+	 * @return
+	 */
 	 @SuppressWarnings("unused")
 		public String toBase64(String path){
 	         String encodedfile = null;
@@ -837,7 +862,13 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		
 		}
 
-	
+	/**
+	 * funcion para cambiar todos los parametros del perfil al mismo tiempo
+	 * @param correo
+	 * @param nombre
+	 * @param apellido
+	 * @return
+	 */
 	public boolean cambiarPerfil(String correo,String nombre, String apellido) {
 		
 		
@@ -862,8 +893,183 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		
 	}
 	
+	/**
+	 * funcion para agregar un eveto a un usuario en la base de datos
+	 * @param correo
+	 * @param fecha
+	 * @param titulo
+	 * @param desc
+	 * @return
+	 */
+	public boolean agregarEvento(String correo, String fecha, String titulo,String desc) {
+		
+			String descripcion = fecha + " @@ " +titulo + " @@ " + desc;
+		
+		try {
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put(crearCodigoEventos(),  descripcion);
+			
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$set", newDocument);
+			
+			calendario.updateOne(query, updateObj);
+			return true;
+			
+		}catch (Exception e) {
+				return false;
+		}
+		
+		
+	}
+	
+	/**
+	 * FUncion para crear codigo aleatorio para guardar evento
+	 * @return
+	 */
+	public String crearCodigoEventos() {
+		Random r = new Random();
+		
+		String codigo = "";
+		
+		for(int i = 1; i <= 8; i = i + 1){
+			char c = (char)(r.nextInt(26) + 'A');
+			int numero = (int) (Math.random() * 9) + 1;
+			codigo = codigo + c + numero;
+		}
+		
+		return codigo;
+				
+	}
+	
+	/**
+	 * Funcion para obtener todos los eventos de una fecha en la base de datos
+	 * @param correo
+	 * @param fecha
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> getEventos(String correo, String fecha){
+		
+		
+
+		ArrayList<String> informacion= new ArrayList<String>() ;
+		
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = calendario.find(searchQuery);
+		
+		String json = "";
+		
+		for(Document doc : cursor) {
+			json = doc.toJson();
+		}
+		
+		Gson gson = new Gson(); 
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String,String>) gson.fromJson(json, map.getClass());
+		
+		
+		Object[] array = map.entrySet().toArray();
+		
+		for (Object a : array) {
+			
+			String o = a.toString();
+			String[] ar = o.split("=");
+			String[] arr = ar[1].split(" @@ ");
+			String h = arr[0] + " // " +fecha;
+			if (arr[0].equals(fecha)) {
+				informacion.add(ar[1]);
+			}
+			
+		}
+		
+	
+		return informacion;
+	}
 	
 	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Funcion para eliminar un evento de un usuario en la base de datos
+	 * @param correo
+	 * @param fecha
+	 * @param titulo
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean eliminarEvento(String correo, String fecha, String titulo){
+		try {
+		
+		
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = calendario.find(searchQuery);
+		
+		String json = "";
+		
+		for(Document doc : cursor) {
+			json = doc.toJson();
+		}
+		
+		Gson gson = new Gson(); 
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String,String>) gson.fromJson(json, map.getClass());
+		
+		Object[] array = map.entrySet().toArray();
+		String value = "";
+		String key = "";
+		for (Object a : array) {
+			
+			String o = a.toString();
+			String[] ar = o.split("=");
+			String[] arr = ar[1].split(" @@ ");
+			
+			
+			if (arr[0].equals(fecha) && arr[1].equals(titulo)) {
+				value = ar[1];
+				
+			}
+		}
+		
+		try {
+		for (java.util.Map.Entry<String, String> entry : map.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                key = entry.getKey();
+            }
+		}
+		}catch(Exception es) {}
+		
+		
+			BasicDBObject query = new BasicDBObject();
+			query.put("correo", correo);
+
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put(key,  value);
+			
+						
+			BasicDBObject updateObj = new BasicDBObject();
+			updateObj.put("$unset", newDocument);
+			
+			calendario.updateOne(query, updateObj);
+			return true;
+			
+		}catch (Exception e) {
+				return false;
+		}
+	}
 	
 	
 	

@@ -237,8 +237,8 @@ public class Dashboard extends Login{
 	private JButton btnSi;
 	private JButton btnNo;
 	private JPanel panel_7;
-
 	private JPanel pPerfilMain;
+
 
 	
 
