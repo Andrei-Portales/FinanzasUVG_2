@@ -643,7 +643,12 @@ public class ConexionMongoDB {
 	
 	
 	
-	
+/**
+ * funcion para generar las graficas de ingresos y gastos
+ * @param correo
+ * @param cuenta
+ * @return
+ */
 @SuppressWarnings("unchecked")
 public ChartPanel getgrafica(String correo, String cuenta) {
 	
@@ -722,7 +727,10 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	
 	
 	
-	
+	/**
+	 * funcion para buscar un archivo en el equipo y obtener su ruta
+	 * @return
+	 */
 	public String getPath()  {
 		
 		JFileChooser chooser = new JFileChooser();
@@ -749,7 +757,11 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	    return path;
 	}
 	
-	
+	/**
+	 * funcion para convertir una imagen a base64
+	 * @param path
+	 * @return
+	 */
 	 @SuppressWarnings("unused")
 		public String toBase64(String path){
 	         String encodedfile = null;
@@ -849,7 +861,13 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		
 		}
 
-	
+	/**
+	 * funcion para cambiar todos los parametros del perfil al mismo tiempo
+	 * @param correo
+	 * @param nombre
+	 * @param apellido
+	 * @return
+	 */
 	public boolean cambiarPerfil(String correo,String nombre, String apellido) {
 		
 		
@@ -874,7 +892,14 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		
 	}
 	
-	
+	/**
+	 * funcion para agregar un eveto a un usuario en la base de datos
+	 * @param correo
+	 * @param fecha
+	 * @param titulo
+	 * @param desc
+	 * @return
+	 */
 	public boolean agregarEvento(String correo, String fecha, String titulo,String desc) {
 		
 			String descripcion = fecha + " @@ " +titulo + " @@ " + desc;
@@ -900,7 +925,10 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 		
 	}
 	
-	
+	/**
+	 * FUncion para crear codigo aleatorio para guardar evento
+	 * @return
+	 */
 	public String crearCodigoEventos() {
 		Random r = new Random();
 		
@@ -916,7 +944,12 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 				
 	}
 	
-	
+	/**
+	 * Funcion para obtener todos los eventos de una fecha en la base de datos
+	 * @param correo
+	 * @param fecha
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<String> getEventos(String correo, String fecha){
 		
@@ -966,7 +999,13 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	
 	
 	
-	
+	/**
+	 * Funcion para eliminar un evento de un usuario en la base de datos
+	 * @param correo
+	 * @param fecha
+	 * @param titulo
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean eliminarEvento(String correo, String fecha, String titulo){
 		try {
