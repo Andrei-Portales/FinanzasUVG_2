@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.DocumentEvent;
@@ -63,6 +64,12 @@ import java.awt.TrayIcon.MessageType;
 
 import javax.swing.JSeparator;
 import java.awt.Dimension;
+import com.toedter.calendar.JCalendar;
+import javax.swing.border.LineBorder;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class Dashboard extends Login{
 	
@@ -74,7 +81,7 @@ public class Dashboard extends Login{
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
 	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir;
 	private JPanel sidebar;
-		
+	private JList listMostrarEventos;
 	private JPanel btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
 	private JLabel lblSidebarSalirIcon;
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
@@ -135,7 +142,7 @@ public class Dashboard extends Login{
 	private ChartPanel graph2;
 	private JButton btnCambiarFoto;
 	private JPanel pSidebarPerfil;
-
+	private JCalendar calendar;
 	private JLabel lblSidebarPerfil;
 	private JPanel perfil;
 
@@ -154,7 +161,7 @@ public class Dashboard extends Login{
 
 	private JLabel topbarBrandIcon;
 
-	private JPanel topbar;
+	private JPanel topbar,panel_6;
 
 	private JLabel topbarBuscarIcon;
 
@@ -169,7 +176,7 @@ public class Dashboard extends Login{
 	private JLabel label_3;
 	private JLabel label_4;
 	private JSeparator separator_4;
-
+	private JDateChooser dcEstablecerEventos,dcMostrarEventos;
 	private JTextField fPerfilApellido;
 	private JLabel lblApellido;
 	private JLabel lblCorre;
@@ -183,10 +190,10 @@ public class Dashboard extends Login{
 	private JLabel lblContrasena;
 	private JTextField fNuevaContrasena;
 	private JTextField fConfirmarContrasena;
-
+	private JTextArea txtDescripcion,txtADescripcionMostrar;
 	private JButton btnGuardarContrasena;
 
-	private JButton btnCancelarCambio;
+	private JButton btnCancelarCambio,btnAgregarEvento;
 
 	private JPanel pCambiarContrasena;
 	private JLabel lblContrasenaDebe;
@@ -197,19 +204,41 @@ public class Dashboard extends Login{
 	private String tempNombre;
 	private String tempApellido;
 	private String tempCorreo;
-
+	private JComboBox cbEliminar;
 
 	private JLabel lblEliminarPresupuesto;
 	private JLabel lblPresupuesto;
 
 	private JPanel btnSidebarCalendario;
 
-	private JPanel pSidebarCalendario;
+	private JPanel pSidebarCalendario,panel_4;
 	private JPanel calendario;
 
 	private JLabel lblSidebarCalendarioIcon;
 
 	private JLabel lblSidebarCalendario;
+	private JLabel lblMostrarEventos;
+	private JLabel label;
+	private JButton btnMostrar;
+	private JTextField txtTitulo;
+	private JScrollPane scrollPane_3;
+	private JScrollPane scrollPane_4;
+	private JSeparator separator_9;
+	private JPanel panel_5;
+	private JButton btnEliminarEvento;
+	private JButton btnEstablecerEvento;
+	private JLabel lblEliminarEvento;
+	private JLabel label_7;
+	private JDateChooser dcEliminar;
+	private JButton btnMostrareliminar;
+	private JLabel lblTitulo_1;
+	private JButton btnEliminar_1;
+	private JLabel lblNewLabel_3;
+	private JButton btnSi;
+	private JButton btnNo;
+	private JPanel panel_7;
+
+	private JPanel pPerfilMain;
 
 	
 
@@ -248,7 +277,7 @@ public class Dashboard extends Login{
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setExtendedState(frame.MAXIMIZED_BOTH);
-		frame.setSize(1268, 700);
+		frame.setSize(1354, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
 		frame.setIconImage(new ImageIcon("src/google.png").getImage());
@@ -508,14 +537,15 @@ public class Dashboard extends Login{
 		
 		Image userImge = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
 		
-		lblUserImage = new JLabel(new ImageIcon(userImge) );
+		lblUserImage = new JLabel(new ImageIcon(userImge));
 		lblUserImage.setBounds(30, 28, 185, 80);
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		lblPerfilPicture = new JLabel("");			
+		lblPerfilPicture = new JLabel(new ImageIcon(userImge));			
+		lblPerfilPicture.setLocation(122, 224);
+		lblPerfilPicture.setSize(356, 200);
 		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPerfilPicture.setBounds(120, 0, 276, 607);
 		
 		BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 		 
@@ -680,6 +710,7 @@ public class Dashboard extends Login{
 		btnSidebarCalendario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				txtADescripcionMostrar.setText(null);
 				pSidebarCalendario.setBackground(new Color(0, 0, 0));
 				pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -701,6 +732,22 @@ public class Dashboard extends Login{
 				calendario.setVisible(true);
 				presupuestos.setVisible(false);
 				perfil.setVisible(false);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				listMostrarEventos.setModel(new AbstractListModel() {
+					
+					public int getSize() {
+						return titulos.size();
+					}
+					public Object getElementAt(int index) {
+						return titulos.get(index);
+					}
+				
+				});
+				
+				dcMostrarEventos.setDate(null);
+			
+				
 			}
 		});
 		btnSidebarCalendario.setOpaque(false);
@@ -756,6 +803,7 @@ public class Dashboard extends Login{
 
 		resumen.add(panelGraficaGastos);
 		panelGraficaGastos.add(graph2);
+		
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
@@ -1228,13 +1276,17 @@ public class Dashboard extends Login{
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
 		main.add(perfil, "name_656442519169700");
-		perfil.setLayout(null);
 		
 		pCambiarContrasena = new JPanel();
 		pCambiarContrasena.setVisible(false);
+		perfil.setLayout(new CardLayout(0, 0));
+		
+		pPerfilMain = new JPanel();
+		pPerfilMain.setBackground(Color.WHITE);
+		perfil.add(pPerfilMain, "name_151000322866600");
+		pPerfilMain.setLayout(null);
 		pCambiarContrasena.setBackground(new Color(255, 255, 255));
-		pCambiarContrasena.setBounds(0, 0, 1120, 691);
-		perfil.add(pCambiarContrasena);
+		perfil.add(pCambiarContrasena, "name_151000425973700");
 		pCambiarContrasena.setLayout(null);
 		
 		JLabel lblCambiarContrasea = new JLabel("Cambiar Contrase\u00F1a");
@@ -1311,24 +1363,27 @@ public class Dashboard extends Login{
 		
 		
 		fPerfilNombre = new JTextField();
+		fPerfilNombre.setLocation(660, 170);
+		fPerfilNombre.setSize(250, 30);
 		fPerfilNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		fPerfilNombre.setText(tempNombre);
-		fPerfilNombre.setBounds(672, 252, 207, 30);
-		perfil.add(fPerfilNombre);
+		pPerfilMain.add(fPerfilNombre, "name_151000515415800");
 		fPerfilNombre.setColumns(10);
 		
 		fPerfilApellido = new JTextField();
+		fPerfilApellido.setLocation(660, 220);
+		fPerfilApellido.setSize(250, 30);
 		fPerfilApellido.setText(tempApellido);
 		fPerfilApellido.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerfilApellido.setBounds(672, 316, 207, 30);
-		perfil.add(fPerfilApellido);
+		pPerfilMain.add(fPerfilApellido, "name_151000570008400");
 		fPerfilApellido.setColumns(10);
 		
 		fPerfilCorreo = new JTextField();
+		fPerfilCorreo.setLocation(660, 265);
+		fPerfilCorreo.setSize(250, 30);
 		fPerfilCorreo.setText(usuarioLeer.get(0));
 		fPerfilCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		fPerfilCorreo.setBounds(672, 373, 207, 30);
-		perfil.add(fPerfilCorreo);
+		pPerfilMain.add(fPerfilCorreo, "name_151000619920200");
 		fPerfilCorreo.setColumns(10);
 		
 		
@@ -1396,6 +1451,8 @@ public class Dashboard extends Login{
 		fPerfilCorreo.getDocument().addDocumentListener(dl);
 		
 		perfilCambiarContrasena = new JButton("Cambiar contrasena");
+		perfilCambiarContrasena.setLocation(660, 122);
+		perfilCambiarContrasena.setSize(250, 30);
 		MiListener oyentePerfilCambiarContrasena = new MiListener();
 		perfilCambiarContrasena.addActionListener(oyentePerfilCambiarContrasena);
 		perfilCambiarContrasena.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -1403,24 +1460,25 @@ public class Dashboard extends Login{
 		perfilCambiarContrasena.setBackground(new Color(93,143,252));
 		perfilCambiarContrasena.setBorder(null);
 		perfilCambiarContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		perfilCambiarContrasena.setBounds(672, 190, 207, 30);
-		perfil.add(perfilCambiarContrasena);
+		pPerfilMain.add(perfilCambiarContrasena, "name_151000669620600");
 		
 		btnGuardarCambios = new JButton("Guardar cambios");
+		btnGuardarCambios.setLocation(660, 394);
+		btnGuardarCambios.setSize(250, 30);
 		btnGuardarCambios.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnGuardarCambios.setForeground(Color.WHITE);
 		btnGuardarCambios.setBackground(Color.LIGHT_GRAY);
 		btnGuardarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGuardarCambios.setEnabled(false);
-		btnGuardarCambios.setBounds(672, 449, 207, 30);
-		perfil.add(btnGuardarCambios);
+		pPerfilMain.add(btnGuardarCambios, "name_151000716498700");
 		btnGuardarCambios.addActionListener(oyente);
 		
 		btnCambiarFoto = new JButton("Cambiar foto");
+		btnCambiarFoto.setLocation(176, 435);
+		btnCambiarFoto.setSize(250, 30);
 		btnCambiarFoto.setForeground(Color.WHITE);
 		btnCambiarFoto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnCambiarFoto.setBounds(200, 412, 120, 30);
-		perfil.add(btnCambiarFoto);
+		pPerfilMain.add(btnCambiarFoto, "name_151000756312900");
 		btnCambiarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DB.subirImagen(usuarioLeer.get(0));
@@ -1462,51 +1520,347 @@ public class Dashboard extends Login{
 		btnCambiarFoto.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 	
-		perfil.add(lblPerfilPicture);
+		pPerfilMain.add(lblPerfilPicture, "name_151000800914400");
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(672, 282, 210, 1);
-		perfil.add(separator_1);
+		separator_1.setLocation(660, 200);
+		separator_1.setSize(250, 1);
+		pPerfilMain.add(separator_1, "name_151000840562400");
 		
 		separator_2 = new JSeparator();
-		separator_2.setBounds(672, 403, 210, 1);
-		perfil.add(separator_2);
+		separator_2.setLocation(660, 250);
+		separator_2.setSize(250, 1);
+		pPerfilMain.add(separator_2, "name_151000882103600");
 		
 		
 	
 		
 		JLabel lblNewLabel_2 = new JLabel("Nombre:   ");
+		lblNewLabel_2.setLocation(452, 170);
+		lblNewLabel_2.setSize(200, 30);
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblNewLabel_2.setBounds(559, 252, 103, 30);
-		perfil.add(lblNewLabel_2);
+		pPerfilMain.add(lblNewLabel_2, "name_151000925900900");
 		
 		JSeparator separator_5 = new JSeparator();
-		separator_5.setBounds(669, 346, 210, 1);
-		perfil.add(separator_5);
+		separator_5.setLocation(660, 295);
+		separator_5.setSize(250, 1);
+		pPerfilMain.add(separator_5, "name_151000964773500");
 		
 		lblApellido = new JLabel("Apellido:   ");
+		lblApellido.setLocation(452, 220);
+		lblApellido.setSize(200, 30);
 		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblApellido.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblApellido.setBounds(559, 316, 103, 30);
-		perfil.add(lblApellido);
+		pPerfilMain.add(lblApellido, "name_151001001733700");
 		
 		lblCorre = new JLabel("Correo:   ");
+		lblCorre.setLocation(450, 265);
+		lblCorre.setSize(200, 30);
 		lblCorre.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCorre.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblCorre.setBounds(559, 373, 103, 30);
-		perfil.add(lblCorre);
+		pPerfilMain.add(lblCorre, "name_151001034996400");
 		
 		lblContrasena = new JLabel("Contrasena:   ");
+		lblContrasena.setSize(200, 30);
+		lblContrasena.setLocation(450, 122);
 		lblContrasena.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblContrasena.setBounds(559, 190, 103, 30);
-		perfil.add(lblContrasena);
+		pPerfilMain.add(lblContrasena, "name_151001068787000");
 		
 		calendario = new JPanel();
 		calendario.setBackground(Color.WHITE);
 		main.add(calendario, "name_1698860894200");
 		calendario.setLayout(null);
+		
+		calendar = new JCalendar();
+		
+		
+		calendar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		calendar.setBounds(59, 76, 554, 231);
+		calendario.add(calendar);
+		
+		JLabel lblCalendario = new JLabel("Calendario");
+		lblCalendario.setFont(new Font("Arial", Font.BOLD, 18));
+		lblCalendario.setBounds(71, 30, 117, 34);
+		calendario.add(lblCalendario);
+		
+		JSeparator separator_8 = new JSeparator();
+		separator_8.setForeground(Color.BLACK);
+		separator_8.setOrientation(SwingConstants.VERTICAL);
+		separator_8.setBounds(653, 6, 15, 314);
+		calendario.add(separator_8);
+		
+		dcMostrarEventos = new JDateChooser();
+		dcMostrarEventos.setBounds(110, 396, 119, 26);
+		calendario.add(dcMostrarEventos);
+		
+		lblMostrarEventos = new JLabel("Mostrar Eventos");
+		lblMostrarEventos.setFont(new Font("Arial", Font.BOLD, 18));
+		lblMostrarEventos.setBounds(59, 350, 170, 34);
+		calendario.add(lblMostrarEventos);
+		
+		label = new JLabel("Fecha:");
+		label.setBounds(59, 396, 61, 16);
+		calendario.add(label);
+		
+		btnMostrar = new JButton("Mostrar");
+		btnMostrar.setBounds(241, 396, 117, 29);
+		calendario.add(btnMostrar);
+		btnMostrar.addActionListener(oyente);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(59, 440, 428, 147);
+		calendario.add(scrollPane_2);
+		
+		listMostrarEventos = new JList();
+		listMostrarEventos.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				try {
+				Date an = dcMostrarEventos.getDate();
+				String fecha = "";
+				
+				if (an != null) {
+				String[] datee = an.toString().split(" ");
+				fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				
+				}
+				
+				String split = listMostrarEventos.getSelectedValue().toString();
+				String[] a = split.split(" - ");
+				
+				ArrayList<String> get = DB.getEventos(tempCorreo, fecha);
+				
+				for (String z:get) {
+					String[] as = z.split(" @@ ");
+
+					if (fecha.equals(as[0]) && a[1].equals(as[1])) {
+						txtADescripcionMostrar.setText(as[2]);
+					}	
+				}
+				}catch (Exception f) {}
+				
+				
+			}
+		});
+		listMostrarEventos.setFont(new Font("Arial", Font.PLAIN, 16));
+		
+		scrollPane_2.setViewportView(listMostrarEventos);
+		
+		JLabel label_5 = new JLabel("Descripcion:");
+		label_5.setBounds(514, 412, 96, 16);
+		calendario.add(label_5);
+		 
+		 scrollPane_4 = new JScrollPane();
+		 scrollPane_4.setBounds(514, 440, 375, 140);
+		 calendario.add(scrollPane_4);
+		
+		 txtADescripcionMostrar = new JTextArea();
+		 scrollPane_4.setViewportView(txtADescripcionMostrar);
+		txtADescripcionMostrar.setWrapStyleWord(true);
+		txtADescripcionMostrar.setLineWrap(true);
+		txtADescripcionMostrar.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtADescripcionMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		
+		separator_9 = new JSeparator();
+		separator_9.setForeground(Color.BLACK);
+		separator_9.setBounds(6, 315, 653, 14);
+		calendario.add(separator_9);
+		
+		panel_5 = new JPanel();
+		panel_5.setBounds(680, 6, 428, 418);
+		calendario.add(panel_5);
+		panel_5.setLayout(new CardLayout(0, 0));
+		
+		panel_4 = new JPanel();
+		panel_4.setBackground(Color.WHITE);
+		panel_5.add(panel_4, "name_41518890215445");
+		panel_4.setLayout(null);
+		
+		panel_6 = new JPanel();
+		panel_6.setBackground(Color.WHITE);
+		panel_5.add(panel_6, "name_41518890215446");
+		panel_6.setLayout(null);
+		
+		btnEstablecerEvento = new JButton("Establecer evento");
+		btnEstablecerEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				cbEliminar.setModel(new DefaultComboBoxModel(new String[] {}));
+				dcEliminar.setDate(null);
+				
+				panel_4.setVisible(true);
+				panel_6.setVisible(false);
+			}
+		});
+		btnEstablecerEvento.setBounds(242, 16, 141, 29);
+		panel_6.add(btnEstablecerEvento);
+		
+		lblEliminarEvento = new JLabel("Eliminar Evento");
+		lblEliminarEvento.setFont(new Font("Arial", Font.BOLD, 18));
+		lblEliminarEvento.setBounds(18, 11, 212, 34);
+		panel_6.add(lblEliminarEvento);
+		
+		label_7 = new JLabel("Fecha:");
+		label_7.setBounds(18, 57, 61, 16);
+		panel_6.add(label_7);
+		
+		dcEliminar = new JDateChooser();
+		dcEliminar.setBounds(69, 57, 119, 26);
+		panel_6.add(dcEliminar);
+		
+		btnMostrareliminar = new JButton("Mostrar");
+		btnMostrareliminar.setBounds(200, 57, 117, 29);
+		panel_6.add(btnMostrareliminar);
+		
+		cbEliminar = new JComboBox();
+		
+		cbEliminar.setBounds(76, 138, 261, 34);
+		panel_6.add(cbEliminar);
+		
+		lblTitulo_1 = new JLabel("Titulo:");
+		lblTitulo_1.setBounds(18, 146, 61, 16);
+		panel_6.add(lblTitulo_1);
+		
+		btnEliminar_1 = new JButton("Eliminar");
+		btnEliminar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEliminar_1.setEnabled(false);
+				panel_7.setVisible(true);
+				btnMostrareliminar.setEnabled(false);
+				
+				cbEliminar.setEnabled(false);
+				dcEliminar.setEnabled(false);
+				btnEstablecerEvento.setEnabled(false);
+				
+				
+			}
+		});
+		btnEliminar_1.setBounds(224, 184, 117, 29);
+		panel_6.add(btnEliminar_1);
+		
+		panel_7 = new JPanel();
+		panel_7.setBounds(130, 225, 165, 89);
+		panel_6.add(panel_7);
+		panel_7.setLayout(null);
+		panel_7.setVisible(false);
+		
+		lblNewLabel_3 = new JLabel("¿Estas seguro?");
+		lblNewLabel_3.setBounds(38, 6, 119, 26);
+		panel_7.add(lblNewLabel_3);
+		
+		btnSi = new JButton("Si");
+		btnSi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Date f = dcEliminar.getDate();
+				
+				if (f != null) {
+					String[] datee = f.toString().split(" ");
+					String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+					
+					String cb = cbEliminar.getSelectedItem().toString();
+					String[] bc = cb.split(" - ");
+					
+					boolean resultado = DB.eliminarEvento(tempCorreo, fecha, bc[1]);
+					
+					if ( resultado == true) {
+						JOptionPane.showMessageDialog(null, "Se elimino evento con exito");
+					}else {
+						JOptionPane.showMessageDialog(null, "No se ha podido eliminar el evento");
+					}
+					
+
+					
+					btnEliminar_1.setEnabled(true);
+					panel_7.setVisible(false);
+					btnMostrareliminar.setEnabled(true);
+					cbEliminar.setEnabled(true);
+					dcEliminar.setEnabled(true);
+					btnEstablecerEvento.setEnabled(true);
+					cbEliminar.setModel(new DefaultComboBoxModel(new String[] {}));
+					dcEliminar.setDate(null);
+					
+				}
+						
+				
+			}
+		});
+		btnSi.setBounds(33, 36, 43, 34);
+		panel_7.add(btnSi);
+		
+		btnNo = new JButton("No");
+		btnNo.setBounds(88, 36, 43, 34);
+		panel_7.add(btnNo);
+		btnNo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEliminar_1.setEnabled(true);
+				panel_7.setVisible(false);
+				btnMostrareliminar.setEnabled(true);
+				cbEliminar.setEnabled(true);
+				dcEliminar.setEnabled(true);
+				btnEstablecerEvento.setEnabled(true);
+			}
+		});
+		btnMostrareliminar.addActionListener(oyente);
+		
+		
+		dcEstablecerEventos = new JDateChooser();
+		dcEstablecerEventos.setBounds(91, 75, 159, 26);
+		panel_4.add(dcEstablecerEventos);
+		
+		JLabel lblEstablecerRecordatorio = new JLabel("Establecer Evento");
+		lblEstablecerRecordatorio.setBackground(Color.WHITE);
+		lblEstablecerRecordatorio.setBounds(38, 17, 212, 34);
+		panel_4.add(lblEstablecerRecordatorio);
+		lblEstablecerRecordatorio.setFont(new Font("Arial", Font.BOLD, 18));
+		
+		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha.setBounds(38, 75, 61, 16);
+		panel_4.add(lblFecha);
+		
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setBounds(38, 161, 96, 16);
+		panel_4.add(lblDescripcion);
+		
+		btnAgregarEvento = new JButton("Agregar");
+		btnAgregarEvento.setBounds(303, 341, 117, 29);
+		panel_4.add(btnAgregarEvento);
+		
+		scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(38, 189, 375, 140);
+		panel_4.add(scrollPane_3);
+		
+		txtDescripcion = new JTextArea();
+		scrollPane_3.setViewportView(txtDescripcion);
+		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtDescripcion.setLineWrap(true);
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		
+		JLabel lblTitulo = new JLabel("Titulo:");
+		lblTitulo.setBounds(38, 133, 61, 16);
+		panel_4.add(lblTitulo);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setBounds(98, 128, 212, 26);
+		panel_4.add(txtTitulo);
+		txtTitulo.setColumns(10);
+		
+		btnEliminarEvento = new JButton("Eliminar Evento");
+		btnEliminarEvento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_4.setVisible(false);
+				panel_6.setVisible(true);
+				
+			}
+		});
+		btnEliminarEvento.setBounds(262, 6, 141, 29);
+		panel_4.add(btnEliminarEvento);
+		btnAgregarEvento.addActionListener(oyente);
+		
+		
 		
 		topbar = new JPanel();
 		topbar.setBounds(245, 0, 1120, 55);
@@ -1539,6 +1893,7 @@ public class Dashboard extends Login{
 				
 				settings = new Settings();
 				settings.setVisible(true);
+				
 			}
 		});
 		topbarSettingsIcon.setBounds(950, 15, 46, 25);
@@ -1811,8 +2166,8 @@ public class Dashboard extends Login{
 			
 			// Metodo para cambiar la contrasena del usuarario ya estando dentro de la aplicacion. 
 			if(e.getSource() == perfilCambiarContrasena) {
+				pPerfilMain.setVisible(false);
 				pCambiarContrasena.setVisible(true);
-				perfilCambiarContrasena.setVisible(false);
 				
 			}
 			
@@ -1865,10 +2220,110 @@ public class Dashboard extends Login{
 			// Metdo para cancelar el proceso de cambiar contrasena
 			if(e.getSource() == btnCancelarCambio) {
 				pCambiarContrasena.setVisible(false);
-				perfilCambiarContrasena.setVisible(true);
+				pPerfilMain.setVisible(true);
 				fNuevaContrasena.setText(null);
 				fConfirmarContrasena.setText(null);
 			}
+			
+			if(e.getSource() == btnAgregarEvento) {
+				Date d = dcEstablecerEventos.getDate();
+				
+				if (d != null && txtDescripcion.getText().isEmpty() == false && txtTitulo.getText().isEmpty() == false) {
+					if (txtTitulo.getText().length() <= 15) {
+						String[] date = d.toString().split(" ");
+						String fecha = date[1] +"/"+ date[2] +"/"+ date[5];
+					
+						try {
+							DB.agregarEvento(tempCorreo, fecha, txtTitulo.getText(), txtDescripcion.getText());
+							JOptionPane.showMessageDialog(null, "Evento se agrego exitosamente");
+							txtDescripcion.setText(null);
+							txtTitulo.setText(null);
+							dcEstablecerEventos.setDate(null);
+					}
+					catch(Exception ex){}
+						
+				}else {
+					JOptionPane.showMessageDialog(null, "Titulo tiene que ser manor a 15 caracteres");
+					txtTitulo.setText(null);
+				}
+					
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Te falta llenar campos");
+				}
+			}
+			
+			if(e.getSource() == btnMostrar) {
+				txtADescripcionMostrar.setText(null);
+				try {
+				Date a = dcMostrarEventos.getDate();
+				
+				if (a != null) {
+					
+				String[] datee = a.toString().split(" ");
+				String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				ArrayList<String> eventos = DB.getEventos(tempCorreo, fecha);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				int contador = 1;
+				for (String elemento : eventos) {
+					String[] split = elemento.split(" @@ ");
+					titulos.add(contador + ". " + split[0]+ " - " +  split[1]);
+					contador++;
+					
+				}
+				
+				
+				listMostrarEventos.setModel(new AbstractListModel() {
+					
+					public int getSize() {
+						return titulos.size();
+					}
+					public Object getElementAt(int index) {
+						return titulos.get(index);
+					}
+				
+				});
+				}
+				}catch(Exception es) {}	
+			}
+			
+			
+			
+			
+			if(e.getSource() == btnMostrareliminar) {
+				txtADescripcionMostrar.setText(null);
+				try {
+				Date a = dcEliminar.getDate();
+				
+				if (a != null) {
+					
+				String[] datee = a.toString().split(" ");
+				String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				ArrayList<String> eventos = DB.getEventos(tempCorreo, fecha);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				int contador = 1;
+				for (String elemento : eventos) {
+					String[] split = elemento.split(" @@ ");
+					titulos.add(contador + ". " + split[0]+ " - " +  split[1]);
+					contador++;
+					
+				}
+				String[] tituloss = new String[titulos.size()];
+				for(int i = 0;i<= titulos.size() - 1; i++) {
+					tituloss[i] = titulos.get(i);
+				}
+				
+				cbEliminar.setModel(new DefaultComboBoxModel(tituloss));
+				
+				}
+				}catch(Exception es) {}	
+			}
+			
+			
+			
+			
 		
 		}
 		
