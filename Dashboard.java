@@ -1611,6 +1611,7 @@ public class Dashboard extends Login{
 		listMostrarEventos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				
+				try {
 				Date an = dcMostrarEventos.getDate();
 				String fecha = "";
 				
@@ -1630,9 +1631,9 @@ public class Dashboard extends Login{
 
 					if (fecha.equals(as[0]) && a[1].equals(as[1])) {
 						txtADescripcionMostrar.setText(as[2]);
-					}
-					
+					}	
 				}
+				}catch (Exception f) {}
 				
 				
 			}
