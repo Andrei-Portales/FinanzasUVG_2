@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.event.DocumentEvent;
@@ -39,6 +40,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.JToggleButton;
 
+import java.awt.AWTException;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -51,17 +53,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
 
 import javax.swing.JSeparator;
+import java.awt.Dimension;
+import com.toedter.calendar.JCalendar;
+import javax.swing.border.LineBorder;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
-/**
- * Esta clase se encarga de la interfaz grafica del programa version Desktop
- * Hereda propiedades de la interfaz grafica de Login
- * @author POO
- *
- */
 public class Dashboard extends Login{
 	
 	
@@ -72,7 +81,7 @@ public class Dashboard extends Login{
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
 	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir;
 	private JPanel sidebar;
-		
+	private JList listMostrarEventos;
 	private JPanel btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
 	private JLabel lblSidebarSalirIcon;
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
@@ -83,7 +92,6 @@ public class Dashboard extends Login{
 	private JPanel ingresos;
 	private JPanel gastos,panelGraficaIngresos;
 	private JPanel presupuestos;
-	private JLabel lblPresupuestos;
 	private JButton btnGuardar,btnAgregarNombreIngreso;
 	private JPanel ingresarIngresos;
 	private JLabel btnAgregarIngreso;
@@ -134,7 +142,7 @@ public class Dashboard extends Login{
 	private ChartPanel graph2;
 	private JButton btnCambiarFoto;
 	private JPanel pSidebarPerfil;
-
+	private JCalendar calendar;
 	private JLabel lblSidebarPerfil;
 	private JPanel perfil;
 
@@ -168,7 +176,7 @@ public class Dashboard extends Login{
 	private JLabel label_3;
 	private JLabel label_4;
 	private JSeparator separator_4;
-
+	private JDateChooser dcEstablecerEventos,dcMostrarEventos;
 	private JTextField fPerfilApellido;
 	private JLabel lblApellido;
 	private JLabel lblCorre;
@@ -182,10 +190,10 @@ public class Dashboard extends Login{
 	private JLabel lblContrasena;
 	private JTextField fNuevaContrasena;
 	private JTextField fConfirmarContrasena;
-
+	private JTextArea txtDescripcion,txtADescripcionMostrar;
 	private JButton btnGuardarContrasena;
 
-	private JButton btnCancelarCambio;
+	private JButton btnCancelarCambio,btnAgregarEvento;
 
 	private JPanel pCambiarContrasena;
 	private JLabel lblContrasenaDebe;
@@ -196,6 +204,24 @@ public class Dashboard extends Login{
 	private String tempNombre;
 	private String tempApellido;
 	private String tempCorreo;
+
+
+	private JLabel lblEliminarPresupuesto;
+	private JLabel lblPresupuesto;
+
+	private JPanel btnSidebarCalendario;
+
+	private JPanel pSidebarCalendario;
+	private JPanel calendario;
+
+	private JLabel lblSidebarCalendarioIcon;
+
+	private JLabel lblSidebarCalendario;
+	private JLabel lblMostrarEventos;
+	private JLabel label;
+	private JButton btnMostrar;
+	private JTextField txtTitulo;
+
 	
 
 
@@ -216,14 +242,14 @@ public class Dashboard extends Login{
 	}
 
 	/**
-	 * Crea la aplicacion y llama al metodo initialize()
+	 * Create the application.
 	 */
 	public Dashboard() {
 		initialize();
 	}
 
 	/**
-	 * Inicializa el frame y el contenido del mismo
+	 * Initialize the contents of the frame.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
@@ -233,7 +259,7 @@ public class Dashboard extends Login{
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
 		frame.setExtendedState(frame.MAXIMIZED_BOTH);
-		frame.setSize(1268, 700);
+		frame.setSize(1354, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
 		frame.setIconImage(new ImageIcon("src/google.png").getImage());
@@ -265,6 +291,7 @@ public class Dashboard extends Login{
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				
 				
@@ -272,12 +299,14 @@ public class Dashboard extends Login{
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(true);
 			}
 		});
@@ -285,7 +314,7 @@ public class Dashboard extends Login{
 		btnSidebarPerfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSidebarPerfil.setBorder(new CompoundBorder());
 		btnSidebarPerfil.setBackground(Color.CYAN);
-		btnSidebarPerfil.setBounds(0, 399, 245, 36);
+		btnSidebarPerfil.setBounds(0, 450, 245, 36);
 		sidebar.add(btnSidebarPerfil);
 		
 		
@@ -318,18 +347,21 @@ public class Dashboard extends Login{
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
 				lblSidebarHome.setForeground(new Color(0, 0, 0));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(true);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(true);
 				
 				panelGraficaIngresos.removeAll();
@@ -357,18 +389,21 @@ public class Dashboard extends Login{
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
 				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(true);
 				gastos.setVisible(false);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(true);
 				
 				try {
@@ -394,6 +429,7 @@ public class Dashboard extends Login{
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarPresupuestos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 			
 				
@@ -401,12 +437,14 @@ public class Dashboard extends Login{
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
 				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(true);
 				presupuestos.setVisible(false);
+				calendario.setVisible(false);
 				perfil.setVisible(false);
 				
 				try {
@@ -429,6 +467,7 @@ public class Dashboard extends Login{
 				pSidebarDashboard.setBackground(new Color(251,251,251));
 				pSidebarIngresos.setBackground(new Color(251,251,251));
 				pSidebarGastos.setBackground(new Color(251,251,251));
+				pSidebarCalendario.setBackground(new Color(251, 251, 251));
 				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
 				
@@ -436,12 +475,14 @@ public class Dashboard extends Login{
 				lblSidebarHome.setForeground(new Color(119,119,119));
 				lblSidebarIngresos.setForeground(new Color(119,119,119));
 				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(119,119,119));
 				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(true);
+				calendario.setVisible(false);
 				perfil.setVisible(false);
 			}
 		});
@@ -467,7 +508,7 @@ public class Dashboard extends Login{
 		btnSidebarSalir.setOpaque(false);
 		btnSidebarSalir.setBorder(new CompoundBorder());
 		btnSidebarSalir.setBackground(Color.CYAN);
-		btnSidebarSalir.setBounds(0, 450, 245, 36);
+		btnSidebarSalir.setBounds(0, 501, 245, 36);
 		sidebar.add(btnSidebarSalir);
 		
 		try {
@@ -596,14 +637,14 @@ public class Dashboard extends Login{
 		lblSidebarSalir = new JLabel("Salir");
 		lblSidebarSalir.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarSalir.setForeground(new Color(119,119,119));
-		lblSidebarSalir.setBounds(60, 450, 185, 36);
+		lblSidebarSalir.setBounds(60, 501, 185, 36);
 		sidebar.add(lblSidebarSalir);
 		
 		Icon salirIcon = new ImageIcon("src/exit.png");
 		
 		lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
 		lblSidebarSalirIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarSalirIcon.setBounds(30, 450, 25, 36);
+		lblSidebarSalirIcon.setBounds(30, 501, 25, 36);
 		sidebar.add(lblSidebarSalirIcon);
 		
 		pSidebarIngresos = new JPanel();
@@ -623,12 +664,12 @@ public class Dashboard extends Login{
 		
 		pSidebarSalir = new JPanel();
 		pSidebarSalir.setBackground(new Color(251,251,251));
-		pSidebarSalir.setBounds(0, 450, 4, 36);
+		pSidebarSalir.setBounds(0, 501, 4, 36);
 		sidebar.add(pSidebarSalir);
 		
 		pSidebarPerfil = new JPanel();
 		pSidebarPerfil.setBackground(new Color(251, 251, 251));
-		pSidebarPerfil.setBounds(0, 399, 4, 36);
+		pSidebarPerfil.setBounds(0, 450, 4, 36);
 		sidebar.add(pSidebarPerfil);
 		
 		
@@ -636,14 +677,85 @@ public class Dashboard extends Login{
 		
 		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);
 		lblSidebarPerfilIcon.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSidebarPerfilIcon.setBounds(30, 399, 25, 36);
+		lblSidebarPerfilIcon.setBounds(30, 450, 25, 36);
 		sidebar.add(lblSidebarPerfilIcon);
 		
 		lblSidebarPerfil = new JLabel("Perfil");
 		lblSidebarPerfil.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarPerfil.setForeground(new Color(119,119,119));
-		lblSidebarPerfil.setBounds(60, 399, 185, 36);
+		lblSidebarPerfil.setBounds(60, 450, 185, 36);
 		sidebar.add(lblSidebarPerfil);
+		
+		
+		btnSidebarCalendario = new JPanel();
+		btnSidebarCalendario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtADescripcionMostrar.setText(null);
+				pSidebarCalendario.setBackground(new Color(0, 0, 0));
+				pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
+				pSidebarDashboard.setBackground(new Color(251,251,251));
+				pSidebarIngresos.setBackground(new Color(251,251,251));
+				pSidebarGastos.setBackground(new Color(251,251,251));
+				pSidebarPerfil.setBackground(new Color(251,251,251));
+				
+				
+				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+				lblSidebarHome.setForeground(new Color(119,119,119));
+				lblSidebarIngresos.setForeground(new Color(119,119,119));
+				lblSidebarGastos.setForeground(new Color(119,119,119));
+				lblSidebarCalendario.setForeground(new Color(0, 0, 0));
+				lblSidebarPerfil.setForeground(new Color(119,119,119));
+				
+				resumen.setVisible(false);
+				ingresos.setVisible(false);
+				gastos.setVisible(false);
+				calendario.setVisible(true);
+				presupuestos.setVisible(false);
+				perfil.setVisible(false);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				listMostrarEventos.setModel(new AbstractListModel() {
+					
+					public int getSize() {
+						return titulos.size();
+					}
+					public Object getElementAt(int index) {
+						return titulos.get(index);
+					}
+				
+				});
+				
+				
+			
+				
+			}
+		});
+		btnSidebarCalendario.setOpaque(false);
+		btnSidebarCalendario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSidebarCalendario.setBorder(new CompoundBorder());
+		btnSidebarCalendario.setBackground(Color.CYAN);
+		btnSidebarCalendario.setBounds(0, 399, 245, 36);
+		sidebar.add(btnSidebarCalendario);
+		
+		lblSidebarCalendario = new JLabel("Calendario");
+		lblSidebarCalendario.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSidebarCalendario.setForeground(new Color(119, 119, 119));
+		lblSidebarCalendario.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarCalendario.setBounds(60, 399, 185, 36);
+		sidebar.add(lblSidebarCalendario);
+		
+		Icon calendarioIcon = new ImageIcon("src/calendario.png");
+		
+		lblSidebarCalendarioIcon = new JLabel("", calendarioIcon, JLabel.CENTER);
+		lblSidebarCalendarioIcon.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSidebarCalendarioIcon.setBounds(30, 399, 25, 36);
+		sidebar.add(lblSidebarCalendarioIcon);
+		
+		pSidebarCalendario = new JPanel();
+		pSidebarCalendario.setBackground(new Color(251, 251, 251));
+		pSidebarCalendario.setBounds(0, 399, 4, 36);
+		sidebar.add(pSidebarCalendario);
 		
 		
 		main = new JPanel();
@@ -672,6 +784,7 @@ public class Dashboard extends Login{
 
 		resumen.add(panelGraficaGastos);
 		panelGraficaGastos.add(graph2);
+		
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.BLACK);
@@ -722,11 +835,11 @@ public class Dashboard extends Login{
 		scrollPane.setViewportView(listMuestraIngresos);
 		listMuestraIngresos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
-		JLabel label = new JLabel("INGRESOS");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Arial", Font.PLAIN, 22));
-		label.setBounds(0, 35, 1120, 30);
-		ingresos.add(label);
+		JLabel lblIngresis = new JLabel("Ingresos");
+		lblIngresis.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIngresis.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblIngresis.setBounds(0, 35, 1120, 30);
+		ingresos.add(lblIngresis);
 		
 		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -935,7 +1048,7 @@ public class Dashboard extends Login{
 		main.add(gastos, "name_337042041258590");
 		gastos.setLayout(null);
 		
-		lblGastos = new JLabel("GASTOS");
+		lblGastos = new JLabel("Gastos");
 		lblGastos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGastos.setFont(new Font("Dialog", Font.PLAIN, 22));
 		lblGastos.setBounds(0, 35, 1120, 30);
@@ -1100,9 +1213,46 @@ public class Dashboard extends Login{
 		main.add(presupuestos, "name_337073441194312");
 		presupuestos.setLayout(null);
 		
-		lblPresupuestos = new JLabel("PRESUPUESTOS");
-		lblPresupuestos.setBounds(425, 227, 200, 118);
-		presupuestos.add(lblPresupuestos);
+		JPanel panel_3 = new JPanel();
+		panel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(false);
+			}
+		});
+		panel_3.setBounds(83, 182, 350, 30);
+		presupuestos.add(panel_3);
+		panel_3.setLayout(null);
+		
+		lblEliminarPresupuesto = new JLabel("x");
+		lblEliminarPresupuesto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblEliminarPresupuesto.setVisible(false);
+			}
+		});
+		lblEliminarPresupuesto.setToolTipText("Eliminar presupuesto");
+		lblEliminarPresupuesto.setForeground(Color.RED);
+		lblEliminarPresupuesto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblEliminarPresupuesto.setVisible(false);
+		lblEliminarPresupuesto.setFont(new Font("Arial", Font.BOLD, 15));
+		lblEliminarPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminarPresupuesto.setBounds(320, 0, 30, 15);
+		panel_3.add(lblEliminarPresupuesto);
+		
+		lblPresupuesto = new JLabel("Presupuestos");
+		lblPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPresupuesto.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblPresupuesto.setBounds(0, 35, 1120, 30);
+		presupuestos.add(lblPresupuesto);
 		
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
@@ -1382,10 +1532,143 @@ public class Dashboard extends Login{
 		lblContrasena.setBounds(559, 190, 103, 30);
 		perfil.add(lblContrasena);
 		
+		calendario = new JPanel();
+		calendario.setBackground(Color.WHITE);
+		main.add(calendario, "name_1698860894200");
+		calendario.setLayout(null);
+		
+		calendar = new JCalendar();
+		
+		
+		calendar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		calendar.setBounds(59, 76, 554, 231);
+		calendario.add(calendar);
+		
+		JLabel lblCalendario = new JLabel("Calendario");
+		lblCalendario.setFont(new Font("Arial", Font.BOLD, 18));
+		lblCalendario.setBounds(71, 30, 117, 34);
+		calendario.add(lblCalendario);
+		
+		dcEstablecerEventos = new JDateChooser();
+		dcEstablecerEventos.setBounds(733, 89, 159, 26);
+		calendario.add(dcEstablecerEventos);
+		
+		JLabel lblEstablecerRecordatorio = new JLabel("Establecer Evento");
+		lblEstablecerRecordatorio.setFont(new Font("Arial", Font.BOLD, 18));
+		lblEstablecerRecordatorio.setBounds(680, 31, 212, 34);
+		calendario.add(lblEstablecerRecordatorio);
+		
+		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha.setBounds(680, 89, 61, 16);
+		calendario.add(lblFecha);
+		
+		JSeparator separator_8 = new JSeparator();
+		separator_8.setForeground(Color.BLACK);
+		separator_8.setOrientation(SwingConstants.VERTICAL);
+		separator_8.setBounds(653, 6, 15, 378);
+		calendario.add(separator_8);
+		
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setBounds(680, 175, 96, 16);
+		calendario.add(lblDescripcion);
+		
+		btnAgregarEvento = new JButton("Agregar");
+		btnAgregarEvento.setBounds(945, 355, 117, 29);
+		calendario.add(btnAgregarEvento);
+		btnAgregarEvento.addActionListener(oyente);
+		
+		txtDescripcion = new JTextArea();
+		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtDescripcion.setBounds(680, 203, 375, 140);
+		calendario.add(txtDescripcion);
+		txtDescripcion.setLineWrap(true);
+		txtDescripcion.setWrapStyleWord(true);
+		txtDescripcion.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		
+		dcMostrarEventos = new JDateChooser();
+		dcMostrarEventos.setBounds(110, 396, 119, 26);
+		calendario.add(dcMostrarEventos);
+		
+		lblMostrarEventos = new JLabel("Mostrar Eventos");
+		lblMostrarEventos.setFont(new Font("Arial", Font.BOLD, 18));
+		lblMostrarEventos.setBounds(59, 350, 170, 34);
+		calendario.add(lblMostrarEventos);
+		
+		label = new JLabel("Fecha:");
+		label.setBounds(59, 396, 61, 16);
+		calendario.add(label);
+		
+		btnMostrar = new JButton("Mostrar");
+		btnMostrar.setBounds(241, 396, 117, 29);
+		calendario.add(btnMostrar);
+		btnMostrar.addActionListener(oyente);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(59, 440, 428, 147);
+		calendario.add(scrollPane_2);
+		
+		listMostrarEventos = new JList();
+		listMostrarEventos.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				Date an = dcMostrarEventos.getDate();
+				String fecha = "";
+				
+				if (an != null) {
+				String[] datee = an.toString().split(" ");
+				fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				
+				}
+				
+				String split = listMostrarEventos.getSelectedValue().toString();
+				String[] a = split.split(" - ");
+				
+				ArrayList<String> get = DB.getEventos(tempCorreo, fecha);
+				
+				for (String z:get) {
+					String[] as = z.split(" @@ ");
+
+					if (fecha.equals(as[0]) && a[1].equals(as[1])) {
+						txtADescripcionMostrar.setText(as[2]);
+					}
+					
+				}
+				
+				
+			}
+		});
+		listMostrarEventos.setFont(new Font("Arial", Font.PLAIN, 16));
+		
+		scrollPane_2.setViewportView(listMostrarEventos);
+		
+		JLabel label_5 = new JLabel("Descripcion:");
+		label_5.setBounds(514, 412, 96, 16);
+		calendario.add(label_5);
+		
+		 txtADescripcionMostrar = new JTextArea();
+		txtADescripcionMostrar.setWrapStyleWord(true);
+		txtADescripcionMostrar.setLineWrap(true);
+		txtADescripcionMostrar.setFont(new Font("Arial", Font.PLAIN, 15));
+		txtADescripcionMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		txtADescripcionMostrar.setBounds(514, 440, 375, 140);
+		calendario.add(txtADescripcionMostrar);
+		
+		JLabel lblTitulo = new JLabel("Titulo:");
+		lblTitulo.setBounds(680, 147, 61, 16);
+		calendario.add(lblTitulo);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setBounds(740, 142, 212, 26);
+		calendario.add(txtTitulo);
+		txtTitulo.setColumns(10);
+		
+		
+		
 		topbar = new JPanel();
 		topbar.setBounds(245, 0, 1120, 55);
 		frame.getContentPane().add(topbar);
 		topbar.setBackground(new Color(251, 251, 251));
+//		topbar.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(249, 249, 249)));
 		topbar.setLayout(null);
 		
 		topbarBrandIcon = new JLabel("",topbarBrandIcono, JLabel.CENTER );
@@ -1424,6 +1707,21 @@ public class Dashboard extends Login{
 		TextPrompt oculto3 = new TextPrompt("Buscar contenido", textField);
 		
 		topbarNotificationIcon = new JLabel("", topbarNotificationIcono, JLabel.CENTER);
+		topbarNotificationIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SystemTray.isSupported()) {
+		            try {
+						displayTray();
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        } else {
+		            System.err.println("System tray not supported!");
+		        }
+			}
+		});
 		topbarNotificationIcon.setBounds(895, 15, 46, 25);
 		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarNotificationIcon);
@@ -1435,9 +1733,6 @@ public class Dashboard extends Login{
 	
 	
 	
-	/**
-	 * Este metodo muestra los gastos  del usuario llamados de la DB y los despliega en la lista
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void mostrarGastos() {
 		
@@ -1460,9 +1755,6 @@ public class Dashboard extends Login{
 	
 	
 	
-	/**
-	 * Este metodo muestra los ingresos del usuario llamados de la DB y los despliega en la lista
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "unused", "serial" })
 	private void mostrarIngresos(){
 		
@@ -1483,10 +1775,26 @@ public class Dashboard extends Login{
 		
 	}
 	
-	/**
-	 * @author POO
-	 * Esta clase reacciona a los eventos que genere el usuario, de acuerdo al boton que presione
-	 */
+	public void displayTray() throws AWTException {
+        //Obtain only one instance of the SystemTray object
+        SystemTray tray = SystemTray.getSystemTray();
+
+        //If the icon is a file
+        Image image = Toolkit.getDefaultToolkit().createImage("src/google.png");
+        //Alternative (if the icon is on the classpath):
+        //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
+
+        TrayIcon trayIcon = new TrayIcon(image, "Finanzas UVG");
+        //Let the system resize the image if needed
+        trayIcon.setImageAutoSize(true);
+        //Set tooltip text for the tray icon
+        trayIcon.setToolTip("Finanzas UVG");
+        tray.add(trayIcon);
+
+        trayIcon.displayMessage("Finanzas UVG", "Nueva actualizacion disponible", MessageType.INFO);
+    }
+	
+	
 	private class MiListener implements ActionListener{
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -1717,6 +2025,73 @@ public class Dashboard extends Login{
 				fNuevaContrasena.setText(null);
 				fConfirmarContrasena.setText(null);
 			}
+			
+			if(e.getSource() == btnAgregarEvento) {
+				Date d = dcEstablecerEventos.getDate();
+				
+				if (d != null && txtDescripcion.getText().isEmpty() == false && txtTitulo.getText().isEmpty() == false) {
+					if (txtTitulo.getText().length() <= 15) {
+						String[] date = d.toString().split(" ");
+						String fecha = date[1] +"/"+ date[2] +"/"+ date[5];
+					
+						try {
+							DB.agregarEvento(tempCorreo, fecha, txtTitulo.getText(), txtDescripcion.getText());
+							JOptionPane.showMessageDialog(null, "Evento se agrego exitosamente");
+							txtDescripcion.setText(null);
+							txtTitulo.setText(null);
+							dcEstablecerEventos.setDate(null);
+					}
+					catch(Exception ex){}
+						
+				}else {
+					JOptionPane.showMessageDialog(null, "Titulo tiene que ser manor a 15 caracteres");
+					txtTitulo.setText(null);
+				}
+					
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Te falta llenar campos");
+				}
+			}
+			
+			if(e.getSource() == btnMostrar) {
+				txtADescripcionMostrar.setText(null);
+				try {
+				Date a = dcMostrarEventos.getDate();
+				
+				if (a != null) {
+					
+				String[] datee = a.toString().split(" ");
+				String fecha = datee[1] +"/"+ datee[2] +"/"+ datee[5];
+				ArrayList<String> eventos = DB.getEventos(tempCorreo, fecha);
+				
+				ArrayList<String> titulos = new ArrayList<String>();
+				int contador = 1;
+				for (String elemento : eventos) {
+					String[] split = elemento.split(" @@ ");
+					titulos.add(contador + ". " + split[0]+ " - " +  split[1]);
+					contador++;
+					
+				}
+				
+				
+				listMostrarEventos.setModel(new AbstractListModel() {
+					
+					public int getSize() {
+						return titulos.size();
+					}
+					public Object getElementAt(int index) {
+						return titulos.get(index);
+					}
+				
+				});
+				}
+				}catch(Exception es) {}	
+			}
+			
+			
+			
+			
 		
 		}
 		
