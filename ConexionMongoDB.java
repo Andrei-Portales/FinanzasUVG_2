@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 import java.math.BigInteger;
-
+import java.security.KeyStore.Entry;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -967,14 +967,57 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	
 	
 	
-	public boolean eliminarEvento(String correo, String fecha, String titulo,String descripcion){
+	@SuppressWarnings("unchecked")
+	public boolean eliminarEvento(String correo, String fecha, String titulo){
+		try {
+		
+		
+		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = calendario.find(searchQuery);
+		
+		String json = "";
+		
+		for(Document doc : cursor) {
+			json = doc.toJson();
+		}
+		
+		Gson gson = new Gson(); 
+		
+		Map<String,String> map = new HashMap<String,String>();
+		map = (Map<String,String>) gson.fromJson(json, map.getClass());
+		
+		Object[] array = map.entrySet().toArray();
+		String value = "";
+		String key = "";
+		for (Object a : array) {
+			
+			String o = a.toString();
+			String[] ar = o.split("=");
+			String[] arr = ar[1].split(" @@ ");
+			
+			
+			if (arr[0].equals(fecha) && arr[1].equals(titulo)) {
+				value = ar[1];
+				
+			}
+		}
 		
 		try {
+		for (java.util.Map.Entry<String, String> entry : map.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                key = entry.getKey();
+            }
+		}
+		}catch(Exception es) {}
+		
+		
 			BasicDBObject query = new BasicDBObject();
 			query.put("correo", correo);
 
 			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.put(fecha,  descripcion);
+			newDocument.put(key,  value);
 			
 						
 			BasicDBObject updateObj = new BasicDBObject();
