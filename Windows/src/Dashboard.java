@@ -86,7 +86,6 @@ public class Dashboard extends Login{
 	private JLabel lblSidebarSalirIcon;
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
 	private JLabel lblUserImage, lblUsername;
-	private BufferedImage userImage = null, perfilImagen = null;
 	private JPanel main;
 	private JPanel resumen;
 	private JPanel ingresos;
@@ -180,7 +179,6 @@ public class Dashboard extends Login{
 	private JTextField fPerfilApellido;
 	private JLabel lblApellido;
 	private JLabel lblCorre;
-	private JPanel pIngreso1;
 	
 	ImageIcon imgPerfil;
 	Image imgPer;
@@ -280,7 +278,7 @@ public class Dashboard extends Login{
 		frame.setSize(1354, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
-		frame.setIconImage(new ImageIcon("src/google.png").getImage());
+		frame.setIconImage(new ImageIcon(Dashboard.class.getResource("resources/google.png")).getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -529,20 +527,18 @@ public class Dashboard extends Login{
 		btnSidebarSalir.setBounds(0, 501, 245, 36);
 		sidebar.add(btnSidebarSalir);
 		
-		try {
-			userImage = ImageIO.read(new File("src/user.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
-		Image userImge = userImage.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+		ImageIcon userIcon = new ImageIcon(Dashboard.class.getResource("resources/user.png"));	
+		Image image = userIcon.getImage();
+		Image userImg = image.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+		userIcon = new ImageIcon(userImg);
 		
-		lblUserImage = new JLabel(new ImageIcon(userImge));
+		lblUserImage = new JLabel("", userIcon, JLabel.CENTER);
 		lblUserImage.setBounds(30, 28, 185, 80);
 		sidebar.add(lblUserImage);
 		lblUserImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		lblPerfilPicture = new JLabel(new ImageIcon(userImge));			
+		lblPerfilPicture = new JLabel(new ImageIcon(userImg));			
 		lblPerfilPicture.setLocation(122, 224);
 		lblPerfilPicture.setSize(356, 200);
 		lblPerfilPicture.setHorizontalAlignment(SwingConstants.CENTER);
@@ -595,7 +591,7 @@ public class Dashboard extends Login{
 		lblSidebarHome.setBounds(60, 205, 185, 36);
 		sidebar.add(lblSidebarHome);
 		
-		Icon user = new ImageIcon("src/home.png");
+		Icon user = new ImageIcon(Dashboard.class.getResource("resources/home.png"));
 		
 		lblSidebarHomeIcon = new JLabel("", user, JLabel.CENTER);
 		lblSidebarHomeIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -617,7 +613,7 @@ public class Dashboard extends Login{
 		sidebar.add(lblSidebarIngresos);
 		
 		// 17px
-		Icon ingresosIcon = new ImageIcon("src/ingresos.png");
+		Icon ingresosIcon = new ImageIcon(Dashboard.class.getResource("resources/ingresos.png"));
 		
 		lblSidebarIngresosIcon = new JLabel("", ingresosIcon, JLabel.CENTER);
 		lblSidebarIngresosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -632,7 +628,7 @@ public class Dashboard extends Login{
 		lblSidebarGastos.setBounds(60, 297, 185, 36);
 		sidebar.add(lblSidebarGastos);
 		
-		Icon gastosIcon = new ImageIcon("src/gastos.png");
+		Icon gastosIcon = new ImageIcon(Dashboard.class.getResource("resources/gastos.png"));
 		
 		lblSidebarGastosIcon = new JLabel("", gastosIcon, JLabel.CENTER);
 		lblSidebarGastosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -646,7 +642,7 @@ public class Dashboard extends Login{
 		lblSidebarPresupuestos.setBounds(60, 348, 185, 36);
 		sidebar.add(lblSidebarPresupuestos);
 		
-		Icon presupuestosIcon = new ImageIcon("src/presupuestos.png");
+		Icon presupuestosIcon = new ImageIcon(Dashboard.class.getResource("resources/presupuestos.png"));
 		
 		lblSidebarPrespuestosIcon = new JLabel("", presupuestosIcon, JLabel.CENTER);
 		lblSidebarPrespuestosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -659,7 +655,7 @@ public class Dashboard extends Login{
 		lblSidebarSalir.setBounds(60, 501, 185, 36);
 		sidebar.add(lblSidebarSalir);
 		
-		Icon salirIcon = new ImageIcon("src/exit.png");
+		Icon salirIcon = new ImageIcon(Dashboard.class.getResource("resources/exit.png"));
 		
 		lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
 		lblSidebarSalirIcon.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -692,7 +688,7 @@ public class Dashboard extends Login{
 		sidebar.add(pSidebarPerfil);
 		
 		
-		Icon perfilIcon = new ImageIcon("src/perfil.png");
+		Icon perfilIcon = new ImageIcon(Dashboard.class.getResource("resources/perfil.png"));
 		
 		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);
 		lblSidebarPerfilIcon.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -764,7 +760,7 @@ public class Dashboard extends Login{
 		lblSidebarCalendario.setBounds(60, 399, 185, 36);
 		sidebar.add(lblSidebarCalendario);
 		
-		Icon calendarioIcon = new ImageIcon("src/calendario.png");
+		Icon calendarioIcon = new ImageIcon(Dashboard.class.getResource("resources/calendario.png"));
 		
 		lblSidebarCalendarioIcon = new JLabel("", calendarioIcon, JLabel.CENTER);
 		lblSidebarCalendarioIcon.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -813,17 +809,17 @@ public class Dashboard extends Login{
 
 		resumen.add(separator);
 		
-		Icon topbarBrandIcono = new ImageIcon("src/google.png");
+		Icon topbarBrandIcono = new ImageIcon(Dashboard.class.getResource("resources/google.png"));
 		
-		Icon topbarBuscarIcono = new ImageIcon("src/search.png");
+		Icon topbarBuscarIcono = new ImageIcon(Dashboard.class.getResource("resources/search.png"));
 		
-		Icon topbarSettingsIcono = new ImageIcon("src/settings.png");
+		Icon topbarSettingsIcono = new ImageIcon(Dashboard.class.getResource("resources/settings.png"));
 		
-		Icon topbarNotificationIcono = new ImageIcon("src/notification.png");
+		Icon topbarNotificationIcono = new ImageIcon(Dashboard.class.getResource("resources/notification.png"));
 		
-		Icon ingresosBackIcon = new ImageIcon("src/back.png");
+		Icon ingresosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
 		
-		Icon iconAgregar = new ImageIcon("src/add.png");
+		Icon iconAgregar = new ImageIcon(Dashboard.class.getResource("resources/add.png"));
 		
 		
 		
@@ -841,7 +837,7 @@ public class Dashboard extends Login{
 		
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(600, 275, 328, 194);
+		scrollPane.setBounds(150, 288, 800, 355);
 		ingresos.add(scrollPane);
 		
 		
@@ -869,44 +865,6 @@ public class Dashboard extends Login{
 		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ.setBounds(359, 91, 253, 31);
 		ingresos.add(lblQ);
-		
-		pIngreso1 = new JPanel();
-		pIngreso1.setBounds(106, 316, 426, 30);
-		pIngreso1.setBorder(null);
-		pIngreso1.setBackground(new Color(251, 251, 251));
-		ingresos.add(pIngreso1);
-		pIngreso1.setLayout(null);
-		
-		JLabel lblIngreso1 = new JLabel("");
-		lblIngreso1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblIngreso1.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblIngreso1.setBounds(0, 0, 202, 30);
-		pIngreso1.add(lblIngreso1);
-		
-		JLabel lblIngreso11 = new JLabel("");
-		lblIngreso11.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIngreso11.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblIngreso11.setBounds(203, 0, 223, 30);
-		pIngreso1.add(lblIngreso11);
-		
-		JPanel pIngreso2 = new JPanel();
-		pIngreso2.setLayout(null);
-		pIngreso2.setBorder(null);
-		pIngreso2.setBackground(new Color(251, 251, 251));
-		pIngreso2.setBounds(106, 357, 426, 30);
-		ingresos.add(pIngreso2);
-		
-		JLabel lblIngreso2 = new JLabel("");
-		lblIngreso2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblIngreso2.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblIngreso2.setBounds(0, 0, 202, 30);
-		pIngreso2.add(lblIngreso2);
-		
-		JLabel lblIngreso22 = new JLabel("");
-		lblIngreso22.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIngreso22.setFont(new Font("Arial", Font.PLAIN, 13));
-		lblIngreso22.setBounds(203, 0, 223, 30);
-		pIngreso2.add(lblIngreso22);
 		
 		btnAgregarIngreso = new JLabel("", iconAgregar, JLabel.CENTER);
 		btnAgregarIngreso.addMouseListener(new MouseAdapter() {
@@ -1091,7 +1049,7 @@ public class Dashboard extends Login{
 		gastos.add(lblAgregarUnNuevo);
 		
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(97, 288, 715, 354);
+		scrollPane_1.setBounds(150, 288, 800, 355);
 		gastos.add(scrollPane_1);
 		
 		listGastos = new JList();
