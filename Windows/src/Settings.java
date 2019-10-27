@@ -58,7 +58,7 @@ public class Settings extends JDialog {
 			contentPanel.add(lblIngles);
 		}
 		
-		Icon temaSwitcher = new ImageIcon("src/check.png");
+		Icon temaSwitcher = new ImageIcon(Settings.class.getResource("resources/check.png"));
 		
 		JLabel label = new JLabel("", temaSwitcher, JLabel.CENTER);
 		label.setHorizontalAlignment(SwingConstants.CENTER);

@@ -163,13 +163,11 @@ public class Login {
 		frame.getContentPane().add(ingresar, "name_241578656750058");
 		ingresar.setLayout(null);
 		
-		// LADO DERECHO - AGREGANDO IMAGE
-		try {
-			loginImage = ImageIO.read(new File("src/login.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Image loginImg = loginImage.getScaledInstance(450, 561, Image.SCALE_DEFAULT);
+		
+		ImageIcon loginIcon = new ImageIcon(Dashboard.class.getResource("resources/login.jpg"));	
+		Image image = loginIcon.getImage();
+		Image loginImg = image.getScaledInstance(450, 561, Image.SCALE_DEFAULT);
+		loginIcon = new ImageIcon(loginImg);
 		
 		lblLoginImage = new JLabel(new ImageIcon(loginImg));
 		lblLoginImage.setHorizontalAlignment(SwingConstants.CENTER);
