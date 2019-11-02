@@ -513,9 +513,12 @@ public class Dashboard extends Login{
 		btnSidebarSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				Login.main(null);
-				DB.tempUsu(usuarioLeer.get(0), false);
+				int co = JOptionPane.showConfirmDialog(null, "¿Estas seguro?");
+				if (co == 0) {
+					frame.dispose();
+					Login.main(null);
+					DB.tempUsu(usuarioLeer.get(0), false);
+				}
 				
 				
 			}

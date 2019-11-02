@@ -343,7 +343,7 @@ public class Login {
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtPassword.setBounds(100, 214, 250, 34);
 		ingresar.add(txtPassword);
-		oculto_1 = new TextPrompt("Contraseña", txtPassword);
+		oculto_1 = new TextPrompt("Contraseña (8 caracteres o mas)", txtPassword);
 		
 		lblAbout = new JLabel("About");
 		lblAbout.addMouseListener(new MouseAdapter() {

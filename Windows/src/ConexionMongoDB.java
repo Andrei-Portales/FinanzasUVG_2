@@ -12,12 +12,12 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.security.KeyStore.Entry;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -100,6 +100,7 @@ public class ConexionMongoDB {
 		
 	}
 	
+	
 	/**
 	 * funcion para cerrar conexion con base de datos
 	 */
@@ -180,7 +181,7 @@ public class ConexionMongoDB {
 		document.put("contrasena", getMD5(contrasena));
 		document.put("nombre", (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()));
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
-		document.put("estado", "");
+		document.put("estado", "gratuito");
 		document.put("imagen", "");
 		usuarios.insertOne(document);
 		
@@ -458,8 +459,8 @@ public class ConexionMongoDB {
 			bw = new BufferedWriter(w);
 			wr = new PrintWriter(bw);
 			
-			wr.write(usuario);
-			wr.append("\n" + Boolean.toString(estado));
+			wr.write(encode(usuario));
+			wr.append("\n" + encode(Boolean.toString(estado)));
 			
 			
 			wr.close();
@@ -494,6 +495,11 @@ public class ConexionMongoDB {
 			while((linea = br.readLine()) != null) {
 				retorno.add(linea);
 				
+			}
+			
+			
+			for (int i = 0;i<= retorno.size() -1;i++) {
+				retorno.set(i, decode(retorno.get(i)));
 			}
 			
 			br.close();
@@ -1072,6 +1078,21 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	}
 	
 	
+	
+	public String encode(String a) {
+		java.util.Base64.Encoder encoder = java.util.Base64.getEncoder();
+		String b = encoder.encodeToString(a.getBytes(java.nio.charset.StandardCharsets.UTF_8) );        
+		return b;
+	}
+	
+ 
+	public  String decode(String a){
+		java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
+		byte[] decodedByteArray = decoder.decode(a);
+     
+		String b = new String(decodedByteArray);        
+		return b;
+	}
 	
 	
 	

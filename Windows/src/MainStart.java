@@ -3,8 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 /**
  * Esta clase es el Main principal del programa
  * Dependiendo de si el usuario esta permanentemente registro, abre el Login o el Dashboard directamente
@@ -50,16 +48,26 @@ public class MainStart {
 					
 				}
 				
+				for (int i = 0;i<= retorno.size() -1;i++) {
+					retorno.set(i, decode(retorno.get(i)));
+				}
+				
 				br.close();
 				fr.close();
 				
 				
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Ha sucedido un error leyendo el archivo " + e);
-			}
+			} catch (Exception e) {}
 			
 			return retorno;
 		}
 
+		public static String decode(String a){
+			java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
+			byte[] decodedByteArray = decoder.decode(a);
+	     
+			String b = new String(decodedByteArray);        
+			return b;
+		}
+		
 		
 }
