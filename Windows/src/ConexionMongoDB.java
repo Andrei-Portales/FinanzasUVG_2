@@ -72,15 +72,6 @@ public class ConexionMongoDB {
 	 */
 	
 	
-	public static void main(String[] args) {
-		
-		System.out.println(System.getProperty("user.name"));
-		
-		
-		
-	}
-	
-	
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
@@ -489,6 +480,7 @@ public class ConexionMongoDB {
 		}
 
 	}
+	
 	
 	/**
 	 * Funcion para leer el usuario que ingreso guardado en un txt temporal
