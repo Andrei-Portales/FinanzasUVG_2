@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class MainStart {
 	
+	private static String OS = System.getProperty("os.name").toLowerCase();
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -27,17 +29,24 @@ public class MainStart {
 		}
 	}
 		
+	
+	
 		//Guarda el nombre de usuario en un archivo de texto momentaneo para comunicarse con el Dashboard
 		private static  ArrayList<String> leerUsu() {
 			
 			
-			File archivo;
+			File archivo = null;
 			FileReader fr;
 			BufferedReader br;
 			ArrayList<String> retorno = new ArrayList<String>();
 			try {
 				
-				archivo = new File("tempUsuario.txt");
+				if (isWindows()) {
+					archivo = new File("C:\\Users\\"+ System.getProperty("user.name") +"\\Documents\\tempUsuario.txt");
+				}else if (isMac()) {
+					archivo = new File("/Users/"+ System.getProperty("user.name") +"/Documents/tempUsuario.txt");
+				}
+				
 				fr = new FileReader(archivo);
 				br = new BufferedReader(fr);
 				
@@ -60,7 +69,13 @@ public class MainStart {
 			
 			return retorno;
 		}
-
+		
+		
+		/**
+		 * funcion para decodificar
+		 * @param a
+		 * @return
+		 */
 		public static String decode(String a){
 			java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
 			byte[] decodedByteArray = decoder.decode(a);
@@ -68,6 +83,23 @@ public class MainStart {
 			String b = new String(decodedByteArray);        
 			return b;
 		}
+		
+		
+		/**
+		 * indentifica se es windows
+		 * @return
+		 */
+		public static boolean isWindows() {
+	        return (OS.indexOf("win") >= 0);
+	    }
+	 
+		/**
+		 * identifica si el sistema es mac
+		 * @return
+		 */
+	    public static boolean isMac() {
+	        return (OS.indexOf("mac") >= 0);
+	    }
 		
 		
 }
