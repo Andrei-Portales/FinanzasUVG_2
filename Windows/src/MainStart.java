@@ -3,13 +3,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 /**
  * Esta clase es el Main principal del programa
  * Dependiendo de si el usuario esta permanentemente registro, abre el Login o el Dashboard directamente
  */
 public class MainStart {
+	
+	private static String OS = System.getProperty("os.name").toLowerCase();
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -29,17 +29,24 @@ public class MainStart {
 		}
 	}
 		
+	
+	
 		//Guarda el nombre de usuario en un archivo de texto momentaneo para comunicarse con el Dashboard
 		private static  ArrayList<String> leerUsu() {
 			
 			
-			File archivo;
+			File archivo = null;
 			FileReader fr;
 			BufferedReader br;
 			ArrayList<String> retorno = new ArrayList<String>();
 			try {
 				
-				archivo = new File("tempUsuario.txt");
+				if (isWindows()) {
+					archivo = new File("C:\\Users\\"+ System.getProperty("user.name") +"\\Documents\\tempUsuario.txt");
+				}else if (isMac()) {
+					archivo = new File("/Users/"+ System.getProperty("user.name") +"/Documents/tempUsuario.txt");
+				}
+				
 				fr = new FileReader(archivo);
 				br = new BufferedReader(fr);
 				
@@ -50,16 +57,49 @@ public class MainStart {
 					
 				}
 				
+				for (int i = 0;i<= retorno.size() -1;i++) {
+					retorno.set(i, decode(retorno.get(i)));
+				}
+				
 				br.close();
 				fr.close();
 				
 				
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Ha sucedido un error leyendo el archivo " + e);
-			}
+			} catch (Exception e) {}
 			
 			return retorno;
 		}
-
+		
+		
+		/**
+		 * funcion para decodificar
+		 * @param a
+		 * @return
+		 */
+		public static String decode(String a){
+			java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
+			byte[] decodedByteArray = decoder.decode(a);
+	     
+			String b = new String(decodedByteArray);        
+			return b;
+		}
+		
+		
+		/**
+		 * indentifica se es windows
+		 * @return
+		 */
+		public static boolean isWindows() {
+	        return (OS.indexOf("win") >= 0);
+	    }
+	 
+		/**
+		 * identifica si el sistema es mac
+		 * @return
+		 */
+	    public static boolean isMac() {
+	        return (OS.indexOf("mac") >= 0);
+	    }
+		
 		
 }

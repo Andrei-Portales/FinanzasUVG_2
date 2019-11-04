@@ -12,12 +12,12 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.security.KeyStore.Entry;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -71,6 +71,8 @@ public class ConexionMongoDB {
 	 * 	mongo-java-driver-3.6.3.jar
 	 */
 	
+	
+	private static String OS = System.getProperty("os.name").toLowerCase();
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
 	private MongoCollection<Document> usuarios;
@@ -99,6 +101,7 @@ public class ConexionMongoDB {
 		}
 		
 	}
+	
 	
 	/**
 	 * funcion para cerrar conexion con base de datos
@@ -180,7 +183,7 @@ public class ConexionMongoDB {
 		document.put("contrasena", getMD5(contrasena));
 		document.put("nombre", (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()));
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
-		document.put("estado", "");
+		document.put("estado", "gratuito");
 		document.put("imagen", "");
 		usuarios.insertOne(document);
 		
@@ -447,19 +450,25 @@ public class ConexionMongoDB {
 	 */
 	public void tempUsu(String usuario, boolean estado) {
 		
-		File f;
+		File f = null;
 		FileWriter w;
 		BufferedWriter bw;
 		PrintWriter wr;
 		
+		if (isWindows()) {
+			f = new File("C:\\Users\\"+ System.getProperty("user.name") +"\\Documents\\tempUsuario.txt");
+		}else if (isMac()) {
+			f = new File("/Users/"+ System.getProperty("user.name") +"/Documents/tempUsuario.txt");
+		}
+		
 		try {
-			f = new File("tempUsuario.txt");
+			
 			w = new FileWriter(f);
 			bw = new BufferedWriter(w);
 			wr = new PrintWriter(bw);
 			
-			wr.write(usuario);
-			wr.append("\n" + Boolean.toString(estado));
+			wr.write(encode(usuario));
+			wr.append("\n" + encode(Boolean.toString(estado)));
 			
 			
 			wr.close();
@@ -472,20 +481,27 @@ public class ConexionMongoDB {
 
 	}
 	
+	
 	/**
 	 * Funcion para leer el usuario que ingreso guardado en un txt temporal
 	 * @return
 	 */
 	public ArrayList<String> leerUsu() {
 		
-		File archivo;
+		File archivo = null;
 		FileReader fr;
 		BufferedReader br;
 		ArrayList<String> retorno = new ArrayList<String>();
 		
 		try {
 			
-			archivo = new File("tempUsuario.txt");
+			
+			if (isWindows()) {
+				archivo = new File("C:\\Users\\"+ System.getProperty("user.name") +"\\Documents\\tempUsuario.txt");
+			}else if (isMac()) {
+				archivo = new File("/Users/"+ System.getProperty("user.name") +"/Documents/tempUsuario.txt");
+			}
+			
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
 			
@@ -494,6 +510,11 @@ public class ConexionMongoDB {
 			while((linea = br.readLine()) != null) {
 				retorno.add(linea);
 				
+			}
+			
+			
+			for (int i = 0;i<= retorno.size() -1;i++) {
+				retorno.set(i, decode(retorno.get(i)));
 			}
 			
 			br.close();
@@ -1072,7 +1093,46 @@ public ChartPanel getgrafica(String correo, String cuenta) {
 	}
 	
 	
+	/**
+	 * funcion para codificar
+	 * @param a
+	 * @return
+	 */
+	public String encode(String a) {
+		java.util.Base64.Encoder encoder = java.util.Base64.getEncoder();
+		String b = encoder.encodeToString(a.getBytes(java.nio.charset.StandardCharsets.UTF_8) );        
+		return b;
+	}
 	
+	/**
+	 * funcion para decodificar
+	 * @param a
+	 * @return
+	 */
+	public  String decode(String a){
+		java.util.Base64.Decoder decoder = java.util.Base64.getDecoder();
+		byte[] decodedByteArray = decoder.decode(a);
+     
+		String b = new String(decodedByteArray);        
+		return b;
+	}
+	
+	
+	/**
+	 * identifica si el sistema es windows
+	 * @return
+	 */
+	public static boolean isWindows() {
+        return (OS.indexOf("win") >= 0);
+    }
+ 
+	/**
+	 * identifica si el sistema es mac
+	 * @return
+	 */
+    public static boolean isMac() {
+        return (OS.indexOf("mac") >= 0);
+    }
 	
 	
 }

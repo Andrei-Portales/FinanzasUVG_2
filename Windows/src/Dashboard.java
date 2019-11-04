@@ -604,6 +604,7 @@ public class Dashboard extends Login{
 	private JTextField fieldRegalosTotal;
 
 
+
 	
 
 
@@ -1749,6 +1750,7 @@ public class Dashboard extends Login{
 		selecPresCateg.add(btnPresViajes);
 		
 		// PRESUPUESTO HOGAR
+
 		presHogar = new JPanel();
 		presHogar.setBackground(Color.WHITE);
 		presupuestos.add(presHogar, "name_226689740800200");
@@ -1774,6 +1776,7 @@ public class Dashboard extends Login{
 		lblHogar.setForeground(Color.WHITE);
 		lblHogar.setFont(new Font("Verdana", Font.BOLD, 20));
 		lblHogar.setBounds(0, 199, 252, 31);
+
 		panelHogar.add(lblHogar);
 		
 		panelHogar2 = new JPanel();
@@ -1815,6 +1818,7 @@ public class Dashboard extends Login{
 		fieldHogar2 = new JTextField("0");
 		fieldHogar2.setHorizontalAlignment(SwingConstants.CENTER);
 		fieldHogar2.setFont(new Font("Verdana", Font.PLAIN, 13));
+
 		fieldHogar2.setColumns(10);
 		fieldHogar2.setBounds(686, 257, 196, 33);
 		presHogar.add(fieldHogar2);
@@ -1831,6 +1835,7 @@ public class Dashboard extends Login{
 		
 		fieldHogar3 = new JTextField("0");
 		fieldHogar3.setHorizontalAlignment(SwingConstants.CENTER);
+
 		fieldHogar3.setFont(new Font("Verdana", Font.PLAIN, 13));
 		fieldHogar3.setColumns(10);
 		fieldHogar3.setBounds(686, 301, 196, 33);
@@ -1845,7 +1850,7 @@ public class Dashboard extends Login{
 		lblMascotas.setForeground(Color.WHITE);
 		lblMascotas.setFont(new Font("Verdana", Font.BOLD, 13));
 		panelHogar5.add(lblMascotas);
-		
+
 		fieldHogar4 = new JTextField("0");
 		fieldHogar4.setFont(new Font("Verdana", Font.PLAIN, 13));
 		fieldHogar4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3881,6 +3886,86 @@ public class Dashboard extends Login{
 		
 		
 		// FIN AUTO
+=======
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			protected void suma() {
+				
+				if(fieldHogar2.getText().isEmpty()) {
+					fieldHogar2.setText("0");
+				}
+				if(fieldHogar3.getText().isEmpty()) {
+					fieldHogar3.setText("0");
+				}
+				if(fieldHogar4.getText().isEmpty()) {
+					fieldHogar4.setText("0");
+				}
+				if(fieldHogar5.getText().isEmpty()) {
+					fieldHogar5.setText("0");
+				}
+				if(fieldHogar6.getText().isEmpty()) {
+					fieldHogar6.setText("0");
+				}
+				if(fieldHogar7.getText().isEmpty()) {
+					fieldHogar7.setText("0");
+				}
+				if(fieldHogar8.getText().isEmpty()) {
+					fieldHogar8.setText("0");
+				}
+				
+				double total = Double.parseDouble(fieldHogar2.getText()) + Double.parseDouble(fieldHogar3.getText()) + Double.parseDouble(fieldHogar4.getText()) +
+						Double.parseDouble(fieldHogar5.getText()) + Double.parseDouble(fieldHogar6.getText()) + Double.parseDouble(fieldHogar7.getText()) + Double.parseDouble(fieldHogar8.getText());
+				fieldHogarTotal.setText(Double.toString(total));
+			
+			}
+
+		};
+
+		fieldHogar2.getDocument().addDocumentListener(hogarDL);
+		fieldHogar3.getDocument().addDocumentListener(hogarDL);
+		fieldHogar4.getDocument().addDocumentListener(hogarDL);
+		fieldHogar5.getDocument().addDocumentListener(hogarDL);
+		fieldHogar6.getDocument().addDocumentListener(hogarDL);
+		fieldHogar7.getDocument().addDocumentListener(hogarDL);
+		fieldHogar8.getDocument().addDocumentListener(hogarDL);
+		fieldHogarTotal.setEditable(false);
+		
+		btnHogarGuardar = new JButton("Guardar");
+		btnHogarGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnHogarGuardar.setForeground(Color.WHITE);
+		btnHogarGuardar.setBorder(null);
+		btnHogarGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnHogarGuardar.setBackground(new Color(1, 162, 82));
+		btnHogarGuardar.setBounds(686, 574, 196, 33);
+		presHogar.add(btnHogarGuardar);
+		
+		Icon presHogarBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		btnHogarRegresar = new JLabel("", presHogarBackIcon, JLabel.CENTER);
+		btnHogarRegresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnHogarRegresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				presHogar.setVisible(false);
+				selecPresCateg.setVisible(true);
+				
+			}
+		});
+		btnHogarRegresar.setBounds(10, 11, 93, 25);
+		presHogar.add(btnHogarRegresar);
 		
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
@@ -4538,6 +4623,7 @@ public class Dashboard extends Login{
 		// Listeners
 		
 		btnPresHogar.addActionListener(new MiListener());
+
 		btnPresAuto.addActionListener(new MiListener());
 		btnPresAlimentos.addActionListener(new MiListener());
 		btnPresEntretenimiento.addActionListener(new MiListener());
@@ -4547,6 +4633,7 @@ public class Dashboard extends Login{
 		btnPresRopa.addActionListener(new MiListener());
 		btnPresRegalos.addActionListener(new MiListener());
 		btnPresViajes.addActionListener(new MiListener());
+
 
 
 	}
@@ -4630,6 +4717,7 @@ public class Dashboard extends Login{
 				selecPresCateg.setVisible(false);
 			}
 			
+
 			if(e.getSource() == btnPresAuto) {
 				presAuto.setVisible(true);
 				selecPresCateg.setVisible(false);
@@ -4667,6 +4755,7 @@ public class Dashboard extends Login{
 				presViajes.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
+
 			
 			if (e.getSource() == btnGuardar){
 				
