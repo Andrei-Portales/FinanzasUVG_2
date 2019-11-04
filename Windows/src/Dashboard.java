@@ -1,7 +1,9 @@
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 
@@ -15,7 +17,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -46,12 +51,14 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTextArea;
+import javax.swing.AbstractButton;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 
@@ -61,15 +68,19 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
+import java.awt.Window;
 
 import javax.swing.JSeparator;
 import java.awt.Dimension;
 import com.toedter.calendar.JCalendar;
 import javax.swing.border.LineBorder;
 import com.toedter.components.JLocaleChooser;
+
+
 import com.toedter.calendar.JDateChooser;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.text.JTextComponent;
 
 public class Dashboard extends Login{
 	
@@ -204,9 +215,6 @@ public class Dashboard extends Login{
 	private String tempCorreo;
 	private JComboBox cbEliminar;
 
-	private JLabel lblEliminarPresupuesto;
-	private JLabel lblPresupuesto;
-
 	private JPanel btnSidebarCalendario;
 
 	private JPanel pSidebarCalendario,panel_4;
@@ -236,6 +244,364 @@ public class Dashboard extends Login{
 	private JButton btnNo;
 	private JPanel panel_7;
 	private JPanel pPerfilMain;
+	private JPanel presupuestoMain;
+	private JPanel selecPresCateg;
+	private JPanel presHogar;
+
+	private JProgressBar progressBar;
+
+	private JLabel lblPresupuestoTotal_1;
+
+	private JLabel lblQP;
+
+	private JLabel lblPresupuestoTotal;
+
+	private JLabel label_6P;
+
+	private JLabel presTotalIngresos;
+
+	private JLabel presIngresos;
+	private JLabel btnCrearPres;
+	private JLabel label_15;
+
+	private JLabel lblNewLabel_1P;
+
+	private JLabel lblSeleccioneUnaCategoria;
+
+	private JButton btnPresAuto;
+
+	private JButton btnPresHogar;
+
+	private JButton btnPresAlimentos;
+
+	private JButton btnPresEntretenimiento;
+
+	private Object oyentePresSalud;
+
+	private JButton btnPresEducacion;
+
+	private JButton btnPresSalud;
+
+	private JButton btnPresFinanzas;
+
+	private JButton btnPresRopa;
+
+	private JButton btnPresRegalos;
+
+	private JButton btnPresViajes;
+
+	private JLabel label_3P;
+
+	private JLabel label_8P;
+
+	private JPanel panelHogar;
+
+	private JPanel panelHogar2;
+
+	private JLabel lblHogar_1;
+
+	private JTextField fieldHogarTotal;
+
+	private JLabel label_12P;
+
+	private JPanel panelHogar3;
+
+	private JLabel lblConstruccionYRemodelacion;
+
+	private JTextField fieldHogar2;
+
+	private JPanel panelHogar4;
+
+	private JLabel lblArticulosParaEl;
+
+	private JTextField fieldHogar3;
+
+	private JPanel panelHogar5;
+
+	private JLabel lblMascotas;
+
+	private JTextField fieldHogar4;
+
+	private JPanel panelHogar6;
+
+	private JLabel lblLimpiezaYMantenimiento;
+
+	private JTextField fieldHogar5;
+
+	private JPanel panelHogar7;
+
+	private Component lblMueblesYAparatos;
+
+	private JTextField fieldHogar6;
+
+	private JPanel panelHogar8;
+
+	private JLabel lblRentaOCompra;
+
+	private JTextField fieldHogar7;
+
+	private JPanel panelHogar9;
+
+	private JLabel label_20;
+
+	private JTextField fieldHogar8;
+
+	private JButton btnHogarGuardar;
+
+	private JLabel lblHogar;
+
+	private JLabel btnHogarRegresar;
+	private JPanel presAuto;
+
+	private JLabel label_3PA;
+
+	private Container label_8PA;
+
+	private JPanel panelAuto;
+
+	private Component lblAuto;
+
+	private JPanel panelAuto2;
+
+	private JLabel lblAuto_1;
+
+	private JTextField fieldAutoTotal;
+
+	private JPanel panelAuto3;
+
+	private Component label_12PA;
+
+	private Component lblConstruccionYRemodelacion2;
+
+	private JTextField fieldAuto2;
+
+	private JPanel panelAuto4;
+
+	private Container lblArticulosParaEl2;
+
+	private JTextField fieldAuto3;
+
+	private JPanel panelAuto5;
+
+	private JLabel lblMascotas2;
+
+	private JTextField fieldAuto4;
+
+	private JPanel panelAuto6;
+
+	private Component lblLimpiezaYMantenimiento2;
+
+	private JTextField fieldAuto5;
+
+	private JPanel panelAuto7;
+
+	private Component lblMueblesYAparatos2;
+
+	private JTextField fieldAuto6;
+
+	private JPanel panelAuto8;
+
+	private JTextField fieldAuto7;
+
+	private JLabel lblRentaOCompra2;
+
+	private JPanel panelAuto9;
+
+	private Component label_202;
+
+	private JTextField fieldAuto8;
+
+	private JComponent btnAutoGuardar;
+
+	private JLabel btnAutoRegresar;
+	private JPanel presAlimentos;
+	private JTextField fieldAlimentos2;
+	private JTextField fieldAlimentos3;
+	private JTextField fieldAlimentos4;
+	private JTextField fieldAlimentosTotal;
+	private JPanel panel_9;
+	private JLabel lblAutoYTransporte;
+	private JPanel presEntretenimiento;
+	private JLabel btnEntretenimientoRegresar;
+	private JLabel label_19;
+	private JLabel label_21;
+	private JPanel panel_10;
+	private JLabel lblEntretenimiento;
+	private JPanel panel_14;
+	private JLabel lblEntretenimiento_1;
+	private JPanel panel_15;
+	private JLabel lblCineYMsica;
+	private JLabel label_25;
+	private JTextField fieldEntretenimiento2;
+	private JPanel panel_16;
+	private JLabel lblJuegos;
+	private JTextField fieldEntretenimiento3;
+	private JPanel panel_17;
+	private JLabel lblMuseosYParqueos;
+	private JTextField fieldEntretenimiento4;
+	private JPanel panel_18;
+	private JLabel lblSubscripcionesYApps;
+	private JTextField fieldEntretenimiento5;
+	private JPanel panel_19;
+	private JLabel lblAlchoholYTabaco;
+	private JTextField fieldEntretenimiento6;
+	private JPanel panel_20;
+	private JLabel lblEspectculosYEventos;
+	private JTextField fieldEntretenimiento7;
+	private JPanel panel_21;
+	private JLabel label_31;
+	private JTextField fieldEntretenimiento8;
+	private JButton btnEntretenimientoGuardar;
+	private JTextField fieldEntretenimientoTotal;
+	private JPanel presSalud;
+	private JPanel presEducacion;
+	private JPanel presFinanzas;
+	private JLabel btnSaludRegresar;
+	private JLabel label_22;
+	private JLabel label_23;
+	private JPanel panel_22;
+	private JLabel lblSaludYBelleza;
+	private JPanel panel_23;
+	private JLabel lblSaludYBelleza_1;
+	private JLabel label_27;
+	private JPanel panel_24;
+	private JLabel lblPerfumesYCosmeticos;
+	private JTextField fieldSalud2;
+	private JPanel panel_25;
+	private JLabel lblCuidadoPersonal;
+	private JTextField fieldSalud3;
+	private JPanel panel_26;
+	private JLabel lblDentisat;
+	private JTextField fieldSalud4;
+	private JPanel panel_27;
+	private JLabel lblDeportesYEquipos;
+	private JTextField fieldSalud5;
+	private JPanel panel_28;
+	private JLabel lblFarmacia;
+	private JTextField fieldSalud6;
+	private JTextField fieldSalud7;
+	private JPanel panel_29;
+	private JLabel lblMdico;
+	private JPanel panel_30;
+	private JLabel label_35;
+	private JTextField fieldSalud8;
+	private JButton button;
+	private JTextField fieldSaludTotal;
+	private JTextField fieldEducacion2;
+	private JTextField fieldEducacion3;
+	private JTextField fieldEducacion4;
+	private JTextField fieldEducacion5;
+	private JTextField fieldEducacion6;
+	private JTextField fieldEducacion7;
+	private JTextField fieldEducacion8;
+	private JTextField fieldEducacionTotal;
+	private JLabel btnFinanzasRegresar;
+	private JLabel label_28;
+	private JLabel label_29;
+	private JPanel panel_40;
+	private JLabel lblFinanzas;
+	private JPanel panel_41;
+	private JLabel lblFinanzasEImpuestos;
+	private JPanel panel_42;
+	private JLabel lblSeguros;
+	private JLabel label_36;
+	private JTextField fieldFinanzas2;
+	private JPanel panel_43;
+	private JLabel lblImpuestos;
+	private JTextField fieldFinanzas3;
+	private JPanel panel_44;
+	private JLabel lblMultas;
+	private JTextField fieldFinanzas4;
+	private JPanel panel_45;
+	private JLabel lblServiviosFinancioer;
+	private JTextField fieldFinanzas5;
+	private JPanel panel_46;
+	private JLabel lblTransferenciosOCheques;
+	private JTextField fieldFinanzas6;
+	private JPanel panel_47;
+	private JLabel lblTarjetasDeCredito;
+	private JTextField fieldFinanzas7;
+	private JPanel panel_48;
+	private JLabel label_43;
+	private JTextField fieldFinanzas8;
+	private JButton btnFinanzasGuardar;
+	private JTextField fieldFinanzasTotal;
+	private JPanel presRopa;
+	private JLabel btnRopaRegresar;
+	private JLabel label_32;
+	private JLabel label_33;
+	private JPanel panel_49;
+	private JLabel lblRopaYCalzado;
+	private JPanel panel_50;
+	private JLabel lblRopaYCalzado_1;
+	private JLabel label_38;
+	private JPanel panel_51;
+	private JLabel lblCalzado;
+	private JTextField fieldRopa2;
+	private JPanel panel_52;
+	private JLabel lblAccesorios;
+	private JTextField fieldRopa3;
+	private JPanel panel_53;
+	private JLabel lblLavanderiaYTintoreria;
+	private JTextField fieldRopa4;
+	private JPanel panel_54;
+	private JLabel lblRopa;
+	private JTextField fieldRopa5;
+	private JPanel panel_55;
+	private JLabel lblOtros_1;
+	private JTextField fieldRopa6;
+	private JButton btnRopaGuardar;
+	private JTextField fieldRopaTotal;
+	private JPanel presRegalos;
+	private JPanel presViajes;
+	private JLabel btnRegalosRegresar;
+	private JLabel label_34;
+	private JLabel label_37;
+	private JPanel panel_56;
+	private JLabel lblRegalosYAyuda;
+	private JPanel panel_57;
+	private JLabel lblRegalosYAyuda_1;
+	private JPanel panel_58;
+	private JLabel lblDonaciones;
+	private JTextField fieldRegalos2;
+	private JPanel panel_59;
+	private JLabel lblApoyoAFamiliaresamigos;
+	private JTextField fieldRegalos3;
+	private JPanel panel_60;
+	private JLabel lblRegalos;
+	private JTextField fieldRegalos4;
+	private JPanel panel_61;
+	private JLabel lblAyudaHumanitaria;
+	private JTextField fieldRegalos5;
+	private JPanel panel_62;
+	private JLabel label_47;
+	private JTextField fieldRegalos6;
+	private JButton btnRegalosGuardar;
+	private JLabel btnViajesRegresar;
+	private JLabel label_49;
+	private JLabel label_50;
+	private JPanel panel_63;
+	private JLabel Viajes;
+	private JPanel panel_64;
+	private JLabel lblViajes;
+	private JPanel panel_65;
+	private JLabel lblHospedaje;
+	private JTextField fieldViajes2;
+	private JPanel panel_66;
+	private JLabel lblBoletosYCruceros;
+	private JTextField fieldViajes3;
+	private JPanel panel_67;
+	private JLabel lblTransporteDeViajes;
+	private JTextField fieldViajes4;
+	private JPanel panel_68;
+	private JLabel lblSouvenir;
+	private JTextField fieldViajes5;
+	private JPanel panel_69;
+	private JLabel label_57;
+	private JTextField fieldViajes6;
+	private JButton btnViajesGuardar;
+	private JTextField fieldViajesTotal;
+	private JTextField fieldRegalosTotal;
 
 
 	
@@ -278,7 +644,7 @@ public class Dashboard extends Login{
 		frame.setSize(1354, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("UVG Finanzas");
-		frame.setIconImage(new ImageIcon(Dashboard.class.getResource("resources/google.png")).getImage());
+		frame.setIconImage(new ImageIcon(Dashboard.class.getResource("resources/Finanzas.png")).getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -513,9 +879,16 @@ public class Dashboard extends Login{
 		btnSidebarSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				Login.main(null);
-				DB.tempUsu(usuarioLeer.get(0), false);
+				
+				int confirmado = JOptionPane.showConfirmDialog(null,"¿Estas seguro?");
+				
+				if (confirmado == 0) {
+					frame.dispose();
+					Login.main(null);
+					DB.tempUsu(usuarioLeer.get(0), false);
+					
+				}
+				
 				
 				
 			}
@@ -809,7 +1182,7 @@ public class Dashboard extends Login{
 
 		resumen.add(separator);
 		
-		Icon topbarBrandIcono = new ImageIcon(Dashboard.class.getResource("resources/google.png"));
+		Icon topbarBrandIcono = new ImageIcon(Dashboard.class.getResource("resources/Finanzas.png"));
 		
 		Icon topbarBuscarIcono = new ImageIcon(Dashboard.class.getResource("resources/search.png"));
 		
@@ -818,6 +1191,12 @@ public class Dashboard extends Login{
 		Icon topbarNotificationIcono = new ImageIcon(Dashboard.class.getResource("resources/notification.png"));
 		
 		Icon ingresosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		Icon gastosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		Icon presCategBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		
 		
 		Icon iconAgregar = new ImageIcon(Dashboard.class.getResource("resources/add.png"));
 		
@@ -1188,48 +1567,2320 @@ public class Dashboard extends Login{
 		presupuestos.setBackground(Color.WHITE);
 		presupuestos.setBounds(245, 0, 1121, 746);
 		main.add(presupuestos, "name_337073441194312");
-		presupuestos.setLayout(null);
+		presupuestos.setLayout(new CardLayout(0, 0));
+		
+		presupuestoMain = new JPanel();
+		presupuestoMain.setBackground(Color.WHITE);
+		presupuestos.add(presupuestoMain, "name_226636006390500");
+		presupuestoMain.setLayout(null);
+	
+		
+		JLabel label_8 = new JLabel("Presupuestos");
+		label_8.setHorizontalAlignment(SwingConstants.CENTER);
+		label_8.setFont(new Font("Arial", Font.PLAIN, 22));
+		label_8.setBounds(0, 35, 1120, 30);
+		presupuestoMain.add(label_8);
+		
+		lblPresupuestoTotal_1 = new JLabel("Presupuesto total:");
+		lblPresupuestoTotal_1.setFont(new Font("Verdana", Font.PLAIN, 17));
+		lblPresupuestoTotal_1.setBounds(113, 149, 158, 19);
+		presupuestoMain.add(lblPresupuestoTotal_1);
+		
+		lblQP = new JLabel("Q");
+		lblQP.setFont(new Font("Verdana", Font.PLAIN, 17));
+		lblQP.setBounds(281, 143, 19, 27);
+		presupuestoMain.add(lblQP);
+		
+		lblPresupuestoTotal = new JLabel("");
+		lblPresupuestoTotal.setFont(new Font("Verdana", Font.PLAIN, 17));
+		lblPresupuestoTotal.setBounds(300, 143, 111, 27);
+		presupuestoMain.add(lblPresupuestoTotal);
+		
+		label_6P = new JLabel("Total Ingresos:");
+		label_6P.setFont(new Font("Verdana", Font.PLAIN, 17));
+		label_6P.setBounds(679, 149, 133, 19);
+		presupuestoMain.add(label_6P);
+		
+		presIngresos = new JLabel("Q");
+		presIngresos.setFont(new Font("Verdana", Font.PLAIN, 17));
+		presIngresos.setBounds(817, 143, 19, 27);
+		presupuestoMain.add(presIngresos);
+		
+		presTotalIngresos = new JLabel("");
+		presTotalIngresos.setFont(new Font("Verdana", Font.PLAIN, 17));
+		presTotalIngresos.setBounds(836, 143, 111, 27);
+		presupuestoMain.add(presTotalIngresos);
+		
+		progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+		progressBar.setForeground(new Color(50, 205, 50));
+		progressBar.setBackground(Color.WHITE);
+		progressBar.setBounds(113, 174, 800, 27);
+		presupuestoMain.add(progressBar);
+		
+		btnCrearPres = new JLabel("",iconAgregar, JLabel.CENTER);
+		btnCrearPres.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				presupuestoMain.setVisible(false);
+				selecPresCateg.setVisible(true);
+				
+			}
+		});
+		btnCrearPres.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnCrearPres.setBounds(0, 250, 1120, 55);
+		presupuestoMain.add(btnCrearPres);
+		
+		selecPresCateg = new JPanel();
+		selecPresCateg.setBackground(Color.WHITE);
+		presupuestos.add(selecPresCateg, "name_226684718454600");
+		selecPresCateg.setLayout(null);
+		
+		label_15 = new JLabel("", presCategBackIcon, JLabel.CENTER);
+		label_15.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+		});
+		label_15.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_15.setBounds(10, 11, 93, 25);
+		selecPresCateg.add(label_15);
+		
+		lblNewLabel_1P = new JLabel("Nuevo presupuesto");
+		lblNewLabel_1P.setFont(new Font("Verdana", Font.PLAIN, 20));
+		lblNewLabel_1P.setBounds(409, 71, 194, 25);
+		selecPresCateg.add(lblNewLabel_1P);
+		
+		lblSeleccioneUnaCategoria = new JLabel("Seleccione una categor\u00EDa");
+		lblSeleccioneUnaCategoria.setFont(new Font("Verdana", Font.PLAIN, 16));
+		lblSeleccioneUnaCategoria.setBounds(409, 107, 210, 20);
+		selecPresCateg.add(lblSeleccioneUnaCategoria);
+		
+		btnPresAuto = new JButton("Auto y Transporte");
+		btnPresAuto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresAuto.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresAuto.setForeground(new Color(255, 255, 255));
+		btnPresAuto.setBackground(new Color(61,172,219));
+		btnPresAuto.setBounds(298, 191, 200, 87);
+		btnPresAuto.setBorder(null);
+		selecPresCateg.add(btnPresAuto);
+		
+		btnPresHogar = new JButton("Hogar");
+		btnPresHogar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresHogar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresHogar.setForeground(new Color(255, 255, 255));
+		btnPresHogar.setBackground(new Color(61,172,219));
+		btnPresHogar.setBounds(70, 191, 200, 87);
+		btnPresHogar.setBorder(null);
+		selecPresCateg.add(btnPresHogar);
+		
+		btnPresAlimentos = new JButton("Alimentos");
+		btnPresAlimentos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresAlimentos.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresAlimentos.setForeground(new Color(255, 255, 255));
+		btnPresAlimentos.setBackground(new Color(61,172,219));
+		btnPresAlimentos.setBounds(525, 191, 200, 87);
+		btnPresAlimentos.setBorder(null);
+		selecPresCateg.add(btnPresAlimentos);
+		
+		btnPresEntretenimiento = new JButton("Entretenimiento");
+		btnPresEntretenimiento.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresEntretenimiento.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresEntretenimiento.setForeground(new Color(255, 255, 255));
+		btnPresEntretenimiento.setBackground(new Color(61,172,219));
+		btnPresEntretenimiento.setBounds(752, 191, 200, 87);
+		btnPresEntretenimiento.setBorder(null);
+		selecPresCateg.add(btnPresEntretenimiento);
+		
+		btnPresSalud = new JButton("Salud y Belleza");
+		btnPresSalud.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresSalud.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresSalud.setForeground(new Color(255, 255, 255));
+		btnPresSalud.setBackground(new Color(61,172,219));
+		btnPresSalud.setBounds(70, 306, 200, 87);
+		btnPresSalud.setBorder(null);
+		selecPresCateg.add(btnPresSalud);
+		
+		btnPresEducacion = new JButton("Educaci\u00F3n");
+		btnPresEducacion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresEducacion.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresEducacion.setForeground(new Color(255, 255, 255));
+		btnPresEducacion.setBackground(new Color(61,172,219));
+		btnPresEducacion.setBounds(298, 306, 200, 87);
+		btnPresEducacion.setBorder(null);
+		selecPresCateg.add(btnPresEducacion);
+		
+		btnPresFinanzas = new JButton("Finanzas e Impuestos");
+		btnPresFinanzas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresFinanzas.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresFinanzas.setForeground(new Color(255, 255, 255));
+		btnPresFinanzas.setBackground(new Color(61,172,219));
+		btnPresFinanzas.setBounds(525, 306, 200, 87);
+		btnPresFinanzas.setBorder(null);
+		selecPresCateg.add(btnPresFinanzas);
+		
+		btnPresRopa = new JButton("Ropa y Calzado");
+		btnPresRopa.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresRopa.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresRopa.setForeground(new Color(255, 255, 255));
+		btnPresRopa.setBackground(new Color(61,172,219));
+		btnPresRopa.setBounds(752, 306, 200, 87);
+		btnPresRopa.setBorder(null);
+		selecPresCateg.add(btnPresRopa);
+		
+		btnPresRegalos = new JButton("Regalos y Ayuda");
+		btnPresRegalos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresRegalos.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresRegalos.setForeground(new Color(255, 255, 255));
+		btnPresRegalos.setBackground(new Color(61,172,219));
+		btnPresRegalos.setBounds(70, 422, 200, 87);
+		btnPresRegalos.setBorder(null);
+		selecPresCateg.add(btnPresRegalos);
+		
+		btnPresViajes = new JButton("Viajes");
+		btnPresViajes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPresViajes.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnPresViajes.setForeground(new Color(255, 255, 255));
+		btnPresViajes.setBackground(new Color(61,172,219));
+		btnPresViajes.setBounds(298, 422, 200, 87);
+		btnPresViajes.setBorder(null);
+		selecPresCateg.add(btnPresViajes);
+		
+		// PRESUPUESTO HOGAR
+		presHogar = new JPanel();
+		presHogar.setBackground(Color.WHITE);
+		presupuestos.add(presHogar, "name_226689740800200");
+		presHogar.setLayout(null);
+		
+		label_3P = new JLabel("Editar tu presupuesto");
+		label_3P.setFont(new Font("Verdana", Font.PLAIN, 20));
+		label_3P.setBounds(422, 53, 218, 25);
+		presHogar.add(label_3P);
+		
+		label_8P = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+		label_8P.setFont(new Font("Verdana", Font.PLAIN, 18));
+		label_8P.setBounds(309, 89, 460, 25);
+		presHogar.add(label_8P);
+		
+		panelHogar = new JPanel();
+		panelHogar.setLayout(null);
+		panelHogar.setBackground(new Color(0, 153, 255));
+		panelHogar.setBounds(129, 160, 252, 473);
+		presHogar.add(panelHogar);
+		
+		lblHogar = new JLabel("Hogar");
+		lblHogar.setForeground(Color.WHITE);
+		lblHogar.setFont(new Font("Verdana", Font.BOLD, 20));
+		lblHogar.setBounds(0, 199, 252, 31);
+		panelHogar.add(lblHogar);
+		
+		panelHogar2 = new JPanel();
+		panelHogar2.setBackground(new Color(0, 153, 255));
+		panelHogar2.setBounds(414, 162, 252, 33);
+		presHogar.add(panelHogar2);
+		panelHogar2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		lblHogar_1 = new JLabel("Hogar");
+		lblHogar_1.setForeground(Color.WHITE);
+		lblHogar_1.setFont(new Font("Verdana", Font.BOLD, 14));
+		panelHogar2.add(lblHogar_1);
+		
+		fieldHogarTotal = new JTextField();
+		fieldHogarTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogarTotal.setFont(new Font("Verdana", Font.PLAIN, 14));
+		fieldHogarTotal.setColumns(10);
+		fieldHogarTotal.setBounds(686, 162, 196, 33);
+		TextPrompt ocultoHogarTotal = new TextPrompt("0", fieldHogarTotal);
+		ocultoHogarTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		presHogar.add(fieldHogarTotal);
+		
+		label_12P = new JLabel("Subcategor\u00EDas");
+		label_12P.setForeground(Color.BLACK);
+		label_12P.setFont(new Font("Verdana", Font.BOLD, 15));
+		label_12P.setBounds(543, 215, 123, 31);
+		presHogar.add(label_12P);
+		
+		panelHogar3 = new JPanel();
+		panelHogar3.setBackground(new Color(0, 153, 255));
+		panelHogar3.setBounds(414, 257, 252, 33);
+		presHogar.add(panelHogar3);
+		
+		lblConstruccionYRemodelacion = new JLabel("Construcci\u00F3n o Remodelaci\u00F3n");
+		lblConstruccionYRemodelacion.setForeground(Color.WHITE);
+		lblConstruccionYRemodelacion.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar3.add(lblConstruccionYRemodelacion);
+		
+		fieldHogar2 = new JTextField("0");
+		fieldHogar2.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogar2.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar2.setColumns(10);
+		fieldHogar2.setBounds(686, 257, 196, 33);
+		presHogar.add(fieldHogar2);
+		
+		panelHogar4 = new JPanel();
+		panelHogar4.setBackground(new Color(0, 153, 255));
+		panelHogar4.setBounds(414, 301, 252, 33);
+		presHogar.add(panelHogar4);
+		
+		lblArticulosParaEl = new JLabel("Art\u00EDculos, muebles y apartos");
+		lblArticulosParaEl.setForeground(Color.WHITE);
+		lblArticulosParaEl.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar4.add(lblArticulosParaEl);
+		
+		fieldHogar3 = new JTextField("0");
+		fieldHogar3.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogar3.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar3.setColumns(10);
+		fieldHogar3.setBounds(686, 301, 196, 33);
+		presHogar.add(fieldHogar3);
+		
+		panelHogar5 = new JPanel();
+		panelHogar5.setBackground(new Color(0, 153, 255));
+		panelHogar5.setBounds(414, 345, 252, 33);
+		presHogar.add(panelHogar5);
+		
+		lblMascotas = new JLabel("Mascotas");
+		lblMascotas.setForeground(Color.WHITE);
+		lblMascotas.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar5.add(lblMascotas);
+		
+		fieldHogar4 = new JTextField("0");
+		fieldHogar4.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar4.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogar4.setColumns(10);
+		fieldHogar4.setBounds(686, 345, 196, 33);
+		presHogar.add(fieldHogar4);
+		
+		panelHogar6 = new JPanel();
+		panelHogar6.setBackground(new Color(0, 153, 255));
+		panelHogar6.setBounds(414, 389, 252, 33);
+		presHogar.add(panelHogar6);
+		
+		lblLimpiezaYMantenimiento = new JLabel("Limpieza y Mantenimiento");
+		lblLimpiezaYMantenimiento.setForeground(Color.WHITE);
+		lblLimpiezaYMantenimiento.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar6.add(lblLimpiezaYMantenimiento);
+		
+		fieldHogar5 = new JTextField("0");
+		fieldHogar5.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogar5.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar5.setColumns(10);
+		fieldHogar5.setBounds(686, 389, 196, 33);
+		presHogar.add(fieldHogar5);
+		
+		panelHogar7 = new JPanel();
+		panelHogar7.setBackground(new Color(0, 153, 255));
+		panelHogar7.setBounds(414, 433, 252, 33);
+		presHogar.add(panelHogar7);
+		
+		lblMueblesYAparatos = new JLabel("Servicios P\u00FAblicos");
+		lblMueblesYAparatos.setForeground(Color.WHITE);
+		lblMueblesYAparatos.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar7.add(lblMueblesYAparatos);
+		
+		fieldHogar6 = new JTextField("0");
+		fieldHogar6.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogar6.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar6.setColumns(10);
+		fieldHogar6.setBounds(686, 433, 196, 33);
+		presHogar.add(fieldHogar6);
+		
+		panelHogar8 = new JPanel();
+		panelHogar8.setBackground(new Color(0, 153, 255));
+		panelHogar8.setBounds(414, 477, 252, 33);
+		presHogar.add(panelHogar8);
+		
+		lblRentaOCompra = new JLabel("Renta o Compra");
+		lblRentaOCompra.setForeground(Color.WHITE);
+		lblRentaOCompra.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar8.add(lblRentaOCompra);
+		
+		fieldHogar7 = new JTextField("0");
+		fieldHogar7.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar7.setColumns(10);
+		fieldHogar7.setBounds(686, 477, 196, 33);
+		fieldHogar7.setHorizontalAlignment(SwingConstants.CENTER);
+		presHogar.add(fieldHogar7);
+		
+		panelHogar9 = new JPanel();
+		panelHogar9.setBackground(new Color(0, 153, 255));
+		panelHogar9.setBounds(414, 521, 252, 33);
+		presHogar.add(panelHogar9);
+		
+		label_20 = new JLabel("Otros");
+		label_20.setForeground(Color.WHITE);
+		label_20.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelHogar9.add(label_20);
+		
+		fieldHogar8 = new JTextField("0");
+		fieldHogar8.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldHogar8.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldHogar8.setColumns(10);
+		fieldHogar8.setBounds(686, 521, 196, 33);
+		presHogar.add(fieldHogar8);
+		
+		// METODO PARA SUMAR AUTOMATICAMENTE 
+		// TODO
+		DocumentListener hogarDL = new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			protected void suma() {
+				
+				double total = Double.parseDouble(fieldHogar2.getText()) + Double.parseDouble(fieldHogar3.getText()) + Double.parseDouble(fieldHogar4.getText()) +
+						Double.parseDouble(fieldHogar5.getText()) + Double.parseDouble(fieldHogar6.getText()) + Double.parseDouble(fieldHogar7.getText()) + Double.parseDouble(fieldHogar8.getText());
+				fieldHogarTotal.setText(Double.toString(total));
+			
+			}
+
+		};
+
+		fieldHogar2.getDocument().addDocumentListener(hogarDL);
+		fieldHogar3.getDocument().addDocumentListener(hogarDL);
+		fieldHogar4.getDocument().addDocumentListener(hogarDL);
+		fieldHogar5.getDocument().addDocumentListener(hogarDL);
+		fieldHogar6.getDocument().addDocumentListener(hogarDL);
+		fieldHogar7.getDocument().addDocumentListener(hogarDL);
+		fieldHogar8.getDocument().addDocumentListener(hogarDL);
+		fieldHogarTotal.setEditable(false);
+		
+		btnHogarGuardar = new JButton("Guardar");
+		btnHogarGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnHogarGuardar.setForeground(Color.WHITE);
+		btnHogarGuardar.setBorder(null);
+		btnHogarGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnHogarGuardar.setBackground(new Color(1, 162, 82));
+		btnHogarGuardar.setBounds(686, 574, 196, 33);
+		presHogar.add(btnHogarGuardar);
+		
+		Icon presHogarBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		btnHogarRegresar = new JLabel("", presHogarBackIcon, JLabel.CENTER);
+		btnHogarRegresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnHogarRegresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				presHogar.setVisible(false);
+				selecPresCateg.setVisible(true);
+				
+			}
+		});
+		btnHogarRegresar.setBounds(10, 11, 93, 25);
+		presHogar.add(btnHogarRegresar);
+		
+		
+		// PRESUPUESTO AUTO
+		
+		presAuto = new JPanel();
+		presAuto.setBackground(Color.WHITE);
+		presupuestos.add(presAuto, "name_3060860910800");
+		presAuto.setLayout(null);
+		presAuto.setLayout(null);
+		
+		label_3PA = new JLabel("Editar tu presupuesto");
+		label_3PA.setFont(new Font("Verdana", Font.PLAIN, 20));
+		label_3PA.setBounds(422, 53, 218, 26);
+		presAuto.add(label_3PA);
+		
+		label_8PA = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+		label_8PA.setFont(new Font("Verdana", Font.PLAIN, 18));
+		label_8PA.setBounds(309, 89, 460, 23);
+		presAuto.add(label_8PA);
+		
+		panelAuto = new JPanel();
+		panelAuto.setLayout(null);
+		panelAuto.setBackground(new Color(0, 153, 255));
+		panelAuto.setBounds(746, 18, 1, 1);
+		presAuto.add(panelAuto);
+		
+		lblAuto = new JLabel("Auto");
+		lblAuto.setForeground(Color.WHITE);
+		lblAuto.setFont(new Font("Verdana", Font.BOLD, 20));
+		lblAuto.setBounds(97, 199, 70, 31);
+		panelAuto.add(lblAuto);
+		
+		panelAuto2 = new JPanel();
+		panelAuto2.setBackground(new Color(0, 153, 255));
+		panelAuto2.setBounds(129, 160, 252, 473);
+		presAuto.add(panelAuto2);
+		panelAuto2.setLayout(null);
+		
+		lblAuto_1 = new JLabel("Auto y Transporte");
+		lblAuto_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAuto_1.setBounds(0, 219, 252, 33);
+		lblAuto_1.setForeground(Color.WHITE);
+		lblAuto_1.setFont(new Font("Verdana", Font.BOLD, 14));
+		panelAuto2.add(lblAuto_1);
+		
+		fieldAutoTotal = new JTextField();
+		fieldAutoTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAutoTotal.setFont(new Font("Verdana", Font.PLAIN, 14));
+		fieldAutoTotal.setColumns(10);
+		fieldAutoTotal.setBounds(686, 162, 196, 33);
+		TextPrompt ocultoAutoTotal = new TextPrompt("0", fieldAutoTotal);
+		ocultoHogarTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		presAuto.add(fieldAutoTotal);
+		
+		label_12PA = new JLabel("Subcategor\u00EDas");
+		label_12PA.setForeground(Color.BLACK);
+		label_12PA.setFont(new Font("Verdana", Font.BOLD, 15));
+		label_12PA.setBounds(543, 215, 116, 20);
+		presAuto.add(label_12PA);
+		
+		panelAuto3 = new JPanel();
+		panelAuto3.setBackground(new Color(0, 153, 255));
+		panelAuto3.setBounds(414, 257, 252, 33);
+		presAuto.add(panelAuto3);
+		
+		lblConstruccionYRemodelacion2 = new JLabel("Parqueo");
+		lblConstruccionYRemodelacion2.setForeground(Color.WHITE);
+		lblConstruccionYRemodelacion2.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto3.add(lblConstruccionYRemodelacion2);
+		
+		fieldAuto2 = new JTextField("0");
+		fieldAuto2.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAuto2.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto2.setColumns(10);
+		fieldAuto2.setBounds(686, 257, 196, 33);
+		presAuto.add(fieldAuto2);
+		
+		panelAuto4 = new JPanel();
+		panelAuto4.setBackground(new Color(0, 153, 255));
+		panelAuto4.setBounds(414, 301, 252, 33);
+		presAuto.add(panelAuto4);
+		
+		lblArticulosParaEl2 = new JLabel("Mantenimiento y Reparacion");
+		lblArticulosParaEl2.setForeground(Color.WHITE);
+		lblArticulosParaEl2.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto4.add(lblArticulosParaEl2);
+		
+		fieldAuto3 = new JTextField("0");
+		fieldAuto3.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAuto3.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto3.setColumns(10);
+		fieldAuto3.setBounds(686, 301, 196, 33);
+		presAuto.add(fieldAuto3);
+		
+		panelAuto5 = new JPanel();
+		panelAuto5.setBackground(new Color(0, 153, 255));
+		panelAuto5.setBounds(414, 345, 252, 33);
+		presAuto.add(panelAuto5);
+		
+		lblMascotas2 = new JLabel("Autolavado");
+		lblMascotas2.setForeground(Color.WHITE);
+		lblMascotas2.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto5.add(lblMascotas2);
+		
+		fieldAuto4 = new JTextField("0");
+		fieldAuto4.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto4.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAuto4.setColumns(10);
+		fieldAuto4.setBounds(686, 345, 196, 33);
+		presAuto.add(fieldAuto4);
+		
+		panelAuto6 = new JPanel();
+		panelAuto6.setBackground(new Color(0, 153, 255));
+		panelAuto6.setBounds(414, 389, 252, 33);
+		presAuto.add(panelAuto6);
+		
+		lblLimpiezaYMantenimiento2 = new JLabel("Transporte P\u00FAblico");
+		lblLimpiezaYMantenimiento2.setForeground(Color.WHITE);
+		lblLimpiezaYMantenimiento2.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto6.add(lblLimpiezaYMantenimiento2);
+		
+		fieldAuto5 = new JTextField("0");
+		fieldAuto5.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAuto5.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto5.setColumns(10);
+		fieldAuto5.setBounds(686, 389, 196, 33);
+		presAuto.add(fieldAuto5);
+		
+		panelAuto7 = new JPanel();
+		panelAuto7.setBackground(new Color(0, 153, 255));
+		panelAuto7.setBounds(414, 433, 252, 33);
+		presAuto.add(panelAuto7);
+		
+		lblMueblesYAparatos2 = new JLabel("Gasolina");
+		lblMueblesYAparatos2.setForeground(Color.WHITE);
+		lblMueblesYAparatos2.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto7.add(lblMueblesYAparatos2);
+		
+		fieldAuto6 = new JTextField("0");
+		fieldAuto6.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAuto6.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto6.setColumns(10);
+		fieldAuto6.setBounds(686, 433, 196, 33);
+		presAuto.add(fieldAuto6);
+		
+		panelAuto8 = new JPanel();
+		panelAuto8.setBackground(new Color(0, 153, 255));
+		panelAuto8.setBounds(414, 477, 252, 33);
+		presAuto.add(panelAuto8);
+		
+		lblRentaOCompra2 = new JLabel("Uber/Taxi");
+		lblRentaOCompra2.setForeground(Color.WHITE);
+		lblRentaOCompra2.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto8.add(lblRentaOCompra2);
+		
+		fieldAuto7 = new JTextField("0");
+		fieldAuto7.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto7.setColumns(10);
+		fieldAuto7.setBounds(686, 477, 196, 33);
+		fieldAuto7.setHorizontalAlignment(SwingConstants.CENTER);
+		presAuto.add(fieldAuto7);
+		
+		panelAuto9 = new JPanel();
+		panelAuto9.setBackground(new Color(0, 153, 255));
+		panelAuto9.setBounds(414, 521, 252, 33);
+		presAuto.add(panelAuto9);
+		
+		label_202 = new JLabel("Otros");
+		label_202.setForeground(Color.WHITE);
+		label_202.setFont(new Font("Verdana", Font.BOLD, 13));
+		panelAuto9.add(label_202);
+		
+		fieldAuto8 = new JTextField("0");
+		fieldAuto8.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAuto8.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAuto8.setColumns(10);
+		fieldAuto8.setBounds(686, 521, 196, 33);
+		presAuto.add(fieldAuto8);
+		
+		// METODO PARA SUMAR AUTOMATICAMENTE 
+		// TODO
+		DocumentListener autoDL = new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			protected void suma() {
+				
+				double total = Double.parseDouble(fieldAuto2.getText()) + Double.parseDouble(fieldAuto3.getText()) + Double.parseDouble(fieldAuto4.getText()) +
+						Double.parseDouble(fieldAuto5.getText()) + Double.parseDouble(fieldAuto6.getText()) + Double.parseDouble(fieldAuto7.getText()) + Double.parseDouble(fieldAuto8.getText());
+				fieldAutoTotal.setText(Double.toString(total));
+			
+			}
+
+		};
+
+		fieldAuto2.getDocument().addDocumentListener(autoDL);
+		fieldAuto3.getDocument().addDocumentListener(autoDL);
+		fieldAuto4.getDocument().addDocumentListener(autoDL);
+		fieldAuto5.getDocument().addDocumentListener(autoDL);
+		fieldAuto6.getDocument().addDocumentListener(autoDL);
+		fieldAuto7.getDocument().addDocumentListener(autoDL);
+		fieldAuto8.getDocument().addDocumentListener(autoDL);
+		fieldAutoTotal.setEditable(false);
+		
+		btnAutoGuardar = new JButton("Guardar");
+		btnAutoGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAutoGuardar.setForeground(Color.WHITE);
+		btnAutoGuardar.setBorder(null);
+		btnAutoGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnAutoGuardar.setBackground(new Color(1, 162, 82));
+		btnAutoGuardar.setBounds(686, 574, 196, 33);
+		presAuto.add(btnAutoGuardar);
+		
+		Icon presAutoBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		btnAutoRegresar = new JLabel("", presAutoBackIcon, JLabel.CENTER);
+		btnAutoRegresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAutoRegresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				presHogar.setVisible(false);
+				selecPresCateg.setVisible(true);
+				
+			}
+		});
+		btnAutoRegresar.setBounds(10, 11, 93, 25);
+		presAuto.add(btnAutoRegresar);
+		
+		panel_9 = new JPanel();
+		panel_9.setBackground(new Color(0, 153, 255));
+		panel_9.setBounds(407, 162, 252, 33);
+		presAuto.add(panel_9);
+		
+		lblAutoYTransporte = new JLabel("Auto y Transporte");
+		lblAutoYTransporte.setForeground(Color.WHITE);
+		lblAutoYTransporte.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_9.add(lblAutoYTransporte);
+		
+		presAlimentos = new JPanel();
+		presAlimentos.setBackground(Color.WHITE);
+		presupuestos.add(presAlimentos, "name_8206197714100");
+		presAlimentos.setLayout(null);
+		
+		Icon presAlimentosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		JLabel btnAlimentosRegresar = new JLabel("", presAlimentosBackIcon, JLabel.CENTER);
+		btnAlimentosRegresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selecPresCateg.setVisible(true);
+				presAlimentos.setVisible(false);
+			}
+		});
+		btnAlimentosRegresar.setBounds(10, 11, 93, 25);
+		presAlimentos.add(btnAlimentosRegresar);
+		
+		JLabel label_17 = new JLabel("Editar tu presupuesto");
+		label_17.setFont(new Font("Verdana", Font.PLAIN, 20));
+		label_17.setBounds(422, 53, 218, 25);
+		presAlimentos.add(label_17);
+		
+		JLabel label_18 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+		label_18.setFont(new Font("Verdana", Font.PLAIN, 18));
+		label_18.setBounds(309, 89, 460, 25);
+		presAlimentos.add(label_18);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblEliminarPresupuesto.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblEliminarPresupuesto.setVisible(false);
-			}
-		});
-		panel_3.setBounds(83, 182, 350, 30);
-		presupuestos.add(panel_3);
 		panel_3.setLayout(null);
+		panel_3.setBackground(new Color(0, 153, 255));
+		panel_3.setBounds(129, 160, 252, 473);
+		presAlimentos.add(panel_3);
 		
-		lblEliminarPresupuesto = new JLabel("x");
-		lblEliminarPresupuesto.addMouseListener(new MouseAdapter() {
+		JLabel lblAlimentos = new JLabel("Alimentos");
+		lblAlimentos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAlimentos.setForeground(Color.WHITE);
+		lblAlimentos.setFont(new Font("Verdana", Font.BOLD, 20));
+		lblAlimentos.setBounds(0, 199, 252, 31);
+		panel_3.add(lblAlimentos);
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(new Color(0, 153, 255));
+		panel_8.setBounds(414, 162, 252, 33);
+		presAlimentos.add(panel_8);
+		panel_8.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblAlimentos_1 = new JLabel("Alimentos");
+		lblAlimentos_1.setForeground(Color.WHITE);
+		lblAlimentos_1.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_8.add(lblAlimentos_1);
+		
+		JPanel panel_11 = new JPanel();
+		panel_11.setBackground(new Color(0, 153, 255));
+		panel_11.setBounds(414, 345, 252, 33);
+		presAlimentos.add(panel_11);
+		
+		JLabel lblDespensa = new JLabel("Despensa");
+		lblDespensa.setForeground(Color.WHITE);
+		lblDespensa.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_11.add(lblDespensa);
+		
+		JPanel panel_12 = new JPanel();
+		panel_12.setBackground(new Color(0, 153, 255));
+		panel_12.setBounds(414, 389, 252, 33);
+		presAlimentos.add(panel_12);
+		
+		JLabel lblRestaurante = new JLabel("Restaurante");
+		lblRestaurante.setForeground(Color.WHITE);
+		lblRestaurante.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_12.add(lblRestaurante);
+		
+		JPanel panel_13 = new JPanel();
+		panel_13.setBackground(new Color(0, 153, 255));
+		panel_13.setBounds(414, 433, 252, 33);
+		presAlimentos.add(panel_13);
+		
+		JLabel lblOtros = new JLabel("Otros");
+		lblOtros.setForeground(Color.WHITE);
+		lblOtros.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_13.add(lblOtros);
+		
+		fieldAlimentos2 = new JTextField("0");
+		fieldAlimentos2.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAlimentos2.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAlimentos2.setColumns(10);
+		fieldAlimentos2.setBounds(686, 345, 196, 33);
+		presAlimentos.add(fieldAlimentos2);
+		
+		fieldAlimentos3 = new JTextField("0");
+		fieldAlimentos3.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAlimentos3.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAlimentos3.setColumns(10);
+		fieldAlimentos3.setBounds(686, 389, 196, 33);
+		presAlimentos.add(fieldAlimentos3);
+		
+		fieldAlimentos4 = new JTextField("0");
+		fieldAlimentos4.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAlimentos4.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAlimentos4.setColumns(10);
+		fieldAlimentos4.setBounds(686, 433, 196, 33);
+		presAlimentos.add(fieldAlimentos4);
+		
+		fieldAlimentosTotal = new JTextField("0");
+		fieldAlimentosTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldAlimentosTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldAlimentosTotal.setColumns(10);
+		fieldAlimentosTotal.setBounds(686, 160, 196, 33);
+		presAlimentos.add(fieldAlimentosTotal);
+		
+		// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener alimentosDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldAlimentos2.getText()) + Double.parseDouble(fieldAlimentos3.getText()) + Double.parseDouble(fieldAlimentos4.getText());
+						fieldAlimentosTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldAlimentos2.getDocument().addDocumentListener(alimentosDL);
+				fieldAlimentos3.getDocument().addDocumentListener(alimentosDL);
+				fieldAlimentos4.getDocument().addDocumentListener(alimentosDL);
+				fieldAlimentosTotal.setEditable(false);
+		
+		JButton btnAlimentosGuardar = new JButton("Guardar");
+		btnAlimentosGuardar.setForeground(Color.WHITE);
+		btnAlimentosGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnAlimentosGuardar.setBorder(null);
+		btnAlimentosGuardar.setBackground(new Color(1, 162, 82));
+		btnAlimentosGuardar.setBounds(686, 574, 196, 33);
+		presAlimentos.add(btnAlimentosGuardar);
+		
+		presEntretenimiento = new JPanel();
+		presEntretenimiento.setBackground(Color.WHITE);
+		presupuestos.add(presEntretenimiento, "name_9887584359500");
+		presEntretenimiento.setLayout(null);
+		
+		Icon presEntretenimientoBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		btnEntretenimientoRegresar = new JLabel("", presEntretenimientoBackIcon, SwingConstants.CENTER);
+		btnEntretenimientoRegresar.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblEliminarPresupuesto.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblEliminarPresupuesto.setVisible(false);
+			public void mouseClicked(MouseEvent e) {
+				presEntretenimiento.setVisible(false);
+				selecPresCateg.setVisible(true);
 			}
 		});
-		lblEliminarPresupuesto.setToolTipText("Eliminar presupuesto");
-		lblEliminarPresupuesto.setForeground(Color.RED);
-		lblEliminarPresupuesto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblEliminarPresupuesto.setVisible(false);
-		lblEliminarPresupuesto.setFont(new Font("Arial", Font.BOLD, 15));
-		lblEliminarPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEliminarPresupuesto.setBounds(320, 0, 30, 15);
-		panel_3.add(lblEliminarPresupuesto);
+		btnEntretenimientoRegresar.setBounds(10, 11, 93, 25);
+		presEntretenimiento.add(btnEntretenimientoRegresar);
 		
-		lblPresupuesto = new JLabel("Presupuestos");
-		lblPresupuesto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPresupuesto.setFont(new Font("Arial", Font.PLAIN, 22));
-		lblPresupuesto.setBounds(0, 35, 1120, 30);
-		presupuestos.add(lblPresupuesto);
+		label_19 = new JLabel("Editar tu presupuesto");
+		label_19.setFont(new Font("Verdana", Font.PLAIN, 20));
+		label_19.setBounds(422, 53, 218, 25);
+		presEntretenimiento.add(label_19);
+		
+		label_21 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+		label_21.setFont(new Font("Verdana", Font.PLAIN, 18));
+		label_21.setBounds(309, 89, 460, 25);
+		presEntretenimiento.add(label_21);
+		
+		panel_10 = new JPanel();
+		panel_10.setLayout(null);
+		panel_10.setBackground(new Color(0, 153, 255));
+		panel_10.setBounds(129, 160, 252, 473);
+		presEntretenimiento.add(panel_10);
+		
+		lblEntretenimiento = new JLabel("Entretenimiento");
+		lblEntretenimiento.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEntretenimiento.setForeground(Color.WHITE);
+		lblEntretenimiento.setFont(new Font("Verdana", Font.BOLD, 20));
+		lblEntretenimiento.setBounds(0, 199, 252, 31);
+		panel_10.add(lblEntretenimiento);
+		
+		panel_14 = new JPanel();
+		panel_14.setBackground(new Color(0, 153, 255));
+		panel_14.setBounds(414, 162, 252, 33);
+		presEntretenimiento.add(panel_14);
+		panel_14.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		lblEntretenimiento_1 = new JLabel("Entretenimiento");
+		lblEntretenimiento_1.setForeground(Color.WHITE);
+		lblEntretenimiento_1.setFont(new Font("Verdana", Font.BOLD, 14));
+		panel_14.add(lblEntretenimiento_1);
+		
+		panel_15 = new JPanel();
+		panel_15.setBackground(new Color(0, 153, 255));
+		panel_15.setBounds(414, 257, 252, 33);
+		presEntretenimiento.add(panel_15);
+		
+		lblCineYMsica = new JLabel("Cine y M\u00FAsica");
+		lblCineYMsica.setForeground(Color.WHITE);
+		lblCineYMsica.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_15.add(lblCineYMsica);
+		
+		label_25 = new JLabel("Subcategor\u00EDas");
+		label_25.setForeground(Color.BLACK);
+		label_25.setFont(new Font("Verdana", Font.BOLD, 15));
+		label_25.setBounds(543, 215, 123, 31);
+		presEntretenimiento.add(label_25);
+		
+		fieldEntretenimiento2 = new JTextField("0");
+		fieldEntretenimiento2.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento2.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento2.setColumns(10);
+		fieldEntretenimiento2.setBounds(686, 257, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento2);
+		
+		panel_16 = new JPanel();
+		panel_16.setBackground(new Color(0, 153, 255));
+		panel_16.setBounds(414, 301, 252, 33);
+		presEntretenimiento.add(panel_16);
+		
+		lblJuegos = new JLabel("Juegos");
+		lblJuegos.setForeground(Color.WHITE);
+		lblJuegos.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_16.add(lblJuegos);
+		
+		fieldEntretenimiento3 = new JTextField("0");
+		fieldEntretenimiento3.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento3.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento3.setColumns(10);
+		fieldEntretenimiento3.setBounds(686, 301, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento3);
+		
+		panel_17 = new JPanel();
+		panel_17.setBackground(new Color(0, 153, 255));
+		panel_17.setBounds(414, 345, 252, 33);
+		presEntretenimiento.add(panel_17);
+		
+		lblMuseosYParqueos = new JLabel("Museos y Parques");
+		lblMuseosYParqueos.setForeground(Color.WHITE);
+		lblMuseosYParqueos.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_17.add(lblMuseosYParqueos);
+		
+		fieldEntretenimiento4 = new JTextField("0");
+		fieldEntretenimiento4.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento4.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento4.setColumns(10);
+		fieldEntretenimiento4.setBounds(686, 345, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento4);
+		
+		panel_18 = new JPanel();
+		panel_18.setBackground(new Color(0, 153, 255));
+		panel_18.setBounds(414, 389, 252, 33);
+		presEntretenimiento.add(panel_18);
+		
+		lblSubscripcionesYApps = new JLabel("Subscripciones y Apps");
+		lblSubscripcionesYApps.setForeground(Color.WHITE);
+		lblSubscripcionesYApps.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_18.add(lblSubscripcionesYApps);
+		
+		fieldEntretenimiento5 = new JTextField("0");
+		fieldEntretenimiento5.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento5.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento5.setColumns(10);
+		fieldEntretenimiento5.setBounds(686, 389, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento5);
+		
+		panel_19 = new JPanel();
+		panel_19.setBackground(new Color(0, 153, 255));
+		panel_19.setBounds(414, 433, 252, 33);
+		presEntretenimiento.add(panel_19);
+		
+		lblAlchoholYTabaco = new JLabel("Alchohol y Tabaco");
+		lblAlchoholYTabaco.setForeground(Color.WHITE);
+		lblAlchoholYTabaco.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_19.add(lblAlchoholYTabaco);
+		
+		fieldEntretenimiento6 = new JTextField("0");
+		fieldEntretenimiento6.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento6.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento6.setColumns(10);
+		fieldEntretenimiento6.setBounds(686, 433, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento6);
+		
+		panel_20 = new JPanel();
+		panel_20.setBackground(new Color(0, 153, 255));
+		panel_20.setBounds(414, 477, 252, 33);
+		presEntretenimiento.add(panel_20);
+		
+		lblEspectculosYEventos = new JLabel("Espect\u00E1culos y Eventos");
+		lblEspectculosYEventos.setForeground(Color.WHITE);
+		lblEspectculosYEventos.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_20.add(lblEspectculosYEventos);
+		
+		fieldEntretenimiento7 = new JTextField("0");
+		fieldEntretenimiento7.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento7.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento7.setColumns(10);
+		fieldEntretenimiento7.setBounds(686, 477, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento7);
+		
+		panel_21 = new JPanel();
+		panel_21.setBackground(new Color(0, 153, 255));
+		panel_21.setBounds(414, 521, 252, 33);
+		presEntretenimiento.add(panel_21);
+		
+		label_31 = new JLabel("Otros");
+		label_31.setForeground(Color.WHITE);
+		label_31.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_21.add(label_31);
+		
+		fieldEntretenimiento8 = new JTextField("0");
+		fieldEntretenimiento8.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimiento8.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimiento8.setColumns(10);
+		fieldEntretenimiento8.setBounds(686, 521, 196, 33);
+		presEntretenimiento.add(fieldEntretenimiento8);
+		
+		btnEntretenimientoGuardar = new JButton("Guardar");
+		btnEntretenimientoGuardar.setForeground(Color.WHITE);
+		btnEntretenimientoGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnEntretenimientoGuardar.setBorder(null);
+		btnEntretenimientoGuardar.setBackground(new Color(1, 162, 82));
+		btnEntretenimientoGuardar.setBounds(686, 574, 196, 33);
+		presEntretenimiento.add(btnEntretenimientoGuardar);
+		
+		fieldEntretenimientoTotal = new JTextField("0");
+		fieldEntretenimientoTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldEntretenimientoTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldEntretenimientoTotal.setColumns(10);
+		fieldEntretenimientoTotal.setBounds(686, 162, 196, 33);
+		presEntretenimiento.add(fieldEntretenimientoTotal);
+		
+		// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener EntretenimientoDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldEntretenimiento2.getText()) + Double.parseDouble(fieldEntretenimiento3.getText()) + Double.parseDouble(fieldEntretenimiento4.getText()) +
+								Double.parseDouble(fieldEntretenimiento5.getText()) + Double.parseDouble(fieldEntretenimiento6.getText()) + Double.parseDouble(fieldEntretenimiento7.getText()) + Double.parseDouble(fieldEntretenimiento8.getText());
+						fieldEntretenimientoTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldEntretenimiento2.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimiento3.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimiento4.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimiento5.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimiento6.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimiento7.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimiento8.getDocument().addDocumentListener(EntretenimientoDL);
+				fieldEntretenimientoTotal.setEditable(false);
+				
+				presSalud = new JPanel();
+				presSalud.setBackground(Color.WHITE);
+				presupuestos.add(presSalud, "name_10955858738400");
+				presSalud.setLayout(null);
+				
+				Icon presSaludBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+				
+				btnSaludRegresar = new JLabel("", presSaludBackIcon, JLabel.CENTER);
+				btnSaludRegresar.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						presSalud.setVisible(false);
+						selecPresCateg.setVisible(true);
+					}
+				});
+				btnSaludRegresar.setBounds(10, 11, 93, 25);
+				presSalud.add(btnSaludRegresar);
+				
+				label_22 = new JLabel("Editar tu presupuesto");
+				label_22.setFont(new Font("Verdana", Font.PLAIN, 20));
+				label_22.setBounds(422, 53, 218, 25);
+				presSalud.add(label_22);
+				
+				label_23 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+				label_23.setFont(new Font("Verdana", Font.PLAIN, 18));
+				label_23.setBounds(309, 89, 460, 25);
+				presSalud.add(label_23);
+				
+				panel_22 = new JPanel();
+				panel_22.setLayout(null);
+				panel_22.setBackground(new Color(0, 153, 255));
+				panel_22.setBounds(129, 160, 252, 473);
+				presSalud.add(panel_22);
+				
+				lblSaludYBelleza = new JLabel("Salud y Belleza");
+				lblSaludYBelleza.setHorizontalAlignment(SwingConstants.CENTER);
+				lblSaludYBelleza.setForeground(Color.WHITE);
+				lblSaludYBelleza.setFont(new Font("Verdana", Font.BOLD, 20));
+				lblSaludYBelleza.setBounds(0, 199, 252, 31);
+				panel_22.add(lblSaludYBelleza);
+				
+				panel_23 = new JPanel();
+				panel_23.setBackground(new Color(0, 153, 255));
+				panel_23.setBounds(414, 162, 252, 33);
+				presSalud.add(panel_23);
+				panel_23.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				
+				lblSaludYBelleza_1 = new JLabel("Salud y Belleza");
+				lblSaludYBelleza_1.setForeground(Color.WHITE);
+				lblSaludYBelleza_1.setFont(new Font("Verdana", Font.BOLD, 14));
+				panel_23.add(lblSaludYBelleza_1);
+				
+				label_27 = new JLabel("Subcategor\u00EDas");
+				label_27.setForeground(Color.BLACK);
+				label_27.setFont(new Font("Verdana", Font.BOLD, 15));
+				label_27.setBounds(543, 215, 123, 31);
+				presSalud.add(label_27);
+				
+				panel_24 = new JPanel();
+				panel_24.setBackground(new Color(0, 153, 255));
+				panel_24.setBounds(414, 257, 252, 33);
+				presSalud.add(panel_24);
+				
+				lblPerfumesYCosmeticos = new JLabel("Perfumes y Cosmeticos");
+				lblPerfumesYCosmeticos.setForeground(Color.WHITE);
+				lblPerfumesYCosmeticos.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_24.add(lblPerfumesYCosmeticos);
+				
+				fieldSalud2 = new JTextField("0");
+				fieldSalud2.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud2.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud2.setColumns(10);
+				fieldSalud2.setBounds(686, 257, 196, 33);
+				presSalud.add(fieldSalud2);
+				
+				panel_25 = new JPanel();
+				panel_25.setBackground(new Color(0, 153, 255));
+				panel_25.setBounds(414, 301, 252, 33);
+				presSalud.add(panel_25);
+				
+				lblCuidadoPersonal = new JLabel("Cuidado personal");
+				lblCuidadoPersonal.setForeground(Color.WHITE);
+				lblCuidadoPersonal.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_25.add(lblCuidadoPersonal);
+				
+				fieldSalud3 = new JTextField("0");
+				fieldSalud3.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud3.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud3.setColumns(10);
+				fieldSalud3.setBounds(686, 301, 196, 33);
+				presSalud.add(fieldSalud3);
+				
+				panel_26 = new JPanel();
+				panel_26.setBackground(new Color(0, 153, 255));
+				panel_26.setBounds(414, 345, 252, 33);
+				presSalud.add(panel_26);
+				
+				lblDentisat = new JLabel("Dentista");
+				lblDentisat.setForeground(Color.WHITE);
+				lblDentisat.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_26.add(lblDentisat);
+				
+				fieldSalud4 = new JTextField("0");
+				fieldSalud4.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud4.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud4.setColumns(10);
+				fieldSalud4.setBounds(686, 345, 196, 33);
+				presSalud.add(fieldSalud4);
+				
+				panel_27 = new JPanel();
+				panel_27.setBackground(new Color(0, 153, 255));
+				panel_27.setBounds(414, 389, 252, 33);
+				presSalud.add(panel_27);
+				
+				lblDeportesYEquipos = new JLabel("Deportes y Equipos deportivos");
+				lblDeportesYEquipos.setForeground(Color.WHITE);
+				lblDeportesYEquipos.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_27.add(lblDeportesYEquipos);
+				
+				fieldSalud5 = new JTextField("0");
+				fieldSalud5.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud5.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud5.setColumns(10);
+				fieldSalud5.setBounds(686, 389, 196, 33);
+				presSalud.add(fieldSalud5);
+				
+				panel_28 = new JPanel();
+				panel_28.setBackground(new Color(0, 153, 255));
+				panel_28.setBounds(414, 433, 252, 33);
+				presSalud.add(panel_28);
+				
+				lblFarmacia = new JLabel("Farmacia");
+				lblFarmacia.setForeground(Color.WHITE);
+				lblFarmacia.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_28.add(lblFarmacia);
+				
+				fieldSalud6 = new JTextField("0");
+				fieldSalud6.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud6.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud6.setColumns(10);
+				fieldSalud6.setBounds(686, 433, 196, 33);
+				presSalud.add(fieldSalud6);
+				
+				fieldSalud7 = new JTextField("0");
+				fieldSalud7.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud7.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud7.setColumns(10);
+				fieldSalud7.setBounds(686, 477, 196, 33);
+				presSalud.add(fieldSalud7);
+				
+				panel_29 = new JPanel();
+				panel_29.setBackground(new Color(0, 153, 255));
+				panel_29.setBounds(414, 477, 252, 33);
+				presSalud.add(panel_29);
+				
+				lblMdico = new JLabel("M\u00E9dico");
+				lblMdico.setForeground(Color.WHITE);
+				lblMdico.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_29.add(lblMdico);
+				
+				panel_30 = new JPanel();
+				panel_30.setBackground(new Color(0, 153, 255));
+				panel_30.setBounds(414, 521, 252, 33);
+				presSalud.add(panel_30);
+				
+				label_35 = new JLabel("Otros");
+				label_35.setForeground(Color.WHITE);
+				label_35.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_30.add(label_35);
+				
+				fieldSalud8 = new JTextField("0");
+				fieldSalud8.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSalud8.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSalud8.setColumns(10);
+				fieldSalud8.setBounds(686, 521, 196, 33);
+				presSalud.add(fieldSalud8);
+				
+				button = new JButton("Guardar");
+				button.setForeground(Color.WHITE);
+				button.setFont(new Font("Verdana", Font.BOLD, 14));
+				button.setBorder(null);
+				button.setBackground(new Color(1, 162, 82));
+				button.setBounds(686, 574, 196, 33);
+				presSalud.add(button);
+				
+				fieldSaludTotal = new JTextField("0");
+				fieldSaludTotal.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldSaludTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldSaludTotal.setColumns(10);
+				fieldSaludTotal.setBounds(686, 160, 196, 33);
+				presSalud.add(fieldSaludTotal);
+				
+				// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener saludDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldSalud2.getText()) + Double.parseDouble(fieldSalud3.getText()) + Double.parseDouble(fieldSalud4.getText()) +
+								Double.parseDouble(fieldSalud5.getText()) + Double.parseDouble(fieldSalud6.getText()) + Double.parseDouble(fieldSalud7.getText()) + Double.parseDouble(fieldSalud8.getText());
+						fieldSaludTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldSalud2.getDocument().addDocumentListener(saludDL);
+				fieldSalud3.getDocument().addDocumentListener(saludDL);
+				fieldSalud4.getDocument().addDocumentListener(saludDL);
+				fieldSalud5.getDocument().addDocumentListener(saludDL);
+				fieldSalud6.getDocument().addDocumentListener(saludDL);
+				fieldSalud7.getDocument().addDocumentListener(saludDL);
+				fieldSalud8.getDocument().addDocumentListener(saludDL);
+				fieldSaludTotal.setEditable(false);
+				
+				
+				presEducacion = new JPanel();
+				presEducacion.setBackground(Color.WHITE);
+				presupuestos.add(presEducacion, "name_10981010212400");
+				presEducacion.setLayout(null);
+				
+				Icon presEducacionBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+				
+				JLabel btnEducacionRegresar = new JLabel("", presEducacionBackIcon, JLabel.CENTER);
+				btnEducacionRegresar.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						presEducacion.setVisible(false);
+						selecPresCateg.setVisible(true);
+					}
+				});
+				btnEducacionRegresar.setBounds(10, 11, 93, 25);
+				presEducacion.add(btnEducacionRegresar);
+				
+				JLabel label_24 = new JLabel("Editar tu presupuesto");
+				label_24.setFont(new Font("Verdana", Font.PLAIN, 20));
+				label_24.setBounds(422, 53, 218, 26);
+				presEducacion.add(label_24);
+				
+				JLabel label_26 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+				label_26.setFont(new Font("Verdana", Font.PLAIN, 18));
+				label_26.setBounds(309, 89, 460, 23);
+				presEducacion.add(label_26);
+				
+				JPanel panel_31 = new JPanel();
+				panel_31.setLayout(null);
+				panel_31.setBackground(new Color(0, 153, 255));
+				panel_31.setBounds(129, 160, 252, 473);
+				presEducacion.add(panel_31);
+				
+				JLabel lblEducacion = new JLabel("Educacion");
+				lblEducacion.setHorizontalAlignment(SwingConstants.CENTER);
+				lblEducacion.setForeground(Color.WHITE);
+				lblEducacion.setFont(new Font("Verdana", Font.BOLD, 14));
+				lblEducacion.setBounds(0, 219, 252, 33);
+				panel_31.add(lblEducacion);
+				
+				JPanel panel_32 = new JPanel();
+				panel_32.setBackground(new Color(0, 153, 255));
+				panel_32.setBounds(407, 162, 252, 33);
+				presEducacion.add(panel_32);
+				
+				JLabel lblEducacion_1 = new JLabel("Educacion");
+				lblEducacion_1.setForeground(Color.WHITE);
+				lblEducacion_1.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_32.add(lblEducacion_1);
+				
+				JLabel label_30 = new JLabel("Subcategor\u00EDas");
+				label_30.setForeground(Color.BLACK);
+				label_30.setFont(new Font("Verdana", Font.BOLD, 15));
+				label_30.setBounds(543, 215, 116, 20);
+				presEducacion.add(label_30);
+				
+				JPanel panel_33 = new JPanel();
+				panel_33.setBackground(new Color(0, 153, 255));
+				panel_33.setBounds(414, 257, 252, 33);
+				presEducacion.add(panel_33);
+				
+				JLabel lblColegiatura = new JLabel("Colegiatura");
+				lblColegiatura.setForeground(Color.WHITE);
+				lblColegiatura.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_33.add(lblColegiatura);
+				
+				fieldEducacion2 = new JTextField("0");
+				fieldEducacion2.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion2.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion2.setColumns(10);
+				fieldEducacion2.setBounds(686, 257, 196, 33);
+				presEducacion.add(fieldEducacion2);
+				
+				JPanel panel_34 = new JPanel();
+				panel_34.setBackground(new Color(0, 153, 255));
+				panel_34.setBounds(414, 301, 252, 33);
+				presEducacion.add(panel_34);
+				
+				JLabel lblPapelieria = new JLabel("Papeleria");
+				lblPapelieria.setForeground(Color.WHITE);
+				lblPapelieria.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_34.add(lblPapelieria);
+				
+				fieldEducacion3 = new JTextField("0");
+				fieldEducacion3.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion3.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion3.setColumns(10);
+				fieldEducacion3.setBounds(686, 301, 196, 33);
+				presEducacion.add(fieldEducacion3);
+				
+				JPanel panel_35 = new JPanel();
+				panel_35.setBackground(new Color(0, 153, 255));
+				panel_35.setBounds(414, 345, 252, 33);
+				presEducacion.add(panel_35);
+				
+				JLabel lblLibros = new JLabel("Libros");
+				lblLibros.setForeground(Color.WHITE);
+				lblLibros.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_35.add(lblLibros);
+				
+				fieldEducacion4 = new JTextField("0");
+				fieldEducacion4.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion4.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion4.setColumns(10);
+				fieldEducacion4.setBounds(686, 345, 196, 33);
+				presEducacion.add(fieldEducacion4);
+				
+				JPanel panel_36 = new JPanel();
+				panel_36.setBackground(new Color(0, 153, 255));
+				panel_36.setBounds(414, 389, 252, 33);
+				presEducacion.add(panel_36);
+				
+				JLabel lblSoftware = new JLabel("Software");
+				lblSoftware.setForeground(Color.WHITE);
+				lblSoftware.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_36.add(lblSoftware);
+				
+				fieldEducacion5 = new JTextField("0");
+				fieldEducacion5.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion5.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion5.setColumns(10);
+				fieldEducacion5.setBounds(686, 389, 196, 33);
+				presEducacion.add(fieldEducacion5);
+				
+				JPanel panel_37 = new JPanel();
+				panel_37.setBackground(new Color(0, 153, 255));
+				panel_37.setBounds(414, 433, 252, 33);
+				presEducacion.add(panel_37);
+				
+				JLabel lblCreditoEstudiantil = new JLabel("Credito estudiantil");
+				lblCreditoEstudiantil.setForeground(Color.WHITE);
+				lblCreditoEstudiantil.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_37.add(lblCreditoEstudiantil);
+				
+				fieldEducacion6 = new JTextField("0");
+				fieldEducacion6.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion6.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion6.setColumns(10);
+				fieldEducacion6.setBounds(686, 433, 196, 33);
+				presEducacion.add(fieldEducacion6);
+				
+				JPanel panel_38 = new JPanel();
+				panel_38.setBackground(new Color(0, 153, 255));
+				panel_38.setBounds(414, 477, 252, 33);
+				presEducacion.add(panel_38);
+				
+				JLabel lblViajesEscolares = new JLabel("Viajes escolares");
+				lblViajesEscolares.setForeground(Color.WHITE);
+				lblViajesEscolares.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_38.add(lblViajesEscolares);
+				
+				fieldEducacion7 = new JTextField("0");
+				fieldEducacion7.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion7.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion7.setColumns(10);
+				fieldEducacion7.setBounds(686, 477, 196, 33);
+				presEducacion.add(fieldEducacion7);
+				
+				JPanel panel_39 = new JPanel();
+				panel_39.setBackground(new Color(0, 153, 255));
+				panel_39.setBounds(414, 521, 252, 33);
+				presEducacion.add(panel_39);
+				
+				JLabel label_39 = new JLabel("Otros");
+				label_39.setForeground(Color.WHITE);
+				label_39.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_39.add(label_39);
+				
+				fieldEducacion8 = new JTextField("0");
+				fieldEducacion8.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacion8.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacion8.setColumns(10);
+				fieldEducacion8.setBounds(686, 521, 196, 33);
+				presEducacion.add(fieldEducacion8);
+				
+				fieldEducacionTotal = new JTextField("0");
+				fieldEducacionTotal.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldEducacionTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldEducacionTotal.setColumns(10);
+				fieldEducacionTotal.setBounds(686, 160, 196, 33);
+				presEducacion.add(fieldEducacionTotal);
+				
+				
+				// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener educacionDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldEducacion2.getText()) + Double.parseDouble(fieldEducacion3.getText()) + Double.parseDouble(fieldEducacion4.getText()) +
+								Double.parseDouble(fieldEducacion5.getText()) + Double.parseDouble(fieldEducacion6.getText()) + Double.parseDouble(fieldEducacion7.getText()) + Double.parseDouble(fieldEducacion8.getText());
+						fieldEducacionTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldEducacion2.getDocument().addDocumentListener(educacionDL);
+				fieldEducacion3.getDocument().addDocumentListener(educacionDL);
+				fieldEducacion4.getDocument().addDocumentListener(educacionDL);
+				fieldEducacion5.getDocument().addDocumentListener(educacionDL);
+				fieldEducacion6.getDocument().addDocumentListener(educacionDL);
+				fieldEducacion7.getDocument().addDocumentListener(educacionDL);
+				fieldEducacion8.getDocument().addDocumentListener(educacionDL);
+				fieldEducacionTotal.setEditable(false);
+				
+				JButton btnEducacionGuardar = new JButton("Guardar");
+				btnEducacionGuardar.setForeground(Color.WHITE);
+				btnEducacionGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnEducacionGuardar.setBorder(null);
+				btnEducacionGuardar.setBackground(new Color(1, 162, 82));
+				btnEducacionGuardar.setBounds(686, 574, 196, 33);
+				presEducacion.add(btnEducacionGuardar);
+				
+				
+				
+				presFinanzas = new JPanel();
+				presFinanzas.setBackground(Color.WHITE);
+				presupuestos.add(presFinanzas, "name_11031665595600");
+				presFinanzas.setLayout(null);
+				
+				Icon presFinanzasBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+				
+				btnFinanzasRegresar = new JLabel("", presFinanzasBackIcon, JLabel.CENTER);
+				btnFinanzasRegresar.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						presFinanzas.setVisible(false);
+						selecPresCateg.setVisible(true);
+					}
+				});
+				btnFinanzasRegresar.setBounds(10, 11, 93, 25);
+				presFinanzas.add(btnFinanzasRegresar);
+				
+				label_28 = new JLabel("Editar tu presupuesto");
+				label_28.setFont(new Font("Verdana", Font.PLAIN, 20));
+				label_28.setBounds(422, 53, 218, 25);
+				presFinanzas.add(label_28);
+				
+				label_29 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+				label_29.setFont(new Font("Verdana", Font.PLAIN, 18));
+				label_29.setBounds(309, 89, 460, 25);
+				presFinanzas.add(label_29);
+				
+				panel_40 = new JPanel();
+				panel_40.setLayout(null);
+				panel_40.setBackground(new Color(0, 153, 255));
+				panel_40.setBounds(129, 160, 252, 473);
+				presFinanzas.add(panel_40);
+				
+				lblFinanzas = new JLabel("Finanzas e Impuestos");
+				lblFinanzas.setHorizontalAlignment(SwingConstants.CENTER);
+				lblFinanzas.setForeground(Color.WHITE);
+				lblFinanzas.setFont(new Font("Verdana", Font.BOLD, 20));
+				lblFinanzas.setBounds(0, 199, 252, 31);
+				panel_40.add(lblFinanzas);
+				
+				panel_41 = new JPanel();
+				panel_41.setBackground(new Color(0, 153, 255));
+				panel_41.setBounds(414, 162, 252, 33);
+				presFinanzas.add(panel_41);
+				panel_41.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				
+				lblFinanzasEImpuestos = new JLabel("Finanzas e Impuestos");
+				lblFinanzasEImpuestos.setForeground(Color.WHITE);
+				lblFinanzasEImpuestos.setFont(new Font("Verdana", Font.BOLD, 14));
+				panel_41.add(lblFinanzasEImpuestos);
+				
+				panel_42 = new JPanel();
+				panel_42.setBackground(new Color(0, 153, 255));
+				panel_42.setBounds(414, 257, 252, 33);
+				presFinanzas.add(panel_42);
+				
+				lblSeguros = new JLabel("Seguros");
+				lblSeguros.setForeground(Color.WHITE);
+				lblSeguros.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_42.add(lblSeguros);
+				
+				label_36 = new JLabel("Subcategor\u00EDas");
+				label_36.setForeground(Color.BLACK);
+				label_36.setFont(new Font("Verdana", Font.BOLD, 15));
+				label_36.setBounds(543, 215, 123, 31);
+				presFinanzas.add(label_36);
+				
+				fieldFinanzas2 = new JTextField("0");
+				fieldFinanzas2.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas2.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas2.setColumns(10);
+				fieldFinanzas2.setBounds(686, 257, 196, 33);
+				presFinanzas.add(fieldFinanzas2);
+				
+				panel_43 = new JPanel();
+				panel_43.setBackground(new Color(0, 153, 255));
+				panel_43.setBounds(414, 301, 252, 33);
+				presFinanzas.add(panel_43);
+				
+				lblImpuestos = new JLabel("Impuestos");
+				lblImpuestos.setForeground(Color.WHITE);
+				lblImpuestos.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_43.add(lblImpuestos);
+				
+				fieldFinanzas3 = new JTextField("0");
+				fieldFinanzas3.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas3.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas3.setColumns(10);
+				fieldFinanzas3.setBounds(686, 301, 196, 33);
+				presFinanzas.add(fieldFinanzas3);
+				
+				panel_44 = new JPanel();
+				panel_44.setBackground(new Color(0, 153, 255));
+				panel_44.setBounds(414, 345, 252, 33);
+				presFinanzas.add(panel_44);
+				
+				lblMultas = new JLabel("Multas");
+				lblMultas.setForeground(Color.WHITE);
+				lblMultas.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_44.add(lblMultas);
+				
+				fieldFinanzas4 = new JTextField("0");
+				fieldFinanzas4.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas4.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas4.setColumns(10);
+				fieldFinanzas4.setBounds(686, 345, 196, 33);
+				presFinanzas.add(fieldFinanzas4);
+				
+				panel_45 = new JPanel();
+				panel_45.setBackground(new Color(0, 153, 255));
+				panel_45.setBounds(414, 389, 252, 33);
+				presFinanzas.add(panel_45);
+				
+				lblServiviosFinancioer = new JLabel("Servicios Financieros");
+				lblServiviosFinancioer.setForeground(Color.WHITE);
+				lblServiviosFinancioer.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_45.add(lblServiviosFinancioer);
+				
+				fieldFinanzas5 = new JTextField("0");
+				fieldFinanzas5.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas5.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas5.setColumns(10);
+				fieldFinanzas5.setBounds(686, 389, 196, 33);
+				presFinanzas.add(fieldFinanzas5);
+				
+				panel_46 = new JPanel();
+				panel_46.setBackground(new Color(0, 153, 255));
+				panel_46.setBounds(414, 433, 252, 33);
+				presFinanzas.add(panel_46);
+				
+				lblTransferenciosOCheques = new JLabel("Transferencios o Cheques");
+				lblTransferenciosOCheques.setForeground(Color.WHITE);
+				lblTransferenciosOCheques.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_46.add(lblTransferenciosOCheques);
+				
+				fieldFinanzas6 = new JTextField("0");
+				fieldFinanzas6.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas6.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas6.setColumns(10);
+				fieldFinanzas6.setBounds(686, 433, 196, 33);
+				presFinanzas.add(fieldFinanzas6);
+				
+				panel_47 = new JPanel();
+				panel_47.setBackground(new Color(0, 153, 255));
+				panel_47.setBounds(414, 477, 252, 33);
+				presFinanzas.add(panel_47);
+				
+				lblTarjetasDeCredito = new JLabel("Tarjetas de credito");
+				lblTarjetasDeCredito.setForeground(Color.WHITE);
+				lblTarjetasDeCredito.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_47.add(lblTarjetasDeCredito);
+				
+				fieldFinanzas7 = new JTextField("0");
+				fieldFinanzas7.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas7.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas7.setColumns(10);
+				fieldFinanzas7.setBounds(686, 477, 196, 33);
+				presFinanzas.add(fieldFinanzas7);
+				
+				panel_48 = new JPanel();
+				panel_48.setBackground(new Color(0, 153, 255));
+				panel_48.setBounds(414, 521, 252, 33);
+				presFinanzas.add(panel_48);
+				
+				label_43 = new JLabel("Otros");
+				label_43.setForeground(Color.WHITE);
+				label_43.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_48.add(label_43);
+				
+				fieldFinanzas8 = new JTextField("0");
+				fieldFinanzas8.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzas8.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzas8.setColumns(10);
+				fieldFinanzas8.setBounds(686, 521, 196, 33);
+				presFinanzas.add(fieldFinanzas8);
+				
+				btnFinanzasGuardar = new JButton("Guardar");
+				btnFinanzasGuardar.setForeground(Color.WHITE);
+				btnFinanzasGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnFinanzasGuardar.setBorder(null);
+				btnFinanzasGuardar.setBackground(new Color(1, 162, 82));
+				btnFinanzasGuardar.setBounds(686, 574, 196, 33);
+				presFinanzas.add(btnFinanzasGuardar);
+				
+				fieldFinanzasTotal = new JTextField("0");
+				fieldFinanzasTotal.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldFinanzasTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldFinanzasTotal.setColumns(10);
+				fieldFinanzasTotal.setBounds(686, 162, 196, 33);
+				presFinanzas.add(fieldFinanzasTotal);
+				
+				// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener finanzasDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldFinanzas2.getText()) + Double.parseDouble(fieldFinanzas3.getText()) + Double.parseDouble(fieldFinanzas4.getText()) +
+								Double.parseDouble(fieldFinanzas5.getText()) + Double.parseDouble(fieldFinanzas6.getText()) + Double.parseDouble(fieldFinanzas7.getText()) + Double.parseDouble(fieldFinanzas8.getText());
+						fieldFinanzasTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldFinanzas2.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzas3.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzas4.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzas5.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzas6.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzas7.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzas8.getDocument().addDocumentListener(finanzasDL);
+				fieldFinanzasTotal.setEditable(false);
+				
+				presRopa = new JPanel();
+				presRopa.setBackground(Color.WHITE);
+				presupuestos.add(presRopa, "name_55010010732700");
+				presRopa.setLayout(null);
+				
+				Icon presRopaBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+				
+				btnRopaRegresar = new JLabel("", presRopaBackIcon, JLabel.CENTER);
+				btnRopaRegresar.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+						presRopa.setVisible(false);
+						selecPresCateg.setVisible(true);
+					}
+				});
+				btnRopaRegresar.setBounds(10, 11, 93, 25);
+				presRopa.add(btnRopaRegresar);
+				
+				label_32 = new JLabel("Editar tu presupuesto");
+				label_32.setFont(new Font("Verdana", Font.PLAIN, 20));
+				label_32.setBounds(422, 53, 218, 26);
+				presRopa.add(label_32);
+				
+				label_33 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+				label_33.setFont(new Font("Verdana", Font.PLAIN, 18));
+				label_33.setBounds(309, 89, 460, 23);
+				presRopa.add(label_33);
+				
+				panel_49 = new JPanel();
+				panel_49.setLayout(null);
+				panel_49.setBackground(new Color(0, 153, 255));
+				panel_49.setBounds(129, 160, 252, 473);
+				presRopa.add(panel_49);
+				
+				lblRopaYCalzado = new JLabel("Ropa y Calzado");
+				lblRopaYCalzado.setHorizontalAlignment(SwingConstants.CENTER);
+				lblRopaYCalzado.setForeground(Color.WHITE);
+				lblRopaYCalzado.setFont(new Font("Verdana", Font.BOLD, 14));
+				lblRopaYCalzado.setBounds(0, 219, 252, 33);
+				panel_49.add(lblRopaYCalzado);
+				
+				panel_50 = new JPanel();
+				panel_50.setBackground(new Color(0, 153, 255));
+				panel_50.setBounds(407, 162, 252, 33);
+				presRopa.add(panel_50);
+				
+				lblRopaYCalzado_1 = new JLabel("Ropa y Calzado");
+				lblRopaYCalzado_1.setForeground(Color.WHITE);
+				lblRopaYCalzado_1.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_50.add(lblRopaYCalzado_1);
+				
+				label_38 = new JLabel("Subcategor\u00EDas");
+				label_38.setForeground(Color.BLACK);
+				label_38.setFont(new Font("Verdana", Font.BOLD, 15));
+				label_38.setBounds(543, 215, 116, 20);
+				presRopa.add(label_38);
+				
+				panel_51 = new JPanel();
+				panel_51.setBackground(new Color(0, 153, 255));
+				panel_51.setBounds(414, 257, 252, 33);
+				presRopa.add(panel_51);
+				
+				lblCalzado = new JLabel("Calzado");
+				lblCalzado.setForeground(Color.WHITE);
+				lblCalzado.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_51.add(lblCalzado);
+				
+				fieldRopa2 = new JTextField("0");
+				fieldRopa2.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldRopa2.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldRopa2.setColumns(10);
+				fieldRopa2.setBounds(686, 257, 196, 33);
+				presRopa.add(fieldRopa2);
+				
+				panel_52 = new JPanel();
+				panel_52.setBackground(new Color(0, 153, 255));
+				panel_52.setBounds(414, 315, 252, 33);
+				presRopa.add(panel_52);
+				
+				lblAccesorios = new JLabel("Accesorios");
+				lblAccesorios.setForeground(Color.WHITE);
+				lblAccesorios.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_52.add(lblAccesorios);
+				
+				fieldRopa3 = new JTextField("0");
+				fieldRopa3.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldRopa3.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldRopa3.setColumns(10);
+				fieldRopa3.setBounds(686, 315, 196, 33);
+				presRopa.add(fieldRopa3);
+				
+				panel_53 = new JPanel();
+				panel_53.setBackground(new Color(0, 153, 255));
+				panel_53.setBounds(414, 371, 252, 33);
+				presRopa.add(panel_53);
+				
+				lblLavanderiaYTintoreria = new JLabel("Lavanderia y Tintoreria");
+				lblLavanderiaYTintoreria.setForeground(Color.WHITE);
+				lblLavanderiaYTintoreria.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_53.add(lblLavanderiaYTintoreria);
+				
+				fieldRopa4 = new JTextField("0");
+				fieldRopa4.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldRopa4.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldRopa4.setColumns(10);
+				fieldRopa4.setBounds(686, 371, 196, 33);
+				presRopa.add(fieldRopa4);
+				
+				panel_54 = new JPanel();
+				panel_54.setBackground(new Color(0, 153, 255));
+				panel_54.setBounds(414, 432, 252, 33);
+				presRopa.add(panel_54);
+				
+				lblRopa = new JLabel("Ropa");
+				lblRopa.setForeground(Color.WHITE);
+				lblRopa.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_54.add(lblRopa);
+				
+				fieldRopa5 = new JTextField("0");
+				fieldRopa5.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldRopa5.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldRopa5.setColumns(10);
+				fieldRopa5.setBounds(686, 432, 196, 33);
+				presRopa.add(fieldRopa5);
+				
+				panel_55 = new JPanel();
+				panel_55.setBackground(new Color(0, 153, 255));
+				panel_55.setBounds(414, 494, 252, 33);
+				presRopa.add(panel_55);
+				
+				lblOtros_1 = new JLabel("Otros");
+				lblOtros_1.setForeground(Color.WHITE);
+				lblOtros_1.setFont(new Font("Verdana", Font.BOLD, 13));
+				panel_55.add(lblOtros_1);
+				
+				fieldRopa6 = new JTextField("0");
+				fieldRopa6.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldRopa6.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldRopa6.setColumns(10);
+				fieldRopa6.setBounds(686, 494, 196, 33);
+				presRopa.add(fieldRopa6);
+				
+				btnRopaGuardar = new JButton("Guardar");
+				btnRopaGuardar.setForeground(Color.WHITE);
+				btnRopaGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnRopaGuardar.setBorder(null);
+				btnRopaGuardar.setBackground(new Color(1, 162, 82));
+				btnRopaGuardar.setBounds(686, 574, 196, 33);
+				presRopa.add(btnRopaGuardar);
+				
+				fieldRopaTotal = new JTextField("0");
+				fieldRopaTotal.setHorizontalAlignment(SwingConstants.CENTER);
+				fieldRopaTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+				fieldRopaTotal.setColumns(10);
+				fieldRopaTotal.setBounds(686, 162, 196, 33);
+				presRopa.add(fieldRopaTotal);
+				
+				// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener ropaDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldRopa2.getText()) + Double.parseDouble(fieldRopa3.getText()) + Double.parseDouble(fieldRopa4.getText()) +
+								Double.parseDouble(fieldRopa5.getText()) + Double.parseDouble(fieldRopa6.getText());
+						fieldRopaTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldRopa2.getDocument().addDocumentListener(ropaDL);
+				fieldRopa3.getDocument().addDocumentListener(ropaDL);
+				fieldRopa4.getDocument().addDocumentListener(ropaDL);
+				fieldRopa5.getDocument().addDocumentListener(ropaDL);
+				fieldRopa6.getDocument().addDocumentListener(ropaDL);
+				fieldRopaTotal.setEditable(false);
+		
+		presRegalos = new JPanel();
+		presRegalos.setBackground(Color.WHITE);
+		presupuestos.add(presRegalos, "name_56365497182200");
+		presRegalos.setLayout(null);
+		
+		Icon presRegreBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		btnRegalosRegresar = new JLabel("", presRegreBackIcon, JLabel.CENTER);
+		btnRegalosRegresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				presRegalos.setVisible(false);
+				selecPresCateg.setVisible(true);
+			}
+		});
+		btnRegalosRegresar.setBounds(10, 11, 93, 25);
+		presRegalos.add(btnRegalosRegresar);
+		
+		label_34 = new JLabel("Editar tu presupuesto");
+		label_34.setFont(new Font("Verdana", Font.PLAIN, 20));
+		label_34.setBounds(422, 53, 218, 26);
+		presRegalos.add(label_34);
+		
+		label_37 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+		label_37.setFont(new Font("Verdana", Font.PLAIN, 18));
+		label_37.setBounds(309, 89, 460, 23);
+		presRegalos.add(label_37);
+		
+		panel_56 = new JPanel();
+		panel_56.setLayout(null);
+		panel_56.setBackground(new Color(0, 153, 255));
+		panel_56.setBounds(129, 160, 252, 473);
+		presRegalos.add(panel_56);
+		
+		lblRegalosYAyuda = new JLabel("Regalos y Ayuda");
+		lblRegalosYAyuda.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegalosYAyuda.setForeground(Color.WHITE);
+		lblRegalosYAyuda.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblRegalosYAyuda.setBounds(0, 219, 252, 33);
+		panel_56.add(lblRegalosYAyuda);
+		
+		panel_57 = new JPanel();
+		panel_57.setBackground(new Color(0, 153, 255));
+		panel_57.setBounds(407, 162, 252, 33);
+		presRegalos.add(panel_57);
+		
+		lblRegalosYAyuda_1 = new JLabel("Regalos y Ayuda");
+		lblRegalosYAyuda_1.setForeground(Color.WHITE);
+		lblRegalosYAyuda_1.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_57.add(lblRegalosYAyuda_1);
+		
+		panel_58 = new JPanel();
+		panel_58.setBackground(new Color(0, 153, 255));
+		panel_58.setBounds(414, 257, 252, 33);
+		presRegalos.add(panel_58);
+		
+		lblDonaciones = new JLabel("Donaciones");
+		lblDonaciones.setForeground(Color.WHITE);
+		lblDonaciones.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_58.add(lblDonaciones);
+		
+		fieldRegalos2 = new JTextField("0");
+		fieldRegalos2.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldRegalos2.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldRegalos2.setColumns(10);
+		fieldRegalos2.setBounds(686, 257, 196, 33);
+		presRegalos.add(fieldRegalos2);
+		
+		panel_59 = new JPanel();
+		panel_59.setBackground(new Color(0, 153, 255));
+		panel_59.setBounds(414, 315, 252, 33);
+		presRegalos.add(panel_59);
+		
+		lblApoyoAFamiliaresamigos = new JLabel("Apoyo a familiares/amigos");
+		lblApoyoAFamiliaresamigos.setForeground(Color.WHITE);
+		lblApoyoAFamiliaresamigos.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_59.add(lblApoyoAFamiliaresamigos);
+		
+		fieldRegalos3 = new JTextField("0");
+		fieldRegalos3.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldRegalos3.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldRegalos3.setColumns(10);
+		fieldRegalos3.setBounds(686, 315, 196, 33);
+		presRegalos.add(fieldRegalos3);
+		
+		panel_60 = new JPanel();
+		panel_60.setBackground(new Color(0, 153, 255));
+		panel_60.setBounds(414, 371, 252, 33);
+		presRegalos.add(panel_60);
+		
+		lblRegalos = new JLabel("Regalos");
+		lblRegalos.setForeground(Color.WHITE);
+		lblRegalos.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_60.add(lblRegalos);
+		
+		fieldRegalos4 = new JTextField("0");
+		fieldRegalos4.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldRegalos4.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldRegalos4.setColumns(10);
+		fieldRegalos4.setBounds(686, 371, 196, 33);
+		presRegalos.add(fieldRegalos4);
+		
+		panel_61 = new JPanel();
+		panel_61.setBackground(new Color(0, 153, 255));
+		panel_61.setBounds(414, 432, 252, 33);
+		presRegalos.add(panel_61);
+		
+		lblAyudaHumanitaria = new JLabel("Ayuda Humanitaria");
+		lblAyudaHumanitaria.setForeground(Color.WHITE);
+		lblAyudaHumanitaria.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_61.add(lblAyudaHumanitaria);
+		
+		fieldRegalos5 = new JTextField("0");
+		fieldRegalos5.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldRegalos5.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldRegalos5.setColumns(10);
+		fieldRegalos5.setBounds(686, 432, 196, 33);
+		presRegalos.add(fieldRegalos5);
+		
+		panel_62 = new JPanel();
+		panel_62.setBackground(new Color(0, 153, 255));
+		panel_62.setBounds(414, 494, 252, 33);
+		presRegalos.add(panel_62);
+		
+		label_47 = new JLabel("Otros");
+		label_47.setForeground(Color.WHITE);
+		label_47.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_62.add(label_47);
+		
+		fieldRegalos6 = new JTextField("0");
+		fieldRegalos6.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldRegalos6.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldRegalos6.setColumns(10);
+		fieldRegalos6.setBounds(686, 494, 196, 33);
+		presRegalos.add(fieldRegalos6);
+		
+		btnRegalosGuardar = new JButton("Guardar");
+		btnRegalosGuardar.setForeground(Color.WHITE);
+		btnRegalosGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnRegalosGuardar.setBorder(null);
+		btnRegalosGuardar.setBackground(new Color(1, 162, 82));
+		btnRegalosGuardar.setBounds(686, 574, 196, 33);
+		presRegalos.add(btnRegalosGuardar);
+		
+		fieldRegalosTotal = new JTextField("0");
+		fieldRegalosTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldRegalosTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldRegalosTotal.setColumns(10);
+		fieldRegalosTotal.setBounds(686, 162, 196, 33);
+		presRegalos.add(fieldRegalosTotal);
+		
+		// METODO PARA SUMAR AUTOMATICAMENTE 
+		// TODO
+		DocumentListener regalosaDL = new DocumentListener() {
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				suma();
+			}
+
+			protected void suma() {
+				
+				double total = Double.parseDouble(fieldRegalos2.getText()) + Double.parseDouble(fieldRegalos3.getText()) + Double.parseDouble(fieldRegalos4.getText()) +
+						Double.parseDouble(fieldRegalos5.getText()) + Double.parseDouble(fieldRegalos6.getText());
+				fieldRegalosTotal.setText(Double.toString(total));
+			
+			}
+
+		};
+
+		fieldRegalos2.getDocument().addDocumentListener(regalosaDL);
+		fieldRegalos3.getDocument().addDocumentListener(regalosaDL);
+		fieldRegalos4.getDocument().addDocumentListener(regalosaDL);
+		fieldRegalos5.getDocument().addDocumentListener(regalosaDL);
+		fieldRegalos6.getDocument().addDocumentListener(regalosaDL);
+		fieldRegalosTotal.setEditable(false);
+		
+		presViajes = new JPanel();
+		presViajes.setBackground(Color.WHITE);
+		presupuestos.add(presViajes, "name_56372128937800");
+		presViajes.setLayout(null);
+		
+		
+		Icon presViajesBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		
+		btnViajesRegresar = new JLabel("", presViajesBackIcon, JLabel.CENTER);
+		btnViajesRegresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				presViajes.setVisible(false);
+				selecPresCateg.setVisible(true);
+			}
+		});
+		btnViajesRegresar.setBounds(10, 11, 93, 25);
+		presViajes.add(btnViajesRegresar);
+		
+		label_49 = new JLabel("Editar tu presupuesto");
+		label_49.setFont(new Font("Verdana", Font.PLAIN, 20));
+		label_49.setBounds(422, 53, 218, 26);
+		presViajes.add(label_49);
+		
+		label_50 = new JLabel("Asigna un monto a las subcategorias que prefieras ");
+		label_50.setFont(new Font("Verdana", Font.PLAIN, 18));
+		label_50.setBounds(309, 89, 460, 23);
+		presViajes.add(label_50);
+		
+		panel_63 = new JPanel();
+		panel_63.setLayout(null);
+		panel_63.setBackground(new Color(0, 153, 255));
+		panel_63.setBounds(129, 160, 252, 473);
+		presViajes.add(panel_63);
+		
+		Viajes = new JLabel("Viajes");
+		Viajes.setHorizontalAlignment(SwingConstants.CENTER);
+		Viajes.setForeground(Color.WHITE);
+		Viajes.setFont(new Font("Verdana", Font.BOLD, 14));
+		Viajes.setBounds(0, 219, 252, 33);
+		panel_63.add(Viajes);
+		
+		panel_64 = new JPanel();
+		panel_64.setBackground(new Color(0, 153, 255));
+		panel_64.setBounds(407, 162, 252, 33);
+		presViajes.add(panel_64);
+		
+		lblViajes = new JLabel("Viajes");
+		lblViajes.setForeground(Color.WHITE);
+		lblViajes.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_64.add(lblViajes);
+		
+		panel_65 = new JPanel();
+		panel_65.setBackground(new Color(0, 153, 255));
+		panel_65.setBounds(414, 257, 252, 33);
+		presViajes.add(panel_65);
+		
+		lblHospedaje = new JLabel("Hospedaje");
+		lblHospedaje.setForeground(Color.WHITE);
+		lblHospedaje.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_65.add(lblHospedaje);
+		
+		fieldViajes2 = new JTextField("0");
+		fieldViajes2.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldViajes2.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldViajes2.setColumns(10);
+		fieldViajes2.setBounds(686, 257, 196, 33);
+		presViajes.add(fieldViajes2);
+		
+		panel_66 = new JPanel();
+		panel_66.setBackground(new Color(0, 153, 255));
+		panel_66.setBounds(414, 315, 252, 33);
+		presViajes.add(panel_66);
+		
+		lblBoletosYCruceros = new JLabel("Boletos y Cruceros");
+		lblBoletosYCruceros.setForeground(Color.WHITE);
+		lblBoletosYCruceros.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_66.add(lblBoletosYCruceros);
+		
+		fieldViajes3 = new JTextField("0");
+		fieldViajes3.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldViajes3.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldViajes3.setColumns(10);
+		fieldViajes3.setBounds(686, 315, 196, 33);
+		presViajes.add(fieldViajes3);
+		
+		panel_67 = new JPanel();
+		panel_67.setBackground(new Color(0, 153, 255));
+		panel_67.setBounds(414, 371, 252, 33);
+		presViajes.add(panel_67);
+		
+		lblTransporteDeViajes = new JLabel("Vuelos");
+		lblTransporteDeViajes.setForeground(Color.WHITE);
+		lblTransporteDeViajes.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_67.add(lblTransporteDeViajes);
+		
+		fieldViajes4 = new JTextField("0");
+		fieldViajes4.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldViajes4.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldViajes4.setColumns(10);
+		fieldViajes4.setBounds(686, 371, 196, 33);
+		presViajes.add(fieldViajes4);
+		
+		panel_68 = new JPanel();
+		panel_68.setBackground(new Color(0, 153, 255));
+		panel_68.setBounds(414, 432, 252, 33);
+		presViajes.add(panel_68);
+		
+		lblSouvenir = new JLabel("Souvenir");
+		lblSouvenir.setForeground(Color.WHITE);
+		lblSouvenir.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_68.add(lblSouvenir);
+		
+		fieldViajes5 = new JTextField("0");
+		fieldViajes5.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldViajes5.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldViajes5.setColumns(10);
+		fieldViajes5.setBounds(686, 432, 196, 33);
+		presViajes.add(fieldViajes5);
+		
+		panel_69 = new JPanel();
+		panel_69.setBackground(new Color(0, 153, 255));
+		panel_69.setBounds(414, 494, 252, 33);
+		presViajes.add(panel_69);
+		
+		label_57 = new JLabel("Otros");
+		label_57.setForeground(Color.WHITE);
+		label_57.setFont(new Font("Verdana", Font.BOLD, 13));
+		panel_69.add(label_57);
+		
+		fieldViajes6 = new JTextField("0");
+		fieldViajes6.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldViajes6.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldViajes6.setColumns(10);
+		fieldViajes6.setBounds(686, 494, 196, 33);
+		presViajes.add(fieldViajes6);
+		
+		btnViajesGuardar = new JButton("Guardar");
+		btnViajesGuardar.setForeground(Color.WHITE);
+		btnViajesGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnViajesGuardar.setBorder(null);
+		btnViajesGuardar.setBackground(new Color(1, 162, 82));
+		btnViajesGuardar.setBounds(686, 574, 196, 33);
+		presViajes.add(btnViajesGuardar);
+		
+		fieldViajesTotal = new JTextField("0");
+		fieldViajesTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldViajesTotal.setFont(new Font("Verdana", Font.PLAIN, 13));
+		fieldViajesTotal.setColumns(10);
+		fieldViajesTotal.setBounds(686, 160, 196, 33);
+		presViajes.add(fieldViajesTotal);
+				
+		// METODO PARA SUMAR AUTOMATICAMENTE 
+				// TODO
+				DocumentListener viajesDL = new DocumentListener() {
+
+					@Override
+					public void changedUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent arg0) {
+						suma();
+					}
+
+					protected void suma() {
+						
+						double total = Double.parseDouble(fieldViajes2.getText()) + Double.parseDouble(fieldViajes3.getText()) + Double.parseDouble(fieldViajes4.getText()) +
+								Double.parseDouble(fieldViajes5.getText()) + Double.parseDouble(fieldViajes6.getText());
+						fieldViajesTotal.setText(Double.toString(total));
+					
+					}
+
+				};
+
+				fieldViajes2.getDocument().addDocumentListener(viajesDL);
+				fieldViajes3.getDocument().addDocumentListener(viajesDL);
+				fieldViajes4.getDocument().addDocumentListener(viajesDL);
+				fieldViajes5.getDocument().addDocumentListener(viajesDL);
+				fieldViajes6.getDocument().addDocumentListener(viajesDL);
+				fieldViajesTotal.setEditable(false);
+
+		
+		
+		
+		
+		// FIN AUTO
 		
 		perfil = new JPanel();
 		perfil.setBackground(Color.WHITE);
@@ -1883,6 +4534,19 @@ public class Dashboard extends Login{
 		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarNotificationIcon);
 		
+		
+		// Listeners
+		
+		btnPresHogar.addActionListener(new MiListener());
+		btnPresAuto.addActionListener(new MiListener());
+		btnPresAlimentos.addActionListener(new MiListener());
+		btnPresEntretenimiento.addActionListener(new MiListener());
+		btnPresSalud.addActionListener(new MiListener());
+		btnPresEducacion.addActionListener(new MiListener());
+		btnPresFinanzas.addActionListener(new MiListener());
+		btnPresRopa.addActionListener(new MiListener());
+		btnPresRegalos.addActionListener(new MiListener());
+		btnPresViajes.addActionListener(new MiListener());
 
 
 	}
@@ -1961,6 +4625,48 @@ public class Dashboard extends Login{
 			lblPerfilError.setText("");
 			
 			
+			if(e.getSource() == btnPresHogar) {
+				presHogar.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			
+			if(e.getSource() == btnPresAuto) {
+				presAuto.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresAlimentos) {
+				presAlimentos.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresEntretenimiento) {
+				presEntretenimiento.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			
+			if(e.getSource() == btnPresSalud) {
+				presSalud.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresEducacion) {
+				presEducacion.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresFinanzas) {
+				presFinanzas.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresRopa) {
+				presRopa.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresRegalos) {
+				presRegalos.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
+			if(e.getSource() == btnPresViajes) {
+				presViajes.setVisible(true);
+				selecPresCateg.setVisible(false);
+			}
 			
 			if (e.getSource() == btnGuardar){
 				
