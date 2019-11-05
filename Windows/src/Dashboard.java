@@ -411,7 +411,7 @@ public class Dashboard extends Login{
 
 	private JTextField fieldAuto8;
 
-	private JComponent btnAutoGuardar;
+	private JButton btnAutoGuardar;
 
 	private JLabel btnAutoRegresar;
 	private JPanel presAlimentos;
@@ -485,7 +485,7 @@ public class Dashboard extends Login{
 	private JPanel panel_30;
 	private JLabel label_35;
 	private JTextField fieldSalud8;
-	private JButton button;
+	private JButton btnSaludGuardar;
 	private JTextField fieldSaludTotal;
 	private JTextField fieldEducacion2;
 	private JTextField fieldEducacion3;
@@ -603,6 +603,14 @@ public class Dashboard extends Login{
 	private JTextField fieldViajesTotal;
 	private JTextField fieldRegalosTotal;
 
+	
+	Presupuestos pres = new Presupuestos();
+	private double presupuestoTotal = 0, fieldTotalHogar = 0, fieldTotalAuto = 0, fieldTotalAlimentos = 0, fieldTotalEntretenimiento = 0, fieldTotalSalud = 0,
+			fieldTotalEducacion = 0, fieldTotalFinanzas = 0, fieldTotalRopa = 0, fieldTotalRegalos = 0, fieldTotalViajes = 0;
+
+	private JButton btnEducacionGuardar;
+
+	private JButton btnAlimentosGuardar;
 
 	
 
@@ -866,6 +874,8 @@ public class Dashboard extends Login{
 				presupuestos.setVisible(true);
 				calendario.setVisible(false);
 				perfil.setVisible(false);
+				
+				mostrarIngresos();
 			}
 		});
 		btnSidebarPresupuestos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -888,8 +898,6 @@ public class Dashboard extends Login{
 					DB.tempUsu(usuarioLeer.get(0), false);
 					
 				}
-				
-				
 				
 			}
 		});
@@ -1240,7 +1248,7 @@ public class Dashboard extends Login{
 		lblNewLabel_1.setBounds(222, 91, 132, 31);
 		ingresos.add(lblNewLabel_1);
 		
-		lblQ = new JLabel("Q ");
+		lblQ = new JLabel("0");
 		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ.setBounds(359, 91, 253, 31);
 		ingresos.add(lblQ);
@@ -2376,7 +2384,7 @@ public class Dashboard extends Login{
 				fieldAlimentos4.getDocument().addDocumentListener(alimentosDL);
 				fieldAlimentosTotal.setEditable(false);
 		
-		JButton btnAlimentosGuardar = new JButton("Guardar");
+		btnAlimentosGuardar = new JButton("Guardar");
 		btnAlimentosGuardar.setForeground(Color.WHITE);
 		btnAlimentosGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
 		btnAlimentosGuardar.setBorder(null);
@@ -2791,13 +2799,13 @@ public class Dashboard extends Login{
 				fieldSalud8.setBounds(686, 521, 196, 33);
 				presSalud.add(fieldSalud8);
 				
-				button = new JButton("Guardar");
-				button.setForeground(Color.WHITE);
-				button.setFont(new Font("Verdana", Font.BOLD, 14));
-				button.setBorder(null);
-				button.setBackground(new Color(1, 162, 82));
-				button.setBounds(686, 574, 196, 33);
-				presSalud.add(button);
+				btnSaludGuardar = new JButton("Guardar");
+				btnSaludGuardar.setForeground(Color.WHITE);
+				btnSaludGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnSaludGuardar.setBorder(null);
+				btnSaludGuardar.setBackground(new Color(1, 162, 82));
+				btnSaludGuardar.setBounds(686, 574, 196, 33);
+				presSalud.add(btnSaludGuardar);
 				
 				fieldSaludTotal = new JTextField("0");
 				fieldSaludTotal.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3067,7 +3075,7 @@ public class Dashboard extends Login{
 				fieldEducacion8.getDocument().addDocumentListener(educacionDL);
 				fieldEducacionTotal.setEditable(false);
 				
-				JButton btnEducacionGuardar = new JButton("Guardar");
+				btnEducacionGuardar = new JButton("Guardar");
 				btnEducacionGuardar.setForeground(Color.WHITE);
 				btnEducacionGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
 				btnEducacionGuardar.setBorder(null);
@@ -4547,8 +4555,18 @@ public class Dashboard extends Login{
 		btnPresRopa.addActionListener(new MiListener());
 		btnPresRegalos.addActionListener(new MiListener());
 		btnPresViajes.addActionListener(new MiListener());
-
-
+		
+		btnHogarGuardar.addActionListener(new MiListener());
+		btnAutoGuardar.addActionListener(new MiListener());
+		btnAlimentosGuardar.addActionListener(new MiListener());
+		btnEntretenimientoGuardar.addActionListener(new MiListener());
+		btnSaludGuardar.addActionListener(new MiListener());
+		btnEducacionGuardar.addActionListener(new MiListener());
+		btnFinanzasGuardar.addActionListener(new MiListener());
+		btnRopaGuardar.addActionListener(new MiListener());
+		btnRegalosGuardar.addActionListener(new MiListener());
+		btnViajesGuardar.addActionListener(new MiListener());
+		
 	}
 	
 	
@@ -4593,6 +4611,7 @@ public class Dashboard extends Login{
 		});
 		
 		lblQ.setText("Q " + r[1][0].toString());
+		presTotalIngresos.setText(r[1][0].toString());
 		
 	}
 	
@@ -4667,6 +4686,96 @@ public class Dashboard extends Login{
 				presViajes.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
+			
+			// GUARDAR HOGAR
+			if(e.getSource() == btnHogarGuardar) {
+				System.out.println("fn");
+				fieldTotalHogar = Double.parseDouble(fieldHogarTotal.getText());				
+				presHogar.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// GUARDAR AUTO Y TRANSPORTE
+			if(e.getSource() == btnAutoGuardar) {
+				fieldTotalAuto = Double.parseDouble(fieldAutoTotal.getText());
+				presAuto.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// ALIMENTOS
+			if(e.getSource() == btnAlimentosGuardar) {
+				fieldTotalAlimentos = Double.parseDouble(fieldAlimentosTotal.getText());
+				presAlimentos.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// ENTRETENIMIENTO
+			if(e.getSource() == btnEntretenimientoGuardar) {
+				fieldTotalEntretenimiento = Double.parseDouble(fieldEntretenimientoTotal.getText());
+				presEntretenimiento.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// SALUD Y BELLEZA
+			if(e.getSource() == btnSaludGuardar) {
+				fieldTotalSalud = Double.parseDouble(fieldSaludTotal.getText());
+								
+				presSalud.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+				
+			}
+			// EDUCACION
+			if(e.getSource() == btnEducacionGuardar) {
+				fieldTotalEducacion = Double.parseDouble(fieldEducacionTotal.getText());
+				presEducacion.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// FINANZAS E IMPUESTOS
+			if(e.getSource() == btnFinanzasGuardar) {
+				fieldTotalFinanzas = Double.parseDouble(fieldFinanzasTotal.getText());		
+				presFinanzas.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// ROPA y CALZADO
+			if(e.getSource() == btnRopaGuardar) {
+				fieldTotalRopa = Double.parseDouble(fieldRopaTotal.getText());
+				presRopa.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// REGALOS
+			if(e.getSource() == btnRegalosGuardar) {
+				fieldTotalRegalos = Double.parseDouble(fieldRegalos2.getText());
+				presRegalos.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// VIAJES
+			if(e.getSource() == btnViajesGuardar) {
+				fieldTotalViajes = Double.parseDouble(fieldViajes2.getText());	
+				presViajes.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			
+			
+			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
+					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
+			
+			
+			progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			
+			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
+			
+			// TODO
 			
 			if (e.getSource() == btnGuardar){
 				
