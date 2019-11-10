@@ -71,7 +71,7 @@ public class ConexionMongoDB {
 	 * 	mongo-java-driver-3.6.3.jar
 	 */
 	
-	
+	private static ConexionMongoDB DB;
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
@@ -100,6 +100,14 @@ public class ConexionMongoDB {
 			JOptionPane.showMessageDialog(null, "No se logro conectar al servidor");
 		}
 		
+	}
+	
+	
+	public static ConexionMongoDB getConexion() {
+        if (DB == null){
+            DB = new ConexionMongoDB();
+        }
+        return DB;
 	}
 	
 	
