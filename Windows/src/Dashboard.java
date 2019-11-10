@@ -83,7 +83,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.text.JTextComponent;
 
-public class Dashboard extends Login{
+public class Dashboard {
 	
 	
 	private JFrame frame;
@@ -101,7 +101,7 @@ public class Dashboard extends Login{
 	private JButton btnGuardar,btnAgregarNombreIngreso, btnRegresar;
 
 	private MiListener oyente;
-
+	private ConexionMongoDB DB;
 	private JTextField txtMontoingresos;
 	private JComboBox cbCategoriaIngresos,cbEliminarIngreso;
 	private JLabel lblNewLabel;
@@ -186,8 +186,8 @@ public class Dashboard extends Login{
 	private JLabel lblApellido;
 	private JLabel lblCorre;
 	
-	ImageIcon imgPerfil;
-	Image imgPer;
+	private ImageIcon imgPerfil;
+	private Image imgPer;
 
 	private JLabel topbarNotificationIcon;
 	private JLabel btbRegresarIngresos;
@@ -236,7 +236,7 @@ public class Dashboard extends Login{
 	private JButton btnEliminar_1;
 	private JLabel lblNewLabel_3;
 	private JButton btnSi;
-	private JButton btnNo;
+	private JButton btnNo,btnDarkMode;
 	private JPanel panel_7;
 	private JPanel pPerfilMain;
 	private JPanel presupuestoMain;
@@ -291,7 +291,8 @@ public class Dashboard extends Login{
 	private double presupuestoTotal = 0, fieldTotalHogar = 0, fieldTotalAuto = 0, fieldTotalAlimentos = 0, fieldTotalEntretenimiento = 0, fieldTotalSalud = 0,
 			fieldTotalEducacion = 0, fieldTotalFinanzas = 0, fieldTotalRopa = 0, fieldTotalRegalos = 0, fieldTotalViajes = 0;
 	
-	boolean isDarkMode = true;
+	
+	boolean isDarkMode = false;
 
 	/**
 	 * Launch the application.
@@ -322,8 +323,17 @@ public class Dashboard extends Login{
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
-	
+		DB = ConexionMongoDB.getConexion();
+		
 		usuarioLeer = DB.leerUsu();
+		
+		// VARIABLES
+		nombres = DB.getNombre(usuarioLeer.get(0));
+		tempNombre =nombres[0];
+		tempApellido = nombres[1];
+		tempCorreo = usuarioLeer.get(0);
+				
+		isDarkMode = DB.getMode(tempCorreo);
 		
 		
 		
@@ -344,12 +354,6 @@ public class Dashboard extends Login{
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
 		
-		
-		// VARIABLES
-		nombres = DB.getNombre(usuarioLeer.get(0));
-		tempNombre =nombres[0];
-		tempApellido = nombres[1];
-		tempCorreo = usuarioLeer.get(0);
 		
 		
 		
@@ -4011,6 +4015,19 @@ public class Dashboard extends Login{
 		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 13));
 		pPerfilMain.add(lblContrasena, "name_151001068787000");
 		
+		String darkText = "";
+		
+		if (isDarkMode == false) {
+			darkText = "Cambiar a DarkMode";
+		}else {
+			darkText = "Cambiar a LightMode";
+		}
+		
+		btnDarkMode = new JButton(darkText);
+		btnDarkMode.setBounds(725, 506, 200, 29);
+		pPerfilMain.add(btnDarkMode);
+		btnDarkMode.addActionListener(oyente);
+		
 		calendario = new JPanel();
 		calendario.setBackground(Color.WHITE);
 		main.add(calendario, "name_1698860894200");
@@ -4646,8 +4663,9 @@ public class Dashboard extends Login{
 			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
 					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
 			
-			
-			progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			try{
+				progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			}catch(Exception ew) {}
 			
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
 			
@@ -4971,6 +4989,21 @@ public class Dashboard extends Login{
 			}
 			
 			
+			if(e.getSource() == btnDarkMode) {
+				
+				int resp=JOptionPane.showConfirmDialog(null,"Para aplicar cambios es necesario reiniciar, ¿Estas seguro?");
+				if (resp == 0) {
+					DB.changeMode(tempCorreo);
+					frame.dispose();
+					DarkModeChange.main(null);
+					
+					
+				}
+				
+				
+				 
+				
+			}
 			
 			
 		
