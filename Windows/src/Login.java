@@ -118,6 +118,8 @@ public class Login {
 	private JLabel lblCorreoError;
 	private JCheckBox chckbxMantenerseConectado;
 	
+	Splash splash = new Splash();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -189,12 +191,7 @@ public class Login {
 		lblBienvenidoAUvg.setBounds(0, 39, 450, 34);
 		ingresar.add(lblBienvenidoAUvg);
 		
-		btnIngresar = new JButton("Ingresar");
-		btnIngresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		
+		btnIngresar = new JButton("Ingresar");	
 		//Validaciones del ingreso de datos del usuario si no se ingresa un campo o no existe un usuario con esa contrasena
 		btnIngresar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -217,8 +214,22 @@ public class Login {
 					if (verificado == true) {
 						frame.dispose();
 						DB.tempUsu(txtUsuario.getText(),chckbxMantenerseConectado.isSelected());
-						Dashboard.main(null);
 						
+						splash.setVisible(true);
+						
+						try {
+							for(int i = 0; i <= 100; i++) {
+								Thread.sleep(40);
+								splash.num.setText(Integer.toString(i) + "%");
+								splash.progressBar.setValue(i);
+								if(i == 100) {
+									splash.setVisible(false);
+									Dashboard.main(null);
+								}
+							}
+						}catch(Exception e) {
+							
+						}				
 						
 					}
 					

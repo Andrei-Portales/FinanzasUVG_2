@@ -18,7 +18,24 @@ public class MainStart {
 		
 		try {
 		if (Boolean.parseBoolean(usu.get(1)) == true) {
-			Dashboard.main(null);
+			Splash splash = new Splash();
+			splash.setVisible(true);
+			
+			try {
+				for(int i = 0; i <= 100; i++) {
+					Thread.sleep(40);
+					splash.num.setText(Integer.toString(i) + "%");
+					splash.progressBar.setValue(i);
+					if(i == 100) {
+						splash.setVisible(false);
+						Dashboard.main(null);
+					}
+				}
+			}catch(Exception e) {
+				
+			}
+			
+			
 		}
 		else if (Boolean.parseBoolean(usu.get(1)) == false) {
 			Login.main(null);

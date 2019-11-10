@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -90,23 +91,17 @@ public class Dashboard extends Login{
 	static Dashboard window;
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
-	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir;
-	private JPanel sidebar;
+	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir, lblSidebarSalirIcon, btnAgregarIngreso;
 	private JList listMostrarEventos;
-	private JPanel btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
-	private JLabel lblSidebarSalirIcon;
-	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir;
+
+	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir, main, resumen, ingresos, gastos,
+	panelGraficaIngresos, presupuestos, ingresarIngresos, sidebar, btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
 	private JLabel lblUserImage, lblUsername;
-	private JPanel main;
-	private JPanel resumen;
-	private JPanel ingresos;
-	private JPanel gastos,panelGraficaIngresos;
-	private JPanel presupuestos;
-	private JButton btnGuardar,btnAgregarNombreIngreso;
-	private JPanel ingresarIngresos;
-	private JLabel btnAgregarIngreso;
+
+	private JButton btnGuardar,btnAgregarNombreIngreso, btnRegresar;
+
 	private MiListener oyente;
-	private JButton btnRegresar;
+
 	private JTextField txtMontoingresos;
 	private JComboBox cbCategoriaIngresos,cbEliminarIngreso;
 	private JLabel lblNewLabel;
@@ -250,362 +245,53 @@ public class Dashboard extends Login{
 
 	private JProgressBar progressBar;
 
-	private JLabel lblPresupuestoTotal_1;
-
-	private JLabel lblQP;
-
-	private JLabel lblPresupuestoTotal;
-
-	private JLabel label_6P;
-
-	private JLabel presTotalIngresos;
-
-	private JLabel presIngresos;
-	private JLabel btnCrearPres;
-	private JLabel label_15;
-
-	private JLabel lblNewLabel_1P;
-
-	private JLabel lblSeleccioneUnaCategoria;
-
-	private JButton btnPresAuto;
-
-	private JButton btnPresHogar;
-
-	private JButton btnPresAlimentos;
-
-	private JButton btnPresEntretenimiento;
-
 	private Object oyentePresSalud;
 
-	private JButton btnPresEducacion;
-
-	private JButton btnPresSalud;
-
-	private JButton btnPresFinanzas;
-
-	private JButton btnPresRopa;
-
-	private JButton btnPresRegalos;
-
-	private JButton btnPresViajes;
-
-	private JLabel label_3P;
-
-	private JLabel label_8P;
-
-	private JPanel panelHogar;
-
-	private JPanel panelHogar2;
-
-	private JLabel lblHogar_1;
-
-	private JTextField fieldHogarTotal;
-
-	private JLabel label_12P;
-
-	private JPanel panelHogar3;
-
-	private JLabel lblConstruccionYRemodelacion;
-
-	private JTextField fieldHogar2;
-
-	private JPanel panelHogar4;
-
-	private JLabel lblArticulosParaEl;
-
-	private JTextField fieldHogar3;
-
-	private JPanel panelHogar5;
-
-	private JLabel lblMascotas;
-
-	private JTextField fieldHogar4;
-
-	private JPanel panelHogar6;
-
-	private JLabel lblLimpiezaYMantenimiento;
-
-	private JTextField fieldHogar5;
-
-	private JPanel panelHogar7;
-
-	private Component lblMueblesYAparatos;
-
-	private JTextField fieldHogar6;
-
-	private JPanel panelHogar8;
-
-	private JLabel lblRentaOCompra;
-
-	private JTextField fieldHogar7;
-
-	private JPanel panelHogar9;
-
-	private JLabel label_20;
-
-	private JTextField fieldHogar8;
-
-	private JButton btnHogarGuardar;
-
-	private JLabel lblHogar;
-
-	private JLabel btnHogarRegresar;
-	private JPanel presAuto;
-
-	private JLabel label_3PA;
-
-	private Container label_8PA;
-
-	private JPanel panelAuto;
-
-	private Component lblAuto;
-
-	private JPanel panelAuto2;
-
-	private JLabel lblAuto_1;
-
-	private JTextField fieldAutoTotal;
-
-	private JPanel panelAuto3;
-
-	private Component label_12PA;
-
-	private Component lblConstruccionYRemodelacion2;
-
-	private JTextField fieldAuto2;
-
-	private JPanel panelAuto4;
-
-	private Container lblArticulosParaEl2;
-
-	private JTextField fieldAuto3;
-
-	private JPanel panelAuto5;
-
-	private JLabel lblMascotas2;
-
-	private JTextField fieldAuto4;
-
-	private JPanel panelAuto6;
-
-	private Component lblLimpiezaYMantenimiento2;
-
-	private JTextField fieldAuto5;
-
-	private JPanel panelAuto7;
-
-	private Component lblMueblesYAparatos2;
-
-	private JTextField fieldAuto6;
-
-	private JPanel panelAuto8;
-
-	private JTextField fieldAuto7;
-
-	private JLabel lblRentaOCompra2;
-
-	private JPanel panelAuto9;
-
-	private Component label_202;
-
-	private JTextField fieldAuto8;
-
-	private JComponent btnAutoGuardar;
-
-	private JLabel btnAutoRegresar;
-	private JPanel presAlimentos;
-	private JTextField fieldAlimentos2;
-	private JTextField fieldAlimentos3;
-	private JTextField fieldAlimentos4;
-	private JTextField fieldAlimentosTotal;
-	private JPanel panel_9;
-	private JLabel lblAutoYTransporte;
-	private JPanel presEntretenimiento;
-	private JLabel btnEntretenimientoRegresar;
-	private JLabel label_19;
-	private JLabel label_21;
-	private JPanel panel_10;
-	private JLabel lblEntretenimiento;
-	private JPanel panel_14;
-	private JLabel lblEntretenimiento_1;
-	private JPanel panel_15;
-	private JLabel lblCineYMsica;
-	private JLabel label_25;
-	private JTextField fieldEntretenimiento2;
-	private JPanel panel_16;
-	private JLabel lblJuegos;
-	private JTextField fieldEntretenimiento3;
-	private JPanel panel_17;
-	private JLabel lblMuseosYParqueos;
-	private JTextField fieldEntretenimiento4;
-	private JPanel panel_18;
-	private JLabel lblSubscripcionesYApps;
-	private JTextField fieldEntretenimiento5;
-	private JPanel panel_19;
-	private JLabel lblAlchoholYTabaco;
-	private JTextField fieldEntretenimiento6;
-	private JPanel panel_20;
-	private JLabel lblEspectculosYEventos;
-	private JTextField fieldEntretenimiento7;
-	private JPanel panel_21;
-	private JLabel label_31;
-	private JTextField fieldEntretenimiento8;
-	private JButton btnEntretenimientoGuardar;
-	private JTextField fieldEntretenimientoTotal;
-	private JPanel presSalud;
-	private JPanel presEducacion;
-	private JPanel presFinanzas;
-	private JLabel btnSaludRegresar;
-	private JLabel label_22;
-	private JLabel label_23;
-	private JPanel panel_22;
-	private JLabel lblSaludYBelleza;
-	private JPanel panel_23;
-	private JLabel lblSaludYBelleza_1;
-	private JLabel label_27;
-	private JPanel panel_24;
-	private JLabel lblPerfumesYCosmeticos;
-	private JTextField fieldSalud2;
-	private JPanel panel_25;
-	private JLabel lblCuidadoPersonal;
-	private JTextField fieldSalud3;
-	private JPanel panel_26;
-	private JLabel lblDentisat;
-	private JTextField fieldSalud4;
-	private JPanel panel_27;
-	private JLabel lblDeportesYEquipos;
-	private JTextField fieldSalud5;
-	private JPanel panel_28;
-	private JLabel lblFarmacia;
-	private JTextField fieldSalud6;
-	private JTextField fieldSalud7;
-	private JPanel panel_29;
-	private JLabel lblMdico;
-	private JPanel panel_30;
-	private JLabel label_35;
-	private JTextField fieldSalud8;
-	private JButton button;
-	private JTextField fieldSaludTotal;
-	private JTextField fieldEducacion2;
-	private JTextField fieldEducacion3;
-	private JTextField fieldEducacion4;
-	private JTextField fieldEducacion5;
-	private JTextField fieldEducacion6;
-	private JTextField fieldEducacion7;
-	private JTextField fieldEducacion8;
-	private JTextField fieldEducacionTotal;
-	private JLabel btnFinanzasRegresar;
-	private JLabel label_28;
-	private JLabel label_29;
-	private JPanel panel_40;
-	private JLabel lblFinanzas;
-	private JPanel panel_41;
-	private JLabel lblFinanzasEImpuestos;
-	private JPanel panel_42;
-	private JLabel lblSeguros;
-	private JLabel label_36;
-	private JTextField fieldFinanzas2;
-	private JPanel panel_43;
-	private JLabel lblImpuestos;
-	private JTextField fieldFinanzas3;
-	private JPanel panel_44;
-	private JLabel lblMultas;
-	private JTextField fieldFinanzas4;
-	private JPanel panel_45;
-	private JLabel lblServiviosFinancioer;
-	private JTextField fieldFinanzas5;
-	private JPanel panel_46;
-	private JLabel lblTransferenciosOCheques;
-	private JTextField fieldFinanzas6;
-	private JPanel panel_47;
-	private JLabel lblTarjetasDeCredito;
-	private JTextField fieldFinanzas7;
-	private JPanel panel_48;
-	private JLabel label_43;
-	private JTextField fieldFinanzas8;
-	private JButton btnFinanzasGuardar;
-	private JTextField fieldFinanzasTotal;
-	private JPanel presRopa;
-	private JLabel btnRopaRegresar;
-	private JLabel label_32;
-	private JLabel label_33;
-	private JPanel panel_49;
-	private JLabel lblRopaYCalzado;
-	private JPanel panel_50;
-	private JLabel lblRopaYCalzado_1;
-	private JLabel label_38;
-	private JPanel panel_51;
-	private JLabel lblCalzado;
-	private JTextField fieldRopa2;
-	private JPanel panel_52;
-	private JLabel lblAccesorios;
-	private JTextField fieldRopa3;
-	private JPanel panel_53;
-	private JLabel lblLavanderiaYTintoreria;
-	private JTextField fieldRopa4;
-	private JPanel panel_54;
-	private JLabel lblRopa;
-	private JTextField fieldRopa5;
-	private JPanel panel_55;
-	private JLabel lblOtros_1;
-	private JTextField fieldRopa6;
-	private JButton btnRopaGuardar;
-	private JTextField fieldRopaTotal;
-	private JPanel presRegalos;
-	private JPanel presViajes;
-	private JLabel btnRegalosRegresar;
-	private JLabel label_34;
-	private JLabel label_37;
-	private JPanel panel_56;
-	private JLabel lblRegalosYAyuda;
-	private JPanel panel_57;
-	private JLabel lblRegalosYAyuda_1;
-	private JPanel panel_58;
-	private JLabel lblDonaciones;
-	private JTextField fieldRegalos2;
-	private JPanel panel_59;
-	private JLabel lblApoyoAFamiliaresamigos;
-	private JTextField fieldRegalos3;
-	private JPanel panel_60;
-	private JLabel lblRegalos;
-	private JTextField fieldRegalos4;
-	private JPanel panel_61;
-	private JLabel lblAyudaHumanitaria;
-	private JTextField fieldRegalos5;
-	private JPanel panel_62;
-	private JLabel label_47;
-	private JTextField fieldRegalos6;
-	private JButton btnRegalosGuardar;
-	private JLabel btnViajesRegresar;
-	private JLabel label_49;
-	private JLabel label_50;
-	private JPanel panel_63;
-	private JLabel Viajes;
-	private JPanel panel_64;
-	private JLabel lblViajes;
-	private JPanel panel_65;
-	private JLabel lblHospedaje;
-	private JTextField fieldViajes2;
-	private JPanel panel_66;
-	private JLabel lblBoletosYCruceros;
-	private JTextField fieldViajes3;
-	private JPanel panel_67;
-	private JLabel lblTransporteDeViajes;
-	private JTextField fieldViajes4;
-	private JPanel panel_68;
-	private JLabel lblSouvenir;
-	private JTextField fieldViajes5;
-	private JPanel panel_69;
-	private JLabel label_57;
-	private JTextField fieldViajes6;
-	private JButton btnViajesGuardar;
-	private JTextField fieldViajesTotal;
-	private JTextField fieldRegalosTotal;
-
+	private JButton btnPresRegalos, btnPresViajes, btnPresRopa, btnPresFinanzas, btnPresSalud, btnHogarGuardar, btnAutoGuardar,
+	btnPresAuto, btnPresHogar, btnPresAlimentos, btnPresEntretenimiento, btnPresEducacion;
+
+
+	private JLabel lblAuto, lblAuto_1, lblArticulosParaEl2, label_12PA, lblMascotas2, lblConstruccionYRemodelacion2, lblLimpiezaYMantenimiento2, lblMueblesYAparatos2,
+	label_8PA, label_3PA, lblRentaOCompra2, label_202, btnAutoRegresar, lblAutoYTransporte, btnEntretenimientoRegresar, label_19, label_21, lblEntretenimiento,
+	lblEntretenimiento_1, lblCineYMsica, label_25, lblJuegos, lblMuseosYParqueos, lblSubscripcionesYApps, lblAlchoholYTabaco, label_8P, lblHogar_1, label_3P, label_12P, lblConstruccionYRemodelacion, lblArticulosParaEl, lblMascotas, lblLimpiezaYMantenimiento,
+	lblMueblesYAparatos, lblRentaOCompra, label_20, lblHogar, btnHogarRegresar, lblPresupuestoTotal_1, lblQP, lblPresupuestoTotal, label_6P, presTotalIngresos, presIngresos, btnCrearPres, label_15, lblNewLabel_1P,
+	lblSeleccioneUnaCategoria;
+
+	private JTextField fieldAutoTotal, fieldAuto2,  fieldAuto3, fieldAuto5, fieldAuto4, fieldAuto6, fieldAuto7, fieldAuto8,
+				fieldAlimentosTotal, fieldAlimentos2, fieldAlimentos3, fieldAlimentos4, fieldEntretenimiento2, fieldEntretenimiento3, fieldEntretenimiento4,
+				fieldEntretenimiento5, fieldEntretenimiento6, fieldHogarTotal, fieldHogar2, fieldHogar3, fieldHogar4, fieldHogar5, fieldHogar6, fieldHogar7, fieldHogar8;
+
+	private JPanel panel_17, panel_16, panel_15, panel_10, panelAuto3, panelAuto4, panelAuto5, panelAuto6, panelAuto7, panel_14, panel_9, presAlimentos, panelAuto8, panelAuto9, presEntretenimiento,
+	panel_18, panel_19, panel_20, panelHogar, panelHogar2, panelHogar3, panelHogar4, panelHogar5, panelHogar6, panelHogar7, panelHogar8, panelHogar9, presAuto,
+	panelAuto, panelAuto2, panel_21, presSalud, presEducacion, presFinanzas, panel_22, panel_23, panel_24;
+
+	private JTextField fieldRegalos2, fieldRegalos3, fieldRegalos4, fieldRegalos5, fieldRegalos6,
+						fieldRopaTotal, fieldRopa2, fieldRopa3, fieldRopa4, fieldRopa5, fieldRopa6,
+						fieldFinanzasTotal, fieldFinanzas2, fieldFinanzas3, fieldFinanzas4, fieldFinanzas5, fieldFinanzas6, fieldFinanzas7, fieldFinanzas8,
+						fieldEducacion2, fieldEducacion3, fieldEducacion4, fieldEducacion5, fieldEducacion6, fieldEducacion7, fieldEducacion8, fieldEducacionTotal,
+						fieldSaludTotal, fieldSalud2, fieldSalud3, fieldSalud4, fieldSalud5, fieldSalud6, fieldSalud7, fieldSalud8,
+						fieldViajes2, fieldViajes3, fieldViajes4, fieldViajes5, fieldViajes6, fieldViajesTotal, fieldRegalosTotal, fieldEntretenimiento7,
+						fieldEntretenimiento8, fieldEntretenimientoTotal;
+	
+	private JButton btnRegalosGuardar, btnViajesGuardar, btnEducacionGuardar, btnAlimentosGuardar, btnRopaGuardar, btnFinanzasGuardar, btnSaludGuardar,
+	btnEntretenimientoGuardar;
+	private JLabel label_34, label_37, label_47, label_49, label_50, label_57, lblViajes, Viajes, lblSouvenir, lblTransporteDeViajes, lblBoletosYCruceros, lblHospedaje,
+					lblAyudaHumanitaria, lblRegalos, lblApoyoAFamiliaresamigos, btnFinanzasRegresar, btnViajesRegresar, btnRegalosRegresar, btnRopaRegresar, lblDonaciones, 
+					lblRegalosYAyuda_1, lblRegalosYAyuda, lblOtros_1, lblRopa, lblLavanderiaYTintoreria, lblAccesorios, lblCalzado, label_38, lblRopaYCalzado_1, 
+					lblRopaYCalzado, label_33, label_32, label_43, lblTarjetasDeCredito, lblTransferenciosOCheques, lblServiviosFinancioer, lblMultas, lblImpuestos, label_36,
+					lblSeguros, lblFinanzasEImpuestos, lblFinanzas, label_29, label_28, label_35, lblMdico, lblFarmacia, lblDeportesYEquipos, lblDentisat,
+					lblCuidadoPersonal, lblEspectculosYEventos, label_31, btnSaludRegresar, label_22, label_23, lblSaludYBelleza, lblSaludYBelleza_1, label_27, lblPerfumesYCosmeticos;
+
+	private JPanel panel_25, panel_26, panel_27, panel_28, panel_29, panel_30, panel_40, panel_41, panel_42, panel_43, panel_44, panel_45, panel_46, 
+	panel_47, panel_48, panel_49, panel_50, panel_51, panel_52, panel_53, panel_54, panel_55, panel_56, panel_57, panel_58, panel_59, panel_60,
+	panel_61, panel_62, panel_63, panel_64, panel_65, panel_66, panel_67, panel_68, panel_69, presViajes, presRegalos, presRopa;
 
 	
-
+	Presupuestos pres = new Presupuestos();
+	private double presupuestoTotal = 0, fieldTotalHogar = 0, fieldTotalAuto = 0, fieldTotalAlimentos = 0, fieldTotalEntretenimiento = 0, fieldTotalSalud = 0,
+			fieldTotalEducacion = 0, fieldTotalFinanzas = 0, fieldTotalRopa = 0, fieldTotalRegalos = 0, fieldTotalViajes = 0;
+	
+	boolean isDarkMode = true;
 
 	/**
 	 * Launch the application.
@@ -627,6 +313,7 @@ public class Dashboard extends Login{
 	 * Create the application.
 	 */
 	public Dashboard() {
+		
 		initialize();
 	}
 
@@ -635,7 +322,15 @@ public class Dashboard extends Login{
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
+	
 		usuarioLeer = DB.leerUsu();
+		
+		
+		
+		if(isDarkMode == true) {
+			UIManager.put("Label.foreground", new Color(252, 251, 254));
+			UIManager.put("Label.background", new Color(252, 251, 254));
+		}
 		
 		oyente = new MiListener();
 		frame = new JFrame();
@@ -664,25 +359,41 @@ public class Dashboard extends Login{
 		frame.getContentPane().add(sidebar);
 		sidebar.setLayout(null);
 		
+		
 		btnSidebarPerfil = new JPanel();
 		btnSidebarPerfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				pSidebarPerfil.setBackground(new Color(0, 0, 0));
-				pSidebarPresupuestos.setBackground(new Color(251,251,251));
-				pSidebarDashboard.setBackground(new Color(251,251,251));
-				pSidebarIngresos.setBackground(new Color(251,251,251));
-				pSidebarCalendario.setBackground(new Color(251, 251, 251));
-				pSidebarGastos.setBackground(new Color(251,251,251));
-				
-				
-				lblSidebarPerfil.setForeground(new Color(0, 0, 0));
-				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
-				lblSidebarHome.setForeground(new Color(119,119,119));
-				lblSidebarIngresos.setForeground(new Color(119,119,119));
-				lblSidebarCalendario.setForeground(new Color(119,119,119));
-				lblSidebarGastos.setForeground(new Color(119,119,119));
+				if(isDarkMode == true) {
+					pSidebarPerfil.setBackground(new Color(251, 251, 251));
+					pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
+					pSidebarDashboard.setBackground(new Color(36, 38, 46));
+					pSidebarIngresos.setBackground(new Color(36, 38, 46));
+					pSidebarCalendario.setBackground(new Color(36, 38, 46));
+					pSidebarGastos.setBackground(new Color(36, 38, 46));
+					
+					lblSidebarPerfil.setForeground(new Color(252, 251, 254));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+				} else {
+					pSidebarPerfil.setBackground(new Color(0, 0, 0));
+					pSidebarPresupuestos.setBackground(new Color(251,251,251));
+					pSidebarDashboard.setBackground(new Color(251,251,251));
+					pSidebarIngresos.setBackground(new Color(251,251,251));
+					pSidebarCalendario.setBackground(new Color(251, 251, 251));
+					pSidebarGastos.setBackground(new Color(251,251,251));
+					
+					lblSidebarPerfil.setForeground(new Color(0, 0, 0));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+				}
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
@@ -719,25 +430,40 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				
-				
 				panelGraficaIngresos.validate();
 		        panelGraficaGastos.validate();
 		        
-//				pSidebarDashboard.setBackground(new Color(0, 153, 204));
-		        pSidebarDashboard.setBackground(new Color(0, 0, 0));
-				pSidebarGastos.setBackground(new Color(251,251,251));
-				pSidebarIngresos.setBackground(new Color(251,251,251));
-				pSidebarPresupuestos.setBackground(new Color(251,251,251));
-				pSidebarCalendario.setBackground(new Color(251, 251, 251));
-				pSidebarPerfil.setBackground(new Color(251,251,251));
-				
-				lblSidebarHome.setForeground(new Color(0, 0, 0));
-				lblSidebarGastos.setForeground(new Color(119,119,119));
-				lblSidebarIngresos.setForeground(new Color(119,119,119));
-				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
-				lblSidebarCalendario.setForeground(new Color(119,119,119));
-				lblSidebarPerfil.setForeground(new Color(119,119,119));
+		        if(isDarkMode == true) {
+		        	pSidebarDashboard.setBackground(new Color(251,251,251));
+					pSidebarGastos.setBackground(new Color(36, 38, 46));
+					pSidebarIngresos.setBackground(new Color(36, 38, 46));
+					pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
+					pSidebarCalendario.setBackground(new Color(36, 38, 46));
+					pSidebarPerfil.setBackground(new Color(36, 38, 46));
+					
+					lblSidebarHome.setForeground(new Color(252, 251, 254));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+		        	
+		        } else {
+		        	pSidebarDashboard.setBackground(new Color(0, 0, 0));
+					pSidebarGastos.setBackground(new Color(251,251,251));
+					pSidebarIngresos.setBackground(new Color(251,251,251));
+					pSidebarPresupuestos.setBackground(new Color(251,251,251));
+					pSidebarCalendario.setBackground(new Color(251, 251, 251));
+					pSidebarPerfil.setBackground(new Color(251,251,251));
+					
+					lblSidebarHome.setForeground(new Color(0, 0, 0));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+		        }
+		        
 				
 				resumen.setVisible(true);
 				ingresos.setVisible(false);
@@ -766,21 +492,37 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				
-				pSidebarIngresos.setBackground(new Color(0, 0, 0));
-				pSidebarDashboard.setBackground(new Color(251,251,251));
-				pSidebarGastos.setBackground(new Color(251,251,251));
-				pSidebarPresupuestos.setBackground(new Color(251,251,251));
-				pSidebarCalendario.setBackground(new Color(251, 251, 251));
-				pSidebarPerfil.setBackground(new Color(251,251,251));
-				
-				lblSidebarIngresos.setForeground(new Color(0, 0, 0));
-				lblSidebarHome.setForeground(new Color(119,119,119));
-				lblSidebarGastos.setForeground(new Color(119,119,119));
-				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
-				lblSidebarCalendario.setForeground(new Color(119,119,119));
-				lblSidebarPerfil.setForeground(new Color(119,119,119));
-				
+				if(isDarkMode == true) {
+					pSidebarIngresos.setBackground(new Color(251, 251, 251));
+					pSidebarDashboard.setBackground(new Color(36, 38, 46));
+					pSidebarGastos.setBackground(new Color(36, 38, 46));
+					pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
+					pSidebarCalendario.setBackground(new Color(36, 38, 46));
+					pSidebarPerfil.setBackground(new Color(36, 38, 46));
+					
+					lblSidebarIngresos.setForeground(new Color(252, 251, 254));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+					
+				} else {
+					pSidebarIngresos.setBackground(new Color(0, 0, 0));
+					pSidebarDashboard.setBackground(new Color(251,251,251));
+					pSidebarGastos.setBackground(new Color(251,251,251));
+					pSidebarPresupuestos.setBackground(new Color(251,251,251));
+					pSidebarCalendario.setBackground(new Color(251, 251, 251));
+					pSidebarPerfil.setBackground(new Color(251,251,251));
+					
+					lblSidebarIngresos.setForeground(new Color(0, 0, 0));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+				}
+						
 				resumen.setVisible(false);
 				ingresos.setVisible(true);
 				gastos.setVisible(false);
@@ -805,22 +547,36 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				if(isDarkMode == true) {
+					pSidebarGastos.setBackground(new Color(251, 251, 251));
+					pSidebarDashboard.setBackground(new Color(36, 38, 46));
+					pSidebarIngresos.setBackground(new Color(36, 38, 46));
+					pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
+					pSidebarCalendario.setBackground(new Color(36, 38, 46));
+					pSidebarPerfil.setBackground(new Color(36, 38, 46));
 				
-				
-				pSidebarGastos.setBackground(new Color(0, 0, 0));
-				pSidebarDashboard.setBackground(new Color(251,251,251));
-				pSidebarIngresos.setBackground(new Color(251,251,251));
-				pSidebarPresupuestos.setBackground(new Color(251,251,251));
-				pSidebarCalendario.setBackground(new Color(251, 251, 251));
-				pSidebarPerfil.setBackground(new Color(251,251,251));
-			
-				
-				lblSidebarGastos.setForeground(new Color(0, 0, 0));
-				lblSidebarHome.setForeground(new Color(119,119,119));
-				lblSidebarIngresos.setForeground(new Color(119,119,119));
-				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
-				lblSidebarCalendario.setForeground(new Color(119,119,119));
-				lblSidebarPerfil.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(252, 251, 254));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+					
+				} else {
+					pSidebarGastos.setBackground(new Color(0, 0, 0));
+					pSidebarDashboard.setBackground(new Color(251,251,251));
+					pSidebarIngresos.setBackground(new Color(251,251,251));
+					pSidebarPresupuestos.setBackground(new Color(251,251,251));
+					pSidebarCalendario.setBackground(new Color(251, 251, 251));
+					pSidebarPerfil.setBackground(new Color(251,251,251));
+					
+					lblSidebarGastos.setForeground(new Color(0, 0, 0));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+				}
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
@@ -845,27 +601,45 @@ public class Dashboard extends Login{
 		btnSidebarPresupuestos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				pSidebarPresupuestos.setBackground(new Color(0, 0, 0));
-				pSidebarDashboard.setBackground(new Color(251,251,251));
-				pSidebarIngresos.setBackground(new Color(251,251,251));
-				pSidebarGastos.setBackground(new Color(251,251,251));
-				pSidebarCalendario.setBackground(new Color(251, 251, 251));
-				pSidebarPerfil.setBackground(new Color(251,251,251));
 				
-				
-				lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
-				lblSidebarHome.setForeground(new Color(119,119,119));
-				lblSidebarIngresos.setForeground(new Color(119,119,119));
-				lblSidebarGastos.setForeground(new Color(119,119,119));
-				lblSidebarCalendario.setForeground(new Color(119,119,119));
-				lblSidebarPerfil.setForeground(new Color(119,119,119));
-				
+				if(isDarkMode == true) {
+					pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
+					pSidebarDashboard.setBackground(new Color(36, 38, 46));
+					pSidebarIngresos.setBackground(new Color(36, 38, 46));
+					pSidebarGastos.setBackground(new Color(36, 38, 46));
+					pSidebarCalendario.setBackground(new Color(36, 38, 46));
+					pSidebarPerfil.setBackground(new Color(36, 38, 46));			
+					
+					lblSidebarPresupuestos.setForeground(new Color(252, 251, 254));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+				} else {
+					pSidebarPresupuestos.setBackground(new Color(0, 0, 0));
+					pSidebarDashboard.setBackground(new Color(251,251,251));
+					pSidebarIngresos.setBackground(new Color(251,251,251));
+					pSidebarGastos.setBackground(new Color(251,251,251));
+					pSidebarCalendario.setBackground(new Color(251, 251, 251));
+					pSidebarPerfil.setBackground(new Color(251,251,251));			
+					
+					lblSidebarPresupuestos.setForeground(new Color(0, 0, 0));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(119,119,119));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+				}
+		
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
 				gastos.setVisible(false);
 				presupuestos.setVisible(true);
 				calendario.setVisible(false);
 				perfil.setVisible(false);
+				
+				mostrarIngresos();
 			}
 		});
 		btnSidebarPresupuestos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -888,8 +662,6 @@ public class Dashboard extends Login{
 					DB.tempUsu(usuarioLeer.get(0), false);
 					
 				}
-				
-				
 				
 			}
 		});
@@ -956,25 +728,37 @@ public class Dashboard extends Login{
 		
 		
 		lblSidebarHome = new JLabel("Dashboard");
-//		lblSidebarHome.setForeground(new Color(0, 153, 204));
-		lblSidebarHome.setForeground(new Color(0, 0, 0));
+		if(isDarkMode == true) {
+			lblSidebarHome.setForeground(new Color(252, 251, 254));
+		} else {
+			lblSidebarHome.setForeground(new Color(0, 0, 0));
+		}
 		lblSidebarHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblSidebarHome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSidebarHome.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarHome.setBounds(60, 205, 185, 36);
 		sidebar.add(lblSidebarHome);
 		
-		Icon user = new ImageIcon(Dashboard.class.getResource("resources/home.png"));
+		Icon homeIcon = new ImageIcon(Dashboard.class.getResource("resources/home.png"));
+		Icon homeWIcon = new ImageIcon(Dashboard.class.getResource("resources/home_w.png"));
 		
-		lblSidebarHomeIcon = new JLabel("", user, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarHomeIcon = new JLabel("", homeWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarHomeIcon = new JLabel("", homeIcon, JLabel.CENTER);
+		}
 		lblSidebarHomeIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblSidebarHomeIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarHomeIcon.setBounds(30, 205, 25, 36);
 		sidebar.add(lblSidebarHomeIcon);
 		
 		pSidebarDashboard = new JPanel();
-//		pSidebarDashboard.setBackground(new Color(0, 153, 204));
-		pSidebarDashboard.setBackground(new Color(0, 0, 0));
+		if(isDarkMode == true) {
+			pSidebarDashboard.setBackground(new Color(251, 251, 251));
+		} else {
+			pSidebarDashboard.setBackground(new Color(0, 0, 0));
+		}
+		
 		pSidebarDashboard.setBounds(0, 205, 4, 36);
 		sidebar.add(pSidebarDashboard);
 		
@@ -987,8 +771,13 @@ public class Dashboard extends Login{
 		
 		// 17px
 		Icon ingresosIcon = new ImageIcon(Dashboard.class.getResource("resources/ingresos.png"));
+		Icon ingresosWIcon = new ImageIcon(Dashboard.class.getResource("resources/ingresos_w.png"));
 		
-		lblSidebarIngresosIcon = new JLabel("", ingresosIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarIngresosIcon = new JLabel("", ingresosWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarIngresosIcon = new JLabel("", ingresosIcon, JLabel.CENTER);
+		}
 		lblSidebarIngresosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarIngresosIcon.setBounds(30, 251, 25, 36);
 		sidebar.add(lblSidebarIngresosIcon);
@@ -1002,8 +791,13 @@ public class Dashboard extends Login{
 		sidebar.add(lblSidebarGastos);
 		
 		Icon gastosIcon = new ImageIcon(Dashboard.class.getResource("resources/gastos.png"));
+		Icon gastosWIcon = new ImageIcon(Dashboard.class.getResource("resources/gastos_w.png"));
 		
-		lblSidebarGastosIcon = new JLabel("", gastosIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarGastosIcon = new JLabel("", gastosWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarGastosIcon = new JLabel("", gastosIcon, JLabel.CENTER);
+		}
 		lblSidebarGastosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarGastosIcon.setBounds(30, 297, 25, 36);
 		sidebar.add(lblSidebarGastosIcon);
@@ -1016,8 +810,13 @@ public class Dashboard extends Login{
 		sidebar.add(lblSidebarPresupuestos);
 		
 		Icon presupuestosIcon = new ImageIcon(Dashboard.class.getResource("resources/presupuestos.png"));
+		Icon presupuestosWIcon = new ImageIcon(Dashboard.class.getResource("resources/presupuestos_w.png"));
 		
-		lblSidebarPrespuestosIcon = new JLabel("", presupuestosIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarPrespuestosIcon = new JLabel("", presupuestosWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarPrespuestosIcon = new JLabel("", presupuestosIcon, JLabel.CENTER);
+		}
 		lblSidebarPrespuestosIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarPrespuestosIcon.setBounds(30, 348, 25, 36);
 		sidebar.add(lblSidebarPrespuestosIcon);
@@ -1029,8 +828,14 @@ public class Dashboard extends Login{
 		sidebar.add(lblSidebarSalir);
 		
 		Icon salirIcon = new ImageIcon(Dashboard.class.getResource("resources/exit.png"));
+		Icon salirWIcon = new ImageIcon(Dashboard.class.getResource("resources/salir_w.png"));
 		
-		lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarSalirIcon = new JLabel("", salirWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarSalirIcon = new JLabel("", salirIcon, JLabel.CENTER);
+		}
+		
 		lblSidebarSalirIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarSalirIcon.setBounds(30, 501, 25, 36);
 		sidebar.add(lblSidebarSalirIcon);
@@ -1062,8 +867,13 @@ public class Dashboard extends Login{
 		
 		
 		Icon perfilIcon = new ImageIcon(Dashboard.class.getResource("resources/perfil.png"));
+		Icon perfilWIcon = new ImageIcon(Dashboard.class.getResource("resources/perfil_w.png"));
 		
-		lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarPerfilIcon = new JLabel("",perfilWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarPerfilIcon = new JLabel("",perfilIcon, JLabel.CENTER);
+		}
 		lblSidebarPerfilIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarPerfilIcon.setBounds(30, 450, 25, 36);
 		sidebar.add(lblSidebarPerfilIcon);
@@ -1080,20 +890,38 @@ public class Dashboard extends Login{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				txtADescripcionMostrar.setText(null);
-				pSidebarCalendario.setBackground(new Color(0, 0, 0));
-				pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
-				pSidebarDashboard.setBackground(new Color(251,251,251));
-				pSidebarIngresos.setBackground(new Color(251,251,251));
-				pSidebarGastos.setBackground(new Color(251,251,251));
-				pSidebarPerfil.setBackground(new Color(251,251,251));
+				
+				if(isDarkMode == true) {
+					pSidebarCalendario.setBackground(new Color(251, 251, 251));
+					pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
+					pSidebarDashboard.setBackground(new Color(36, 38, 46));
+					pSidebarIngresos.setBackground(new Color(36, 38, 46));
+					pSidebarGastos.setBackground(new Color(36, 38, 46));
+					pSidebarPerfil.setBackground(new Color(36, 38, 46));		
+					
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(252, 251, 254));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+				} else {
+					pSidebarCalendario.setBackground(new Color(0, 0, 0));
+					pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
+					pSidebarDashboard.setBackground(new Color(251,251,251));
+					pSidebarIngresos.setBackground(new Color(251,251,251));
+					pSidebarGastos.setBackground(new Color(251,251,251));
+					pSidebarPerfil.setBackground(new Color(251,251,251));		
+					
+					lblSidebarPresupuestos.setForeground(new Color(119,119,119));
+					lblSidebarHome.setForeground(new Color(119,119,119));
+					lblSidebarIngresos.setForeground(new Color(119,119,119));
+					lblSidebarGastos.setForeground(new Color(119,119,119));
+					lblSidebarCalendario.setForeground(new Color(0, 0, 0));
+					lblSidebarPerfil.setForeground(new Color(119,119,119));
+				}
 				
 				
-				lblSidebarPresupuestos.setForeground(new Color(119,119,119));
-				lblSidebarHome.setForeground(new Color(119,119,119));
-				lblSidebarIngresos.setForeground(new Color(119,119,119));
-				lblSidebarGastos.setForeground(new Color(119,119,119));
-				lblSidebarCalendario.setForeground(new Color(0, 0, 0));
-				lblSidebarPerfil.setForeground(new Color(119,119,119));
 				
 				resumen.setVisible(false);
 				ingresos.setVisible(false);
@@ -1134,8 +962,13 @@ public class Dashboard extends Login{
 		sidebar.add(lblSidebarCalendario);
 		
 		Icon calendarioIcon = new ImageIcon(Dashboard.class.getResource("resources/calendario.png"));
+		Icon calendarioWIcon = new ImageIcon(Dashboard.class.getResource("resources/calendario_w.png"));
 		
-		lblSidebarCalendarioIcon = new JLabel("", calendarioIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			lblSidebarCalendarioIcon = new JLabel("", calendarioWIcon, JLabel.CENTER);
+		} else {
+			lblSidebarCalendarioIcon = new JLabel("", calendarioIcon, JLabel.CENTER);
+		}
 		lblSidebarCalendarioIcon.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSidebarCalendarioIcon.setBounds(30, 399, 25, 36);
 		sidebar.add(lblSidebarCalendarioIcon);
@@ -1144,8 +977,7 @@ public class Dashboard extends Login{
 		pSidebarCalendario.setBackground(new Color(251, 251, 251));
 		pSidebarCalendario.setBounds(0, 399, 4, 36);
 		sidebar.add(pSidebarCalendario);
-		
-		
+				
 		main = new JPanel();
 		main.setBackground(Color.WHITE);
 		main.setBounds(245, 54, 1120, 618);
@@ -1185,10 +1017,13 @@ public class Dashboard extends Login{
 		Icon topbarBrandIcono = new ImageIcon(Dashboard.class.getResource("resources/Finanzas.png"));
 		
 		Icon topbarBuscarIcono = new ImageIcon(Dashboard.class.getResource("resources/search.png"));
+		Icon topbarBuscarWIcono = new ImageIcon(Dashboard.class.getResource("resources/search_w.png"));
 		
 		Icon topbarSettingsIcono = new ImageIcon(Dashboard.class.getResource("resources/settings.png"));
+		Icon topbarSettingsWIcono = new ImageIcon(Dashboard.class.getResource("resources/settings_w.png"));
 		
 		Icon topbarNotificationIcono = new ImageIcon(Dashboard.class.getResource("resources/notification.png"));
+		Icon topbarNotificationWIcono = new ImageIcon(Dashboard.class.getResource("resources/notification_w.png"));
 		
 		Icon ingresosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
 		
@@ -1240,7 +1075,7 @@ public class Dashboard extends Login{
 		lblNewLabel_1.setBounds(222, 91, 132, 31);
 		ingresos.add(lblNewLabel_1);
 		
-		lblQ = new JLabel("Q ");
+		lblQ = new JLabel("0");
 		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ.setBounds(359, 91, 253, 31);
 		ingresos.add(lblQ);
@@ -2376,7 +2211,7 @@ public class Dashboard extends Login{
 				fieldAlimentos4.getDocument().addDocumentListener(alimentosDL);
 				fieldAlimentosTotal.setEditable(false);
 		
-		JButton btnAlimentosGuardar = new JButton("Guardar");
+		btnAlimentosGuardar = new JButton("Guardar");
 		btnAlimentosGuardar.setForeground(Color.WHITE);
 		btnAlimentosGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
 		btnAlimentosGuardar.setBorder(null);
@@ -2791,13 +2626,13 @@ public class Dashboard extends Login{
 				fieldSalud8.setBounds(686, 521, 196, 33);
 				presSalud.add(fieldSalud8);
 				
-				button = new JButton("Guardar");
-				button.setForeground(Color.WHITE);
-				button.setFont(new Font("Verdana", Font.BOLD, 14));
-				button.setBorder(null);
-				button.setBackground(new Color(1, 162, 82));
-				button.setBounds(686, 574, 196, 33);
-				presSalud.add(button);
+				btnSaludGuardar = new JButton("Guardar");
+				btnSaludGuardar.setForeground(Color.WHITE);
+				btnSaludGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+				btnSaludGuardar.setBorder(null);
+				btnSaludGuardar.setBackground(new Color(1, 162, 82));
+				btnSaludGuardar.setBounds(686, 574, 196, 33);
+				presSalud.add(btnSaludGuardar);
 				
 				fieldSaludTotal = new JTextField("0");
 				fieldSaludTotal.setHorizontalAlignment(SwingConstants.CENTER);
@@ -3067,7 +2902,7 @@ public class Dashboard extends Login{
 				fieldEducacion8.getDocument().addDocumentListener(educacionDL);
 				fieldEducacionTotal.setEditable(false);
 				
-				JButton btnEducacionGuardar = new JButton("Guardar");
+				btnEducacionGuardar = new JButton("Guardar");
 				btnEducacionGuardar.setForeground(Color.WHITE);
 				btnEducacionGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
 				btnEducacionGuardar.setBorder(null);
@@ -3883,7 +3718,6 @@ public class Dashboard extends Login{
 		// FIN AUTO
 		
 		perfil = new JPanel();
-		perfil.setBackground(Color.WHITE);
 		main.add(perfil, "name_656442519169700");
 		
 		pCambiarContrasena = new JPanel();
@@ -4490,12 +4324,21 @@ public class Dashboard extends Login{
 		textField.setColumns(10);
 		TextPrompt oculto = new TextPrompt("Buscar contenido", textField);
 		
-		topbarBuscarIcon = new JLabel("", topbarBuscarIcono, JLabel.CENTER);
+		if(isDarkMode == true) {
+			topbarBuscarIcon = new JLabel("", topbarBuscarWIcono, JLabel.CENTER);
+		}else {
+			topbarBuscarIcon = new JLabel("", topbarBuscarIcono, JLabel.CENTER);
+		}
+		
 		topbarBuscarIcon.setBounds(731, 12, 35, 27);
 		topbarBuscarIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarBuscarIcon);
 		
-		topbarSettingsIcon = new JLabel("", topbarSettingsIcono, JLabel.CENTER);
+		if(isDarkMode == true) {
+			topbarSettingsIcon = new JLabel("", topbarSettingsWIcono, JLabel.CENTER);
+		}else {
+			topbarSettingsIcon = new JLabel("", topbarSettingsIcono, JLabel.CENTER);
+		}
 		topbarSettingsIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -4512,9 +4355,12 @@ public class Dashboard extends Login{
 		separator_3 = new JSeparator();
 		separator_3.setBounds(360, 42, 370, 1);
 		topbar.add(separator_3);
-		TextPrompt oculto3 = new TextPrompt("Buscar contenido", textField);
 		
-		topbarNotificationIcon = new JLabel("", topbarNotificationIcono, JLabel.CENTER);
+		if(isDarkMode == true) {
+			topbarNotificationIcon = new JLabel("", topbarNotificationWIcono, JLabel.CENTER);
+		} else {
+			topbarNotificationIcon = new JLabel("", topbarNotificationIcono, JLabel.CENTER);
+		}
 		topbarNotificationIcon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -4534,7 +4380,6 @@ public class Dashboard extends Login{
 		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarNotificationIcon);
 		
-		
 		// Listeners
 		
 		btnPresHogar.addActionListener(new MiListener());
@@ -4547,13 +4392,63 @@ public class Dashboard extends Login{
 		btnPresRopa.addActionListener(new MiListener());
 		btnPresRegalos.addActionListener(new MiListener());
 		btnPresViajes.addActionListener(new MiListener());
-
-
+		
+		btnHogarGuardar.addActionListener(new MiListener());
+		btnAutoGuardar.addActionListener(new MiListener());
+		btnAlimentosGuardar.addActionListener(new MiListener());
+		btnEntretenimientoGuardar.addActionListener(new MiListener());
+		btnSaludGuardar.addActionListener(new MiListener());
+		btnEducacionGuardar.addActionListener(new MiListener());
+		btnFinanzasGuardar.addActionListener(new MiListener());
+		btnRopaGuardar.addActionListener(new MiListener());
+		btnRegalosGuardar.addActionListener(new MiListener());
+		btnViajesGuardar.addActionListener(new MiListener());
+		
+		// 
+		
+		if(isDarkMode == true) {
+			frame.setBackground(new Color(31, 31, 37 ));
+			sidebar.setBackground(new Color(36, 38, 46));
+			lblUsername.setForeground(new Color(252, 251, 254));
+			pSidebarDashboard.setBackground(new Color(36, 38, 46));
+			pSidebarIngresos.setBackground(new Color(36, 38, 46));
+			pSidebarGastos.setBackground(new Color(36, 38, 46));
+			pSidebarPerfil.setBackground(new Color(36, 38, 46));
+			pSidebarCalendario.setBackground(new Color(36, 38, 46));
+			pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
+			pSidebarSalir.setBackground(new Color(36, 38, 46));
+		
+			
+			topbar.setBackground(new Color(36, 38, 46));
+			textField.setBackground(new Color(36, 38, 46));
+			
+			resumen.setBackground(new Color(31, 31, 37));
+			ingresos.setBackground(new Color(31, 31, 37));
+			ingresarIngresos.setBackground(new Color(31, 31, 37));
+			gastos.setBackground(new Color(31, 31, 37));
+			ingresarGastos.setBackground(new Color(31, 31, 37));
+			presupuestoMain.setBackground(new Color(31, 31, 37));
+			selecPresCateg.setBackground(new Color(31, 31, 37));
+			presHogar.setBackground(new Color(31, 31, 37));
+			presAuto.setBackground(new Color(31, 31, 37));
+			presAlimentos.setBackground(new Color(31, 31, 37));
+			presEntretenimiento.setBackground(new Color(31, 31, 37));
+			presSalud.setBackground(new Color(31, 31, 37));
+			presEducacion.setBackground(new Color(31, 31, 37));
+			presFinanzas.setBackground(new Color(31, 31, 37));
+			presRopa.setBackground(new Color(31, 31, 37));
+			presRegalos.setBackground(new Color(31, 31, 37));
+			presViajes.setBackground(new Color(31, 31, 37));
+			
+			calendario.setBackground(new Color(31, 31, 37));
+			pPerfilMain.setBackground(new Color(31, 31, 37));
+			
+		}
+		
 	}
 	
-	
-	
-	
+
+
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void mostrarGastos() {
 		
@@ -4575,7 +4470,6 @@ public class Dashboard extends Login{
 	
 	
 	
-	
 	@SuppressWarnings({ "unchecked", "rawtypes", "unused", "serial" })
 	private void mostrarIngresos(){
 		
@@ -4593,6 +4487,7 @@ public class Dashboard extends Login{
 		});
 		
 		lblQ.setText("Q " + r[1][0].toString());
+		presTotalIngresos.setText(r[1][0].toString());
 		
 	}
 	
@@ -4667,6 +4562,96 @@ public class Dashboard extends Login{
 				presViajes.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
+			
+			// GUARDAR HOGAR
+			if(e.getSource() == btnHogarGuardar) {
+				System.out.println("fn");
+				fieldTotalHogar = Double.parseDouble(fieldHogarTotal.getText());				
+				presHogar.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// GUARDAR AUTO Y TRANSPORTE
+			if(e.getSource() == btnAutoGuardar) {
+				fieldTotalAuto = Double.parseDouble(fieldAutoTotal.getText());
+				presAuto.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// ALIMENTOS
+			if(e.getSource() == btnAlimentosGuardar) {
+				fieldTotalAlimentos = Double.parseDouble(fieldAlimentosTotal.getText());
+				presAlimentos.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// ENTRETENIMIENTO
+			if(e.getSource() == btnEntretenimientoGuardar) {
+				fieldTotalEntretenimiento = Double.parseDouble(fieldEntretenimientoTotal.getText());
+				presEntretenimiento.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// SALUD Y BELLEZA
+			if(e.getSource() == btnSaludGuardar) {
+				fieldTotalSalud = Double.parseDouble(fieldSaludTotal.getText());
+								
+				presSalud.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+				
+			}
+			// EDUCACION
+			if(e.getSource() == btnEducacionGuardar) {
+				fieldTotalEducacion = Double.parseDouble(fieldEducacionTotal.getText());
+				presEducacion.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// FINANZAS E IMPUESTOS
+			if(e.getSource() == btnFinanzasGuardar) {
+				fieldTotalFinanzas = Double.parseDouble(fieldFinanzasTotal.getText());		
+				presFinanzas.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// ROPA y CALZADO
+			if(e.getSource() == btnRopaGuardar) {
+				fieldTotalRopa = Double.parseDouble(fieldRopaTotal.getText());
+				presRopa.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			// REGALOS
+			if(e.getSource() == btnRegalosGuardar) {
+				fieldTotalRegalos = Double.parseDouble(fieldRegalos2.getText());
+				presRegalos.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			// VIAJES
+			if(e.getSource() == btnViajesGuardar) {
+				fieldTotalViajes = Double.parseDouble(fieldViajes2.getText());	
+				presViajes.setVisible(false);
+				selecPresCateg.setVisible(false);
+				presupuestoMain.setVisible(true);
+			}
+			
+			
+			
+			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
+					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
+			
+			
+			progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			
+			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
+			
+			// TODO
 			
 			if (e.getSource() == btnGuardar){
 				
