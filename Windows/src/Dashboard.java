@@ -298,6 +298,12 @@ public class Dashboard{
 	
 	boolean isDarkMode = false;
 
+	private JLabel resumenPresTotal;
+
+	private JProgressBar progressBarResumen;
+
+	private JPanel panelProgressbar;
+
 	/**
 	 * Launch the application.
 	 */
@@ -344,6 +350,9 @@ public class Dashboard{
 		if(isDarkMode == true) {
 			UIManager.put("Label.foreground", new Color(252, 251, 254));
 			UIManager.put("Label.background", new Color(252, 251, 254));
+		} else {
+			UIManager.put("Label.foreground", new Color(0, 0, 0));
+			UIManager.put("Label.background", new Color(0, 0, 0));
 		}
 		
 		oyente = new MiListener();
@@ -1021,6 +1030,55 @@ public class Dashboard{
 
 		resumen.add(separator);
 		
+		panelProgressbar = new JPanel();
+		
+		if(isDarkMode == true) {
+			panelProgressbar.setBackground(new Color(36, 38, 46));
+		} else {
+			panelProgressbar.setBackground(Color.WHITE);
+		}
+		resumen.add(panelProgressbar);
+		panelProgressbar.setLayout(null);
+		panelProgressbar.setBounds(40, 314, 570, 209);
+		
+		
+		JLabel label_16 = new JLabel("Total Ingresos:");
+		label_16.setFont(new Font("Verdana", Font.PLAIN, 15));
+		label_16.setBounds(283, 53, 133, 19);
+		panelProgressbar.add(label_16);
+		
+		JLabel label_40 = new JLabel("Q");
+		label_40.setFont(new Font("Verdana", Font.PLAIN, 15));
+		label_40.setBounds(401, 49, 19, 27);
+		panelProgressbar.add(label_40);
+		
+		JLabel label_41 = new JLabel("");
+		label_41.setFont(new Font("Verdana", Font.PLAIN, 17));
+		label_41.setBounds(420, 49, 111, 27);
+		panelProgressbar.add(label_41);
+		
+		progressBarResumen = new JProgressBar();
+		progressBarResumen.setStringPainted(true);
+		progressBarResumen.setForeground(new Color(50, 205, 50));
+		progressBarResumen.setBackground(Color.WHITE);
+		progressBarResumen.setBounds(10, 80, 490, 27);
+		panelProgressbar.add(progressBarResumen);
+		
+		JLabel label_42 = new JLabel("Presupuesto total:");
+		label_42.setFont(new Font("Verdana", Font.PLAIN, 15));
+		label_42.setBounds(10, 55, 145, 19);
+		panelProgressbar.add(label_42);
+		
+		JLabel label_44 = new JLabel("Q");
+		label_44.setFont(new Font("Verdana", Font.PLAIN, 15));
+		label_44.setBounds(153, 49, 19, 27);
+		panelProgressbar.add(label_44);
+		
+		resumenPresTotal = new JLabel("");
+		resumenPresTotal.setFont(new Font("Verdana", Font.PLAIN, 17));
+		resumenPresTotal.setBounds(172, 49, 103, 27);
+		panelProgressbar.add(resumenPresTotal);
+		
 		Icon topbarBrandIcono = new ImageIcon(Dashboard.class.getResource("resources/Finanzas.png"));
 		
 		Icon topbarBuscarIcono = new ImageIcon(Dashboard.class.getResource("resources/search.png"));
@@ -1058,6 +1116,7 @@ public class Dashboard{
 		
 		
 		scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(36, 38, 46));
 		scrollPane.setBounds(150, 288, 800, 355);
 		ingresos.add(scrollPane);
 		
@@ -1065,9 +1124,14 @@ public class Dashboard{
 		
 		
 		listMuestraIngresos = new JList();
+		if(isDarkMode == true) {
+			listMuestraIngresos.setForeground(new Color(251, 251, 251));
+			listMuestraIngresos.setBackground(new Color(36, 38, 46));
+		} else {
+			listMuestraIngresos.setBackground(new Color(255, 255, 255));
+		}
 		listMuestraIngresos.setBorder(null);
-		
-	
+
 		scrollPane.setViewportView(listMuestraIngresos);
 		listMuestraIngresos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
@@ -1278,6 +1342,12 @@ public class Dashboard{
 		gastos.add(scrollPane_1);
 		
 		listGastos = new JList();
+		if(isDarkMode == true) {
+			listGastos.setForeground(new Color(251, 251, 251));
+			listGastos.setBackground(new Color(36, 38, 46));
+		} else {
+			listGastos.setBackground(new Color(255, 255, 255));
+		}
 		scrollPane_1.setViewportView(listGastos);
 		listGastos.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		listGastos.setBorder(null);
@@ -4072,6 +4142,8 @@ public class Dashboard{
 		calendario.add(label);
 		
 		btnMostrar = new JButton("Mostrar");
+		btnMostrar.setForeground(new Color(255, 255, 255));
+		btnMostrar.setBackground(new Color(0, 153, 204));
 		btnMostrar.setBounds(241, 396, 117, 29);
 		calendario.add(btnMostrar);
 		btnMostrar.addActionListener(oyente);
@@ -4081,6 +4153,13 @@ public class Dashboard{
 		calendario.add(scrollPane_2);
 		
 		listMostrarEventos = new JList();
+		if(isDarkMode == true) {
+			listMostrarEventos.setBackground(new Color(36, 38, 46));
+			listMostrarEventos.setForeground(new Color(255, 255, 255));
+		} else {
+			listMostrarEventos.setBackground(new Color(255, 255, 255));
+			listMostrarEventos.setForeground(new Color(0, 0, 0));
+		}
 		listMostrarEventos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				
@@ -4125,6 +4204,13 @@ public class Dashboard{
 		
 		 txtADescripcionMostrar = new JTextArea();
 		 scrollPane_4.setViewportView(txtADescripcionMostrar);
+		 if(isDarkMode == true) {
+			 txtADescripcionMostrar.setBackground(new Color(36, 38, 46));
+			 txtADescripcionMostrar.setForeground(new Color(255, 255, 255));
+		} else {
+			txtADescripcionMostrar.setBackground(new Color(255, 255, 255));
+			txtADescripcionMostrar.setForeground(new Color(0, 0, 0));
+		}
 		txtADescripcionMostrar.setWrapStyleWord(true);
 		txtADescripcionMostrar.setLineWrap(true);
 		txtADescripcionMostrar.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -4141,7 +4227,13 @@ public class Dashboard{
 		panel_5.setLayout(new CardLayout(0, 0));
 		
 		panel_4 = new JPanel();
-		panel_4.setBackground(Color.WHITE);
+		if(isDarkMode == true) {
+			panel_4.setBackground(new Color(36, 38, 46));
+			panel_4.setForeground(new Color(255, 255, 255));
+		} else {
+			panel_4.setBackground(new Color(255, 255, 255));
+			panel_4.setForeground(new Color(0, 0, 0));
+		}
 		panel_5.add(panel_4, "name_41518890215445");
 		panel_4.setLayout(null);
 		
@@ -4292,6 +4384,8 @@ public class Dashboard{
 		panel_4.add(lblDescripcion);
 		
 		btnAgregarEvento = new JButton("Agregar");
+		btnAgregarEvento.setForeground(new Color(255, 255, 255));
+		btnAgregarEvento.setBackground(new Color(0, 153, 204));
 		btnAgregarEvento.setBounds(303, 341, 117, 29);
 		panel_4.add(btnAgregarEvento);
 		
@@ -4301,6 +4395,13 @@ public class Dashboard{
 		
 		txtDescripcion = new JTextArea();
 		scrollPane_3.setViewportView(txtDescripcion);
+		if(isDarkMode == true) {
+			txtDescripcion.setBackground(new Color(36, 38, 46));
+			txtDescripcion.setForeground(new Color(255, 255, 255));
+		} else {
+			txtDescripcion.setBackground(new Color(255, 255, 255));
+			txtDescripcion.setForeground(new Color(0, 0, 0));
+		}
 		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 15));
 		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setWrapStyleWord(true);
@@ -4316,6 +4417,8 @@ public class Dashboard{
 		txtTitulo.setColumns(10);
 		
 		btnEliminarEvento = new JButton("Eliminar Evento");
+		btnEliminarEvento.setForeground(new Color(255, 255, 255));
+		btnEliminarEvento.setBackground(new Color(0, 153, 204));
 		btnEliminarEvento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_4.setVisible(false);
@@ -4673,9 +4776,10 @@ public class Dashboard{
 					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
 			
 			progressBarPresupuestos.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-			
+			progressBarResumen.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
 			
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
+			resumenPresTotal.setText(Double.toString(presupuestoTotal));
 			
 			// TODO
 			
