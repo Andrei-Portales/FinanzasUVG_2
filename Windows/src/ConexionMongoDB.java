@@ -193,7 +193,7 @@ public class ConexionMongoDB {
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
 		document.put("estado", "gratuito");
 		document.put("imagen", "");
-		document.put("mode",0);
+		document.put("mode",false);
 		usuarios.insertOne(document);
 		
 		Document document1 = new Document();

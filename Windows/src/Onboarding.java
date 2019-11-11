@@ -41,11 +41,11 @@ public class Onboarding extends JDialog {
 	public Onboarding() {
 		setAlwaysOnTop(true);
 		setUndecorated(true);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(new Color(36, 38, 46));
 		setSize(864, 524);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		contentPanel.setBackground(Color.WHITE);
+		contentPanel.setBackground(new Color(36, 38, 46));
 		contentPanel.setBounds(0, 0, 864, 491);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
@@ -54,29 +54,33 @@ public class Onboarding extends JDialog {
 //		dashboard.sidebar.setVisible(false);
 		
 		JPanel onboarding1 = new JPanel();
-		onboarding1.setBackground(Color.WHITE);
+		onboarding1.setBackground(new Color(36, 38, 46));
 		contentPanel.add(onboarding1, "name_68652647760900");
 		onboarding1.setLayout(null);
 		
 		JLabel label = new JLabel("\u00A1Bienvenido a Finanzas UVG!");
+		label.setForeground(new Color(255, 255, 255));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Arial", Font.BOLD, 16));
 		label.setBounds(0, 73, 854, 40);
 		onboarding1.add(label);
 		
 		JLabel label_1 = new JLabel("Toma el control");
+		label_1.setForeground(new Color(255, 255, 255));
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		label_1.setBounds(0, 144, 854, 40);
 		onboarding1.add(label_1);
 		
 		JLabel label_2 = new JLabel("Vincula tus tarjetas y controla tus gastos, en un solo lugar. Gratis.");
+		label_2.setForeground(new Color(255, 255, 255));
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setFont(new Font("Arial", Font.PLAIN, 16));
 		label_2.setBounds(0, 217, 854, 25);
 		onboarding1.add(label_2);
 		
 		JLabel label_3 = new JLabel("Contamos con los mismo protocolos de seguraidad que tu banco.");
+		label_3.setForeground(new Color(255, 255, 255));
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setFont(new Font("Arial", Font.PLAIN, 16));
 		label_3.setBounds(0, 247, 854, 25);
@@ -97,11 +101,12 @@ public class Onboarding extends JDialog {
 		onboarding1.add(btnNewButton);
 		
 		onboarding2 = new JPanel();
-		onboarding2.setBackground(Color.WHITE);
+		onboarding2.setBackground(new Color(36, 38, 46));
 		contentPanel.add(onboarding2, "name_68668221565400");
 		onboarding2.setLayout(null);
 		
 		JLabel lblfinanzasUvg_1 = new JLabel("\u00A1Finanzas UVG!");
+		lblfinanzasUvg_1.setForeground(new Color(255, 255, 255));
 		lblfinanzasUvg_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblfinanzasUvg_1.setFont(new Font("Arial", Font.BOLD, 16));
 		lblfinanzasUvg_1.setBounds(0, 73, 854, 40);
@@ -113,12 +118,14 @@ public class Onboarding extends JDialog {
 		textField.setColumns(10);
 		
 		JLabel lblJ = new JLabel("Recive notificaciones a tu telefono. Y controla tus gastos y presupuesto.");
+		lblJ.setForeground(new Color(255, 255, 255));
 		lblJ.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblJ.setHorizontalAlignment(SwingConstants.CENTER);
 		lblJ.setBounds(0, 145, 854, 23);
 		onboarding2.add(lblJ);
 		
 		JLabel lblNewLabel = new JLabel("Tel:");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel.setBounds(367, 215, 46, 30);
 		onboarding2.add(lblNewLabel);
@@ -136,11 +143,12 @@ public class Onboarding extends JDialog {
 		onboarding2.add(btnNewButton_1);
 		
 		onboarding3 = new JPanel();
-		onboarding3.setBackground(new Color(255, 255, 255));
+		onboarding3.setBackground(new Color(36, 38, 46));
 		contentPanel.add(onboarding3, "name_69516835163400");
 		onboarding3.setLayout(null);
 		
 		JLabel lblfinanzasUvg = new JLabel("\u00A1Finanzas UVG!");
+		lblfinanzasUvg.setForeground(new Color(255, 255, 255));
 		lblfinanzasUvg.setHorizontalAlignment(SwingConstants.CENTER);
 		lblfinanzasUvg.setFont(new Font("Arial", Font.BOLD, 16));
 		lblfinanzasUvg.setBounds(0, 73, 854, 40);
@@ -158,12 +166,14 @@ public class Onboarding extends JDialog {
 		onboarding3.add(btnComenzar);
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBackground(Color.WHITE);
+			buttonPane.setBackground(new Color(36, 38, 46));
 			buttonPane.setBounds(0, 491, 864, 33);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setForeground(new Color(255, 255, 255));
+				cancelButton.setBackground(new Color(0, 153, 204));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();

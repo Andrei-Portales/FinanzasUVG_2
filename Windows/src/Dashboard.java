@@ -83,8 +83,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.text.JTextComponent;
 
-public class Dashboard {
-
+public class Dashboard{
 	
 	
 	private JFrame frame;
@@ -338,7 +337,9 @@ public class Dashboard {
 		tempApellido = nombres[1];
 		tempCorreo = usuarioLeer.get(0);
 				
-		isDarkMode = DB.getMode(tempCorreo);		
+		isDarkMode = DB.getMode(tempCorreo);
+		
+		
 		
 		if(isDarkMode == true) {
 			UIManager.put("Label.foreground", new Color(252, 251, 254));
@@ -356,7 +357,9 @@ public class Dashboard {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
-				
+		
+	
+		
 		sidebar = new JPanel();
 		sidebar.setBackground(new Color(251,251,251));
 		sidebar.setBounds(0, 0, 245, 745);
@@ -676,6 +679,7 @@ public class Dashboard {
 		btnSidebarSalir.setBounds(0, 501, 245, 36);
 		sidebar.add(btnSidebarSalir);
 		
+	
 		
 		ImageIcon userIcon = new ImageIcon(Dashboard.class.getResource("resources/user.png"));	
 		Image image = userIcon.getImage();
@@ -1257,6 +1261,10 @@ public class Dashboard {
 		lblQ2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ2.setBounds(348, 106, 253, 31);
 		gastos.add(lblQ2);
+				
+		if(lblQ2.getText().isEmpty() && lblQ.getText().isEmpty()) {
+			onboarding.setVisible(true);
+		}
 		
 		
 		lblAgregarUnNuevo = new JLabel("Agregar un nuevo gasto");
@@ -4458,15 +4466,8 @@ public class Dashboard {
 			
 			calendario.setBackground(new Color(31, 31, 37));
 			pPerfilMain.setBackground(new Color(31, 31, 37));
+					
 			
-			mostrarIngresos();
-			mostrarGastos();
-			
-			System.out.println(lblQ2.getText());
-			
-			if(lblQ2.getText().equals("0.0") && lblQ.getText().equals("0.0")) {
-				onboarding.setVisible(true);
-			}
 			
 		}
 		
@@ -4671,10 +4672,8 @@ public class Dashboard {
 			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
 					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
 			
-			try{
-				progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-			}catch(Exception ew) {}
-
+			progressBarPresupuestos.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			
 			
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
 			
@@ -5008,6 +5007,9 @@ public class Dashboard {
 					
 					
 				}
+				
+				
+	 
 				
 			}
 			
