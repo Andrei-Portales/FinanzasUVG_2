@@ -84,18 +84,23 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.text.JTextComponent;
 
 public class Dashboard {
+
 	
 	
 	private JFrame frame;
 	
 	static Dashboard window;
+	Splash splash = new Splash();
+	Onboarding onboarding = new Onboarding();
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
 	lblSidebarPresupuestos, lblSidebarPrespuestosIcon, lblSidebarSalir, lblSidebarSalirIcon, btnAgregarIngreso;
 	private JList listMostrarEventos;
 
+	public JPanel sidebar;
+	
 	private JPanel pSidebarDashboard, pSidebarIngresos, pSidebarGastos, pSidebarPresupuestos, pSidebarSalir, main, resumen, ingresos, gastos,
-	panelGraficaIngresos, presupuestos, ingresarIngresos, sidebar, btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
+	panelGraficaIngresos, presupuestos, ingresarIngresos, btnSidebarHome, btnSidebarIngresos, btnSidebarGastos, btnSidebarPresupuestos, btnSidebarSalir;
 	private JLabel lblUserImage, lblUsername;
 
 	private JButton btnGuardar,btnAgregarNombreIngreso, btnRegresar;
@@ -243,7 +248,7 @@ public class Dashboard {
 	private JPanel selecPresCateg;
 	private JPanel presHogar;
 
-	private JProgressBar progressBar;
+	private JProgressBar progressBarPresupuestos;
 
 	private Object oyentePresSalud;
 
@@ -324,8 +329,8 @@ public class Dashboard {
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
 		DB = ConexionMongoDB.getConexion();
-		
-		usuarioLeer = DB.leerUsu();
+	
+		usuarioLeer = DB.leerUsu();	
 		
 		// VARIABLES
 		nombres = DB.getNombre(usuarioLeer.get(0));
@@ -333,9 +338,7 @@ public class Dashboard {
 		tempApellido = nombres[1];
 		tempCorreo = usuarioLeer.get(0);
 				
-		isDarkMode = DB.getMode(tempCorreo);
-		
-		
+		isDarkMode = DB.getMode(tempCorreo);		
 		
 		if(isDarkMode == true) {
 			UIManager.put("Label.foreground", new Color(252, 251, 254));
@@ -353,10 +356,7 @@ public class Dashboard {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
-		
-		
-		
-		
+				
 		sidebar = new JPanel();
 		sidebar.setBackground(new Color(251,251,251));
 		sidebar.setBounds(0, 0, 245, 745);
@@ -997,7 +997,6 @@ public class Dashboard {
 		graph1 = DB.getgrafica(usuarioLeer.get(0), "ingresos");
 		panelGraficaIngresos = new JPanel(new BorderLayout());
 		panelGraficaIngresos.setBounds(40, 31, 450, 230);
-
 		resumen.add(panelGraficaIngresos);
         panelGraficaIngresos.add(graph1);
         
@@ -1079,7 +1078,7 @@ public class Dashboard {
 		lblNewLabel_1.setBounds(222, 91, 132, 31);
 		ingresos.add(lblNewLabel_1);
 		
-		lblQ = new JLabel("0");
+		lblQ = new JLabel("");
 		lblQ.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ.setBounds(359, 91, 253, 31);
 		ingresos.add(lblQ);
@@ -1254,7 +1253,7 @@ public class Dashboard {
 		lblTotalGastos.setBounds(215, 106, 121, 31);
 		gastos.add(lblTotalGastos);
 		
-		lblQ2 = new JLabel("Q ");
+		lblQ2 = new JLabel("");
 		lblQ2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ2.setBounds(348, 106, 253, 31);
 		gastos.add(lblQ2);
@@ -1450,12 +1449,12 @@ public class Dashboard {
 		presTotalIngresos.setBounds(836, 143, 111, 27);
 		presupuestoMain.add(presTotalIngresos);
 		
-		progressBar = new JProgressBar();
-		progressBar.setStringPainted(true);
-		progressBar.setForeground(new Color(50, 205, 50));
-		progressBar.setBackground(Color.WHITE);
-		progressBar.setBounds(113, 174, 800, 27);
-		presupuestoMain.add(progressBar);
+		progressBarPresupuestos = new JProgressBar();
+		progressBarPresupuestos.setStringPainted(true);
+		progressBarPresupuestos.setForeground(new Color(50, 205, 50));
+		progressBarPresupuestos.setBackground(Color.WHITE);
+		progressBarPresupuestos.setBounds(113, 174, 800, 27);
+		presupuestoMain.add(progressBarPresupuestos);
 		
 		btnCrearPres = new JLabel("",iconAgregar, JLabel.CENTER);
 		btnCrearPres.addMouseListener(new MouseAdapter() {
@@ -4460,6 +4459,15 @@ public class Dashboard {
 			calendario.setBackground(new Color(31, 31, 37));
 			pPerfilMain.setBackground(new Color(31, 31, 37));
 			
+			mostrarIngresos();
+			mostrarGastos();
+			
+			System.out.println(lblQ2.getText());
+			
+			if(lblQ2.getText().equals("0.0") && lblQ.getText().equals("0.0")) {
+				onboarding.setVisible(true);
+			}
+			
 		}
 		
 	}
@@ -4482,7 +4490,7 @@ public class Dashboard {
 			}
 		});
 		
-		lblQ2.setText("Q " + r[1][0].toString());
+		lblQ2.setText(r[1][0].toString());
 	}
 	
 	
@@ -4503,7 +4511,7 @@ public class Dashboard {
 			}
 		});
 		
-		lblQ.setText("Q " + r[1][0].toString());
+		lblQ.setText(r[1][0].toString());
 		presTotalIngresos.setText(r[1][0].toString());
 		
 	}
@@ -4666,6 +4674,7 @@ public class Dashboard {
 			try{
 				progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
 			}catch(Exception ew) {}
+
 			
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
 			
@@ -4999,9 +5008,6 @@ public class Dashboard {
 					
 					
 				}
-				
-				
-				 
 				
 			}
 			
