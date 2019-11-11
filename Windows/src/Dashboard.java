@@ -83,7 +83,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.text.JTextComponent;
 
-public class Dashboard extends Onboarding{
+public class Dashboard {
+
 	
 	
 	private JFrame frame;
@@ -337,9 +338,7 @@ public class Dashboard extends Onboarding{
 		tempApellido = nombres[1];
 		tempCorreo = usuarioLeer.get(0);
 				
-		isDarkMode = DB.getMode(tempCorreo);
-		
-		
+		isDarkMode = DB.getMode(tempCorreo);		
 		
 		if(isDarkMode == true) {
 			UIManager.put("Label.foreground", new Color(252, 251, 254));
@@ -357,9 +356,7 @@ public class Dashboard extends Onboarding{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
-		
-	
-		
+				
 		sidebar = new JPanel();
 		sidebar.setBackground(new Color(251,251,251));
 		sidebar.setBounds(0, 0, 245, 745);
@@ -4674,8 +4671,10 @@ public class Dashboard extends Onboarding{
 			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
 					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
 			
-			progressBarPresupuestos.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-			
+			try{
+				progressBar.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			}catch(Exception ew) {}
+
 			
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
 			
@@ -5009,9 +5008,6 @@ public class Dashboard extends Onboarding{
 					
 					
 				}
-				
-				
-	 
 				
 			}
 			

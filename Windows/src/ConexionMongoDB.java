@@ -71,7 +71,7 @@ public class ConexionMongoDB {
 	 * 	mongo-java-driver-3.6.3.jar
 	 */
 	
-	
+	private static ConexionMongoDB DB;
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
@@ -100,6 +100,14 @@ public class ConexionMongoDB {
 			JOptionPane.showMessageDialog(null, "No se logro conectar al servidor");
 		}
 		
+	}
+	
+	
+	public static ConexionMongoDB getConexion() {
+        if (DB == null){
+            DB = new ConexionMongoDB();
+        }
+        return DB;
 	}
 	
 	
@@ -185,6 +193,7 @@ public class ConexionMongoDB {
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
 		document.put("estado", "gratuito");
 		document.put("imagen", "");
+		document.put("mode",0);
 		usuarios.insertOne(document);
 		
 		Document document1 = new Document();
@@ -225,7 +234,50 @@ public class ConexionMongoDB {
 	}
 	
 	
+	public void changeMode(String correo) {
 		
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = usuarios.find(searchQuery);
+		boolean i = false;
+		
+		for(Document doc : cursor) {
+			i = doc.getBoolean("mode");
+		}
+		
+		if (i == false) {
+			i=true;
+		}else if (i == true) {
+			i = false;
+		}
+		
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put("correo", correo);
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("mode", i);
+		BasicDBObject updateObj = new BasicDBObject();
+		updateObj.put("$set", newDocument);
+		usuarios.updateOne(query, updateObj);// or mongoCollection.updateMany(query, updateObj);
+	}
+	
+	
+	
+	public boolean getMode(String correo) {
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = usuarios.find(searchQuery);
+		boolean i = false;
+		
+		for(Document doc : cursor) {
+			i = doc.getBoolean("mode");
+		}
+		
+		return i;
+		
+	}
+		
+	
 	
 	/**
 	 * esta funcion manda un correo al usuario que quiere restablecer contrasena y consulta en la base de datos nombre, apellido y guarda el codigo generado en la base de datos

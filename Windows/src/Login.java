@@ -74,7 +74,7 @@ public class Login {
 	private JLabel lblCheck;
 	private TextPrompt oculto_1;
 	private JTextField txtApellido;
-	ConexionMongoDB DB;
+	protected ConexionMongoDB DB;
 	private TextPrompt oculto_2;
 	private JLabel lblAbout;
 	private JLabel lblNewLabel;
@@ -148,7 +148,7 @@ public class Login {
 	 */
 	private void initialize() {
 		
-		DB = new ConexionMongoDB();
+		DB = ConexionMongoDB.getConexion();
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setTitle("UVG Finanzas");
