@@ -193,6 +193,7 @@ public class ConexionMongoDB {
 		document.put("apellido", (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase()));
 		document.put("estado", "gratuito");
 		document.put("imagen", "");
+		document.put("numero", "");
 		document.put("mode",false);
 		document.put("tutorial",false);
 		usuarios.insertOne(document);
@@ -229,28 +230,48 @@ public class ConexionMongoDB {
 		calendar.put("correo", correo);
 		calendario.insertOne(calendar);
 		
+		String asunto = "¡Bienvenido a FinanzasUVG!";
+		
+		
+
+		
+		String cuerpo = "\n\n\n\n Estimado" + (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()) +" " + (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase())+
+				"\n\nBienvenido a FinanzasUVG, el programa donde podras manejar tus finanzas de una mejor manera." + "\n\n\nPuedes visitar: " +
+		 "https://presupuestos.space"  +" para poder descargar el programa para windows y mac";
+		
+		 enviarCorreo(correo,asunto, cuerpo );
+		
+		
 		
 		return "completado";
 		
 	}
 	
 	
+	
 	/**
-	 * Funcion para obtener si ya se recibio tutotial o no 
+	 * Funcion para ingresar un numero en la base de datos
 	 * @param correo
-	 * @return
+	 * @param numero
 	 */
-	public boolean tutorial(String correo) {
-		BasicDBObject searchQuery = new BasicDBObject();
-		searchQuery.put("correo", correo);
-		FindIterable<Document> cursor = usuarios.find(searchQuery);
-		boolean i = false;
-		
-		for(Document doc : cursor) {
-			i = doc.getBoolean("tutorial");
-		}
-
-		return i;
+	public void setNumero(String correo,String numero) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("correo", correo);
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("numero", numero);
+		BasicDBObject updateObj = new BasicDBObject();
+		updateObj.put("$set", newDocument);
+		usuarios.updateOne(query, updateObj);// or mongoCollection.updateMany(query, updateObj);
+	}
+	
+	public void setTutorial(String correo) {
+		BasicDBObject query = new BasicDBObject();
+		query.put("correo", correo);
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("tutorial", true);
+		BasicDBObject updateObj = new BasicDBObject();
+		updateObj.put("$set", newDocument);
+		usuarios.updateOne(query, updateObj);// or mongoCollection.updateMany(query, updateObj);
 	}
 	
 	
@@ -283,6 +304,31 @@ public class ConexionMongoDB {
 	
 	
 	
+	
+	/**
+	 * Funcion para verificar si el tutorial ya fue hecho
+	 * @param correo
+	 * @return
+	 */
+	public boolean gettutotial(String correo) {
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = usuarios.find(searchQuery);
+		boolean i = false;
+		
+		for(Document doc : cursor) {
+			i = doc.getBoolean("tutorial");
+		}
+		return i;
+	}
+	
+	
+	
+	/**
+	 * Funcion para obtener el modo si oscuro o claro
+	 * @param correo
+	 * @return
+	 */
 	public boolean getMode(String correo) {
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.put("correo", correo);
