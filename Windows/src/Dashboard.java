@@ -89,7 +89,7 @@ public class Dashboard{
 	private JFrame frame;
 	
 	static Dashboard window;
-	private Splash splash;
+	Splash splash = new Splash();
 	Onboarding onboarding = new Onboarding();
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
@@ -334,7 +334,7 @@ public class Dashboard{
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
 		DB = ConexionMongoDB.getConexion();
-		splash = new Splash();
+	
 		usuarioLeer = DB.leerUsu();	
 		
 		// VARIABLES
@@ -367,7 +367,13 @@ public class Dashboard{
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
 		
-	
+		if(isDarkMode == true) {
+			frame.setBackground(new Color(36,38,46));
+			frame.getContentPane().setBackground(new Color(36,38,46));
+		} else {
+			frame.setBackground(Color.WHITE);
+			frame.getContentPane().setBackground(Color.WHITE);
+		}
 		
 		sidebar = new JPanel();
 		sidebar.setBackground(new Color(251,251,251));
@@ -1325,8 +1331,10 @@ public class Dashboard{
 		lblQ2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblQ2.setBounds(348, 106, 253, 31);
 		gastos.add(lblQ2);
-				
-		if(lblQ2.getText().isEmpty() && lblQ.getText().isEmpty()) {
+			
+		
+		
+		if(DB.gettutotial(tempCorreo) == false) {
 			onboarding.setVisible(true);
 		}
 		
@@ -1475,7 +1483,7 @@ public class Dashboard{
 		btnEliminarCategoriaGastos = new JButton("Eliminar");
 		btnEliminarCategoriaGastos.setFont(new Font("Bangla MN", Font.PLAIN, 15));
 		btnEliminarCategoriaGastos.setBackground(new Color(0, 139, 139));
-		btnEliminarCategoriaGastos.setBounds(685, 543, 130, 42);
+		btnEliminarCategoriaGastos.setBounds(685, 545, 130, 42);
 		ingresarGastos.add(btnEliminarCategoriaGastos);
 		btnEliminarCategoriaGastos.addActionListener(oyente);
 		
@@ -4005,12 +4013,14 @@ public class Dashboard{
 		pPerfilMain.add(btnCambiarFoto, "name_151000756312900");
 		btnCambiarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DB.subirImagen(usuarioLeer.get(0));
-				BufferedImage img = DB.setImagen(usuarioLeer.get(0));
+				try {
+					DB.subirImagen(usuarioLeer.get(0));
+					BufferedImage img = DB.setImagen(usuarioLeer.get(0));
 				
-				imgPerfil = new ImageIcon(img);
-				imgPer = imgPerfil.getImage().getScaledInstance(275, 160, Image.SCALE_SMOOTH);
-			    lblPerfilPicture.setIcon(new ImageIcon(imgPer));
+					imgPerfil = new ImageIcon(img);
+					imgPer = imgPerfil.getImage().getScaledInstance(275, 160, Image.SCALE_SMOOTH);
+					lblPerfilPicture.setIcon(new ImageIcon(imgPer));
+				}catch(Exception ec) {}
 				
 				try {
 					int diameter = Math.min(img.getWidth(), img.getHeight());
@@ -4774,11 +4784,11 @@ public class Dashboard{
 			
 			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
 					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
-			
 			try {
-				progressBarPresupuestos.setValue( (int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-				progressBarResumen.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-			}catch (Exception ex) {}
+			progressBarPresupuestos.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			progressBarResumen.setValue((int) pres.porcentajePresupuesto(presupuestoTotal, Double.parseDouble(presTotalIngresos.getText())));
+			
+			}catch(Exception ex) {}
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
 			resumenPresTotal.setText(Double.toString(presupuestoTotal));
 			
@@ -4830,17 +4840,23 @@ public class Dashboard{
 			
 			if (e.getSource() == btnEliminar){
 				
-				DB.eliminarCuenta(usuarioLeer.get(0), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
+				 int input = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar este ingreso?");
+				 
+				 if (input == 0) {
+					 DB.eliminarCuenta(usuarioLeer.get(0), "ingresos", cbEliminarIngreso.getSelectedItem().toString());
+						
+						
+						ingresarIngresos.setVisible(false);
+						ingresos.setVisible(true);
+						txtMontoingresos.setText(null);
+						txtAgregarCategoriaIngresos.setText(null);
+						
+						try {
+							mostrarIngresos();
+						}catch (Exception ex){}
+				 }
 				
 				
-				ingresarIngresos.setVisible(false);
-				ingresos.setVisible(true);
-				txtMontoingresos.setText(null);
-				txtAgregarCategoriaIngresos.setText(null);
-				
-				try {
-					mostrarIngresos();
-				}catch (Exception ex){}
 			}
 			
 			
@@ -4876,15 +4892,20 @@ public class Dashboard{
 			
 			if (e.getSource() == btnEliminarCategoriaGastos){
 				
-				DB.eliminarCuenta(usuarioLeer.get(0), "gastos", cbEliminarGasto.getSelectedItem().toString());
-				ingresarGastos.setVisible(false);
-				gastos.setVisible(true);
-				txtMontoGasto.setText(null);
-				txtNombreGasto.setText(null);
+				 int input = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar este gasto?");
 				
-				try {
-					mostrarGastos();
-				}catch (Exception ex){}
+				 if (input == 0) {
+					 DB.eliminarCuenta(usuarioLeer.get(0), "gastos", cbEliminarGasto.getSelectedItem().toString());
+						ingresarGastos.setVisible(false);
+						gastos.setVisible(true);
+						txtMontoGasto.setText(null);
+						txtNombreGasto.setText(null);
+						
+						try {
+							mostrarGastos();
+						}catch (Exception ex){}
+				 }
+				
 			}
 
 			
