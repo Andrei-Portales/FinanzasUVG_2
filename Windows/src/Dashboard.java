@@ -4846,7 +4846,8 @@ public class Dashboard{
 				
 				String[] cantidades = {fieldHogar2.getText(),fieldHogar3.getText(),fieldHogar4.getText(),
 						fieldHogar5.getText(),fieldHogar6.getText(),fieldHogar7.getText(),fieldHogar8.getText()};
-				DB.setPresupuesto(tempCorreo, "presHogar", cantidades);			
+				DB.setPresupuesto(tempCorreo, "presHogar", cantidades);	
+				fieldTotalHogar = Double.parseDouble(fieldHogarTotal.getText());
 				presHogar.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -4866,7 +4867,7 @@ public class Dashboard{
 					Double.parseDouble(fieldAuto8.getText());
 				String[] cantidades = {fieldAuto2.getText(),fieldAuto3.getText(),fieldAuto4.getText(),
 						fieldAuto5.getText(),fieldAuto6.getText(),fieldAuto7.getText(),fieldAuto8.getText()};
-				
+				fieldTotalAuto = Double.parseDouble(fieldAutoTotal.getText());
 				DB.setPresupuesto(tempCorreo, "presAuto", cantidades);
 				presAuto.setVisible(false);
 				selecPresCateg.setVisible(false);
@@ -4881,7 +4882,7 @@ public class Dashboard{
 					Double.parseDouble(fieldAlimentos3.getText());
 					Double.parseDouble(fieldAlimentos4.getText());
 				String[] cantidades = {fieldAlimentos2.getText(),fieldAlimentos3.getText(),fieldAlimentos4.getText()};
-				
+				fieldTotalAlimentos = Double.parseDouble(fieldAlimentosTotal.getText());
 				DB.setPresupuesto(tempCorreo, "presAlimentos", cantidades);
 				presAlimentos.setVisible(false);
 				selecPresCateg.setVisible(false);
@@ -4901,7 +4902,9 @@ public class Dashboard{
 					Double.parseDouble(fieldEntretenimiento8.getText());
 				String[] cantidades = {fieldEntretenimiento2.getText(),fieldEntretenimiento3.getText(),fieldEntretenimiento4.getText(),fieldEntretenimiento5.getText(),
 						fieldEntretenimiento6.getText(),fieldEntretenimiento7.getText(),fieldEntretenimiento8.getText()};
+				
 				DB.setPresupuesto(tempCorreo, "presEntretenimiento", cantidades);
+				fieldTotalEntretenimiento = Double.parseDouble(fieldEntretenimientoTotal.getText());
 				presEntretenimiento.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -4920,7 +4923,7 @@ public class Dashboard{
 				String[] cantidades = {fieldSalud2.getText(),fieldSalud3.getText(),fieldSalud4.getText(),fieldSalud5.getText(),
 						fieldSalud6.getText(),fieldSalud7.getText(),fieldSalud8.getText()};
 				DB.setPresupuesto(tempCorreo, "presSalud", cantidades);
-								
+				fieldTotalSalud = Double.parseDouble(fieldSaludTotal.getText());
 				presSalud.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -4940,6 +4943,7 @@ public class Dashboard{
 				String[] cantidades = {fieldEducacion2.getText(),fieldEducacion3.getText(),fieldEducacion4.getText(),fieldEducacion5.getText(),
 						fieldEducacion6.getText(),fieldEducacion7.getText(),fieldEducacion8.getText()};
 				DB.setPresupuesto(tempCorreo, "presEducacion", cantidades);
+				fieldTotalEducacion = Double.parseDouble(fieldEducacionTotal.getText());
 				presEducacion.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -4957,7 +4961,8 @@ public class Dashboard{
 					Double.parseDouble(fieldFinanzas8.getText());
 				String[] cantidades = {fieldFinanzas2.getText(),fieldFinanzas3.getText(),fieldFinanzas4.getText(),fieldFinanzas5.getText(),
 						fieldFinanzas6.getText(),fieldFinanzas7.getText(),fieldFinanzas8.getText()};
-				DB.setPresupuesto(tempCorreo, "presFinanzas", cantidades);		
+				DB.setPresupuesto(tempCorreo, "presFinanzas", cantidades);
+				fieldTotalFinanzas = Double.parseDouble(fieldFinanzasTotal.getText());	
 				presFinanzas.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -4973,6 +4978,7 @@ public class Dashboard{
 					Double.parseDouble(fieldRopa6.getText());
 				String[] cantidades = {fieldRopa2.getText(),fieldRopa3.getText(),fieldRopa4.getText(),fieldRopa5.getText(),fieldRopa6.getText()};
 				DB.setPresupuesto(tempCorreo, "presRopa", cantidades);
+				fieldTotalRopa = Double.parseDouble(fieldRopaTotal.getText());
 				presRopa.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -4988,6 +4994,7 @@ public class Dashboard{
 					Double.parseDouble(fieldRegalos6.getText());
 				String[] cantidades = {fieldRegalos2.getText(),fieldRegalos3.getText(),fieldRegalos4.getText(),fieldRegalos5.getText(),fieldRegalos6.getText()};
 				DB.setPresupuesto(tempCorreo, "presRegalos", cantidades);
+				fieldTotalRegalos = Double.parseDouble(fieldRegalos2.getText());
 				presRegalos.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
@@ -5003,7 +5010,8 @@ public class Dashboard{
 					Double.parseDouble(fieldViajes5.getText());
 					Double.parseDouble(fieldViajes6.getText());
 				String[] cantidades = {fieldViajes2.getText(),fieldViajes3.getText(),fieldViajes4.getText(),fieldViajes5.getText(),fieldViajes6.getText()};
-				DB.setPresupuesto(tempCorreo, "presViajes", cantidades);	
+				DB.setPresupuesto(tempCorreo, "presViajes", cantidades);
+				fieldTotalViajes = Double.parseDouble(fieldViajes2.getText());
 				presViajes.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
