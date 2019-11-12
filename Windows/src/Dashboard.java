@@ -1876,11 +1876,11 @@ public class Dashboard{
 			}
 
 			protected void suma() {
-				
+				try {
 				double total = Double.parseDouble(fieldHogar2.getText()) + Double.parseDouble(fieldHogar3.getText()) + Double.parseDouble(fieldHogar4.getText()) +
 						Double.parseDouble(fieldHogar5.getText()) + Double.parseDouble(fieldHogar6.getText()) + Double.parseDouble(fieldHogar7.getText()) + Double.parseDouble(fieldHogar8.getText());
 				fieldHogarTotal.setText(Double.toString(total));
-			
+				}catch(Exception ex) {}
 			}
 
 		};
@@ -1900,7 +1900,7 @@ public class Dashboard{
 		btnHogarGuardar.setBorder(null);
 		btnHogarGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
 		btnHogarGuardar.setBackground(new Color(1, 162, 82));
-		btnHogarGuardar.setBounds(686, 574, 196, 33);
+		btnHogarGuardar.setBounds(686, 566, 196, 33);
 		presHogar.add(btnHogarGuardar);
 		
 		Icon presHogarBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
@@ -4674,127 +4674,340 @@ public class Dashboard{
 		public void actionPerformed(ActionEvent e) {
 			
 			lblPerfilError.setText("");
-			
+			String[] resp = null;
 			
 			if(e.getSource() == btnPresHogar) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presHogar");
+				if (resp.length > 0 ) {
+					fieldHogar2.setText(resp[0]);
+					fieldHogar3.setText(resp[1]);
+					fieldHogar4.setText(resp[2]);
+					fieldHogar5.setText(resp[3]);
+					fieldHogar6.setText(resp[4]);
+					fieldHogar7.setText(resp[5]);
+					fieldHogar8.setText(resp[6]);
+				}
+				}catch(Exception ex) {}
 				presHogar.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			
 			if(e.getSource() == btnPresAuto) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presAuto");
+				if (resp.length > 0) {
+					fieldAuto2.setText(resp[0]);
+					fieldAuto3.setText(resp[1]);
+					fieldAuto4.setText(resp[2]);
+					fieldAuto5.setText(resp[3]);
+					fieldAuto6.setText(resp[4]);
+					fieldAuto7.setText(resp[5]);
+					fieldAuto8.setText(resp[6]);
+					
+				}
+				}catch(Exception ex) {}
 				presAuto.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresAlimentos) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presAlimentos");
+				if (resp.length > 0) {
+					fieldAlimentos2.setText(resp[0]);
+					fieldAlimentos3.setText(resp[1]);
+					fieldAlimentos4.setText(resp[2]);
+				}
+				}catch(Exception ex) {}
 				presAlimentos.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresEntretenimiento) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presEntretenimiento");
+				if (resp.length > 0) {
+					fieldEntretenimiento2.setText(resp[0]);
+					fieldEntretenimiento3.setText(resp[1]);
+					fieldEntretenimiento4.setText(resp[2]);
+					fieldEntretenimiento5.setText(resp[3]);
+					fieldEntretenimiento6.setText(resp[4]);
+					fieldEntretenimiento7.setText(resp[5]);
+					fieldEntretenimiento8.setText(resp[6]);
+				}
+				}catch(Exception ex) {}
 				presEntretenimiento.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			
 			if(e.getSource() == btnPresSalud) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presSalud");
+				if (resp.length > 0) {
+					fieldSalud2.setText(resp[0]);
+					fieldSalud3.setText(resp[1]);
+					fieldSalud4.setText(resp[2]);
+					fieldSalud5.setText(resp[3]);
+					fieldSalud6.setText(resp[4]);
+					fieldSalud7.setText(resp[5]);
+					fieldSalud8.setText(resp[6]);
+				}
+				}catch(Exception ex) {}
 				presSalud.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresEducacion) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presEducacion");
+				if (resp.length > 0) {
+					fieldEducacion2.setText(resp[0]);
+					fieldEducacion3.setText(resp[1]);
+					fieldEducacion4.setText(resp[2]);
+					fieldEducacion5.setText(resp[3]);
+					fieldEducacion6.setText(resp[4]);
+					fieldEducacion7.setText(resp[5]);
+					fieldEducacion8.setText(resp[6]);
+				}
+				}catch(Exception ex) {}
 				presEducacion.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresFinanzas) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presFinanzas");
+				if (resp.length > 0) {
+					fieldFinanzas2.setText(resp[0]);
+					fieldFinanzas3.setText(resp[1]);
+					fieldFinanzas4.setText(resp[2]);
+					fieldFinanzas5.setText(resp[3]);
+					fieldFinanzas6.setText(resp[4]);
+					fieldFinanzas7.setText(resp[5]);
+					fieldFinanzas8.setText(resp[6]);
+				}
+				}catch(Exception ex) {}
 				presFinanzas.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresRopa) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presRopa");
+				if (resp.length > 0) {
+					fieldRopa2.setText(resp[0]);
+					fieldRopa3.setText(resp[1]);
+					fieldRopa4.setText(resp[2]);
+					fieldRopa5.setText(resp[3]);
+					fieldRopa6.setText(resp[4]);
+				}
+				}catch(Exception ex) {}
 				presRopa.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresRegalos) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presRegalos");
+				if (resp.length > 0) {
+					fieldRegalos2.setText(resp[0]);
+					fieldRegalos3.setText(resp[1]);
+					fieldRegalos4.setText(resp[2]);
+					fieldRegalos5.setText(resp[3]);
+					fieldRegalos6.setText(resp[4]);
+				}
+				}catch(Exception ex) {}
 				presRegalos.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			if(e.getSource() == btnPresViajes) {
+				try {
+				resp = DB.getPresupuesto(tempCorreo, "presViajes");
+				if (resp.length > 0) {
+					fieldViajes2.setText(resp[0]);
+					fieldViajes3.setText(resp[1]);
+					fieldViajes4.setText(resp[2]);
+					fieldViajes5.setText(resp[3]);
+					fieldViajes6.setText(resp[4]);
+				}
+				}catch(Exception ex) {}
 				presViajes.setVisible(true);
 				selecPresCateg.setVisible(false);
 			}
 			
+			
+			
+			
 			// GUARDAR HOGAR
 			if(e.getSource() == btnHogarGuardar) {
-				System.out.println("fn");
-				fieldTotalHogar = Double.parseDouble(fieldHogarTotal.getText());				
+				try {
+				Double.parseDouble(fieldHogar2.getText());
+				Double.parseDouble(fieldHogar3.getText());
+				Double.parseDouble(fieldHogar4.getText());
+				Double.parseDouble(fieldHogar5.getText());
+				Double.parseDouble(fieldHogar6.getText());
+				Double.parseDouble(fieldHogar7.getText());
+				Double.parseDouble(fieldHogar8.getText());
+				
+				String[] cantidades = {fieldHogar2.getText(),fieldHogar3.getText(),fieldHogar4.getText(),
+						fieldHogar5.getText(),fieldHogar6.getText(),fieldHogar7.getText(),fieldHogar8.getText()};
+				DB.setPresupuesto(tempCorreo, "presHogar", cantidades);			
 				presHogar.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			
 			// GUARDAR AUTO Y TRANSPORTE
+			
 			if(e.getSource() == btnAutoGuardar) {
-				fieldTotalAuto = Double.parseDouble(fieldAutoTotal.getText());
+				try {
+					Double.parseDouble(fieldAuto2.getText());
+					Double.parseDouble(fieldAuto3.getText());
+					Double.parseDouble(fieldAuto4.getText());
+					Double.parseDouble(fieldAuto5.getText());
+					Double.parseDouble(fieldAuto6.getText());
+					Double.parseDouble(fieldAuto7.getText());
+					Double.parseDouble(fieldAuto8.getText());
+				String[] cantidades = {fieldAuto2.getText(),fieldAuto3.getText(),fieldAuto4.getText(),
+						fieldAuto5.getText(),fieldAuto6.getText(),fieldAuto7.getText(),fieldAuto8.getText()};
+				
+				DB.setPresupuesto(tempCorreo, "presAuto", cantidades);
 				presAuto.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			
 			// ALIMENTOS
 			if(e.getSource() == btnAlimentosGuardar) {
-				fieldTotalAlimentos = Double.parseDouble(fieldAlimentosTotal.getText());
+				try {
+					Double.parseDouble(fieldAlimentos2.getText());
+					Double.parseDouble(fieldAlimentos3.getText());
+					Double.parseDouble(fieldAlimentos4.getText());
+				String[] cantidades = {fieldAlimentos2.getText(),fieldAlimentos3.getText(),fieldAlimentos4.getText()};
+				
+				DB.setPresupuesto(tempCorreo, "presAlimentos", cantidades);
 				presAlimentos.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			
 			// ENTRETENIMIENTO
 			if(e.getSource() == btnEntretenimientoGuardar) {
-				fieldTotalEntretenimiento = Double.parseDouble(fieldEntretenimientoTotal.getText());
+				try {
+					Double.parseDouble(fieldEntretenimiento2.getText());
+					Double.parseDouble(fieldEntretenimiento3.getText());
+					Double.parseDouble(fieldEntretenimiento4.getText());
+					Double.parseDouble(fieldEntretenimiento5.getText());
+					Double.parseDouble(fieldEntretenimiento6.getText());
+					Double.parseDouble(fieldEntretenimiento7.getText());
+					Double.parseDouble(fieldEntretenimiento8.getText());
+				String[] cantidades = {fieldEntretenimiento2.getText(),fieldEntretenimiento3.getText(),fieldEntretenimiento4.getText(),fieldEntretenimiento5.getText(),
+						fieldEntretenimiento6.getText(),fieldEntretenimiento7.getText(),fieldEntretenimiento8.getText()};
+				DB.setPresupuesto(tempCorreo, "presEntretenimiento", cantidades);
 				presEntretenimiento.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			// SALUD Y BELLEZA
 			if(e.getSource() == btnSaludGuardar) {
-				fieldTotalSalud = Double.parseDouble(fieldSaludTotal.getText());
+				try {
+					Double.parseDouble(fieldSalud2.getText());
+					Double.parseDouble(fieldSalud3.getText());
+					Double.parseDouble(fieldSalud4.getText());
+					Double.parseDouble(fieldSalud5.getText());
+					Double.parseDouble(fieldSalud6.getText());
+					Double.parseDouble(fieldSalud7.getText());
+					Double.parseDouble(fieldSalud8.getText());
+				String[] cantidades = {fieldSalud2.getText(),fieldSalud3.getText(),fieldSalud4.getText(),fieldSalud5.getText(),
+						fieldSalud6.getText(),fieldSalud7.getText(),fieldSalud8.getText()};
+				DB.setPresupuesto(tempCorreo, "presSalud", cantidades);
 								
 				presSalud.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 				
 			}
 			// EDUCACION
 			if(e.getSource() == btnEducacionGuardar) {
-				fieldTotalEducacion = Double.parseDouble(fieldEducacionTotal.getText());
+				try {
+					Double.parseDouble(fieldEducacion2.getText());
+					Double.parseDouble(fieldEducacion3.getText());
+					Double.parseDouble(fieldEducacion4.getText());
+					Double.parseDouble(fieldEducacion5.getText());
+					Double.parseDouble(fieldEducacion6.getText());
+					Double.parseDouble(fieldEducacion7.getText());
+					Double.parseDouble(fieldEducacion8.getText());
+				String[] cantidades = {fieldEducacion2.getText(),fieldEducacion3.getText(),fieldEducacion4.getText(),fieldEducacion5.getText(),
+						fieldEducacion6.getText(),fieldEducacion7.getText(),fieldEducacion8.getText()};
+				DB.setPresupuesto(tempCorreo, "presEducacion", cantidades);
 				presEducacion.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			// FINANZAS E IMPUESTOS
 			if(e.getSource() == btnFinanzasGuardar) {
-				fieldTotalFinanzas = Double.parseDouble(fieldFinanzasTotal.getText());		
+				try {
+					Double.parseDouble(fieldFinanzas2.getText());
+					Double.parseDouble(fieldFinanzas3.getText());
+					Double.parseDouble(fieldFinanzas4.getText());
+					Double.parseDouble(fieldFinanzas5.getText());
+					Double.parseDouble(fieldFinanzas6.getText());
+					Double.parseDouble(fieldFinanzas7.getText());
+					Double.parseDouble(fieldFinanzas8.getText());
+				String[] cantidades = {fieldFinanzas2.getText(),fieldFinanzas3.getText(),fieldFinanzas4.getText(),fieldFinanzas5.getText(),
+						fieldFinanzas6.getText(),fieldFinanzas7.getText(),fieldFinanzas8.getText()};
+				DB.setPresupuesto(tempCorreo, "presFinanzas", cantidades);		
 				presFinanzas.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			// ROPA y CALZADO
 			if(e.getSource() == btnRopaGuardar) {
-				fieldTotalRopa = Double.parseDouble(fieldRopaTotal.getText());
+				try {
+					Double.parseDouble(fieldRopa2.getText());
+					Double.parseDouble(fieldRopa3.getText());
+					Double.parseDouble(fieldRopa4.getText());
+					Double.parseDouble(fieldRopa5.getText());
+					Double.parseDouble(fieldRopa6.getText());
+				String[] cantidades = {fieldRopa2.getText(),fieldRopa3.getText(),fieldRopa4.getText(),fieldRopa5.getText(),fieldRopa6.getText()};
+				DB.setPresupuesto(tempCorreo, "presRopa", cantidades);
 				presRopa.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			// REGALOS
 			if(e.getSource() == btnRegalosGuardar) {
-				fieldTotalRegalos = Double.parseDouble(fieldRegalos2.getText());
+				try {
+					Double.parseDouble(fieldRegalos2.getText());
+					Double.parseDouble(fieldRegalos3.getText());
+					Double.parseDouble(fieldRegalos4.getText());
+					Double.parseDouble(fieldRegalos5.getText());
+					Double.parseDouble(fieldRegalos6.getText());
+				String[] cantidades = {fieldRegalos2.getText(),fieldRegalos3.getText(),fieldRegalos4.getText(),fieldRegalos5.getText(),fieldRegalos6.getText()};
+				DB.setPresupuesto(tempCorreo, "presRegalos", cantidades);
 				presRegalos.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			
 			// VIAJES
 			if(e.getSource() == btnViajesGuardar) {
-				fieldTotalViajes = Double.parseDouble(fieldViajes2.getText());	
+				try {
+					Double.parseDouble(fieldViajes2.getText());
+					Double.parseDouble(fieldViajes3.getText());
+					Double.parseDouble(fieldViajes4.getText());
+					Double.parseDouble(fieldViajes5.getText());
+					Double.parseDouble(fieldViajes6.getText());
+				String[] cantidades = {fieldViajes2.getText(),fieldViajes3.getText(),fieldViajes4.getText(),fieldViajes5.getText(),fieldViajes6.getText()};
+				DB.setPresupuesto(tempCorreo, "presViajes", cantidades);	
 				presViajes.setVisible(false);
 				selecPresCateg.setVisible(false);
 				presupuestoMain.setVisible(true);
+				}catch (Exception ex) {JOptionPane.showMessageDialog(null, "Has ingresado valores no numericos");}
 			}
 			
 			
@@ -4999,11 +5212,11 @@ public class Dashboard{
 						
 						
 						if (fConfirmarContrasena.getText().length() >=8) {
-							boolean resp = DB.cambiarContrasena(usuarioLeer.get(0), fConfirmarContrasena.getText());
-							if (resp == true) {
+							boolean respu = DB.cambiarContrasena(usuarioLeer.get(0), fConfirmarContrasena.getText());
+							if (respu == true) {
 								JOptionPane.showMessageDialog(null, "La constrasena se ha cambiado correctamente");
 							}
-							else if (resp == false) {
+							else if (respu == false) {
 								JOptionPane.showMessageDialog(null, "No se logro cambiar la contrasena");
 							}
 							perfilCambiarContrasena.setVisible(true);
@@ -5142,8 +5355,8 @@ public class Dashboard{
 			
 			if(e.getSource() == btnDarkMode) {
 				
-				int resp=JOptionPane.showConfirmDialog(null,"Para aplicar cambios es necesario reiniciar, ¿Estas seguro?");
-				if (resp == 0) {
+				int respue=JOptionPane.showConfirmDialog(null,"Para aplicar cambios es necesario reiniciar, ¿Estas seguro?");
+				if (respue == 0) {
 					DB.changeMode(tempCorreo);
 					frame.dispose();
 					DarkModeChange.main(null);
