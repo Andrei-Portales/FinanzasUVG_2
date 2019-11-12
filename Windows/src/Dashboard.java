@@ -683,7 +683,7 @@ public class Dashboard{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				int confirmado = JOptionPane.showConfirmDialog(null,"¿Estas seguro?");
+				int confirmado = JOptionPane.showConfirmDialog(null,"ï¿½Estas seguro?");
 				
 				if (confirmado == 0) {
 					frame.dispose();
@@ -1340,6 +1340,11 @@ public class Dashboard{
 		gastos.add(lblQ2);
 			
 		
+
+		
+		if(DB.gettutotial(tempCorreo) == false) {
+			onboarding.setVisible(true);
+		}
 		
 		if(DB.gettutotial(tempCorreo) == false) {
 			onboarding.setVisible(true);
