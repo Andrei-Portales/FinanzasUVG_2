@@ -389,6 +389,9 @@ public class Dashboard{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				btnDarkMode.setVisible(true);
+		        btnCambiarFoto.setVisible(true);
+				
 				if(isDarkMode == true) {
 					pSidebarPerfil.setBackground(new Color(251, 251, 251));
 					pSidebarPresupuestos.setBackground(new Color(36, 38, 46));
@@ -433,7 +436,7 @@ public class Dashboard{
 		btnSidebarPerfil.setBackground(Color.CYAN);
 		btnSidebarPerfil.setBounds(0, 450, 245, 36);
 		sidebar.add(btnSidebarPerfil);
-		
+	
 		
 		
 		lblUsername = new JLabel(tempNombre + " " + tempApellido );
@@ -456,6 +459,9 @@ public class Dashboard{
 				
 				panelGraficaIngresos.validate();
 		        panelGraficaGastos.validate();
+		        
+		        btnCambiarFoto.setVisible(false);
+		        btnDarkMode.setVisible(false);
 		        
 		        if(isDarkMode == true) {
 		        	pSidebarDashboard.setBackground(new Color(251,251,251));
@@ -1104,8 +1110,10 @@ public class Dashboard{
 		Icon topbarNotificationWIcono = new ImageIcon(Dashboard.class.getResource("resources/notification_w.png"));
 		
 		Icon ingresosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		Icon ingresosBackWIcon = new ImageIcon(Dashboard.class.getResource("resources/back_w.png"));
 		
 		Icon gastosBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
+		Icon gastosBackWIcon = new ImageIcon(Dashboard.class.getResource("resources/back_w.png"));
 		
 		Icon presCategBackIcon = new ImageIcon(Dashboard.class.getResource("resources/back.png"));
 		
@@ -1154,7 +1162,8 @@ public class Dashboard{
 		lblIngresis.setBounds(0, 35, 1120, 30);
 		ingresos.add(lblIngresis);
 		
-		JLabel lblNewLabel_1 = new JLabel("Total ingresos:");
+		JLabel lblNewLabel_1 = new JLabel("Total ingresos: Q");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNewLabel_1.setBounds(222, 91, 132, 31);
 		ingresos.add(lblNewLabel_1);
@@ -1302,7 +1311,12 @@ public class Dashboard{
 		ingresarIngresos.add(cbEliminarIngreso);
 		cbEliminarIngreso.setFont(new Font("Arial", Font.PLAIN, 20));
 		
-		btbRegresarIngresos = new JLabel("", ingresosBackIcon, JLabel.CENTER);
+		if(isDarkMode == true) {
+			btbRegresarIngresos = new JLabel("", ingresosBackWIcon, JLabel.CENTER);
+		} else {
+			btbRegresarIngresos = new JLabel("", ingresosBackIcon, JLabel.CENTER);
+		}
+		
 		btbRegresarIngresos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1329,14 +1343,14 @@ public class Dashboard{
 		lblGastos.setBounds(0, 35, 1120, 30);
 		gastos.add(lblGastos);
 		
-		lblTotalGastos = new JLabel("Total Gastos:");
+		lblTotalGastos = new JLabel("Total Gastos: Q");
 		lblTotalGastos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTotalGastos.setBounds(215, 106, 121, 31);
+		lblTotalGastos.setBounds(222, 91, 125, 31);
 		gastos.add(lblTotalGastos);
 		
-		lblQ2 = new JLabel("");
+		lblQ2 = new JLabel("   ");
 		lblQ2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQ2.setBounds(348, 106, 253, 31);
+		lblQ2.setBounds(355, 91, 253, 31);
 		gastos.add(lblQ2);
 			
 		
@@ -4530,6 +4544,8 @@ public class Dashboard{
 		topbar.add(topbarNotificationIcon);
 		
 		mostrarIngresos();
+		btnDarkMode.setVisible(false);
+        btnCambiarFoto.setVisible(false);
 		
 		// Listeners
 		
