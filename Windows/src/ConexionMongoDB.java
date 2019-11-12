@@ -194,6 +194,7 @@ public class ConexionMongoDB {
 		document.put("estado", "gratuito");
 		document.put("imagen", "");
 		document.put("mode",false);
+		document.put("tutorial",false);
 		usuarios.insertOne(document);
 		
 		Document document1 = new Document();
@@ -231,6 +232,25 @@ public class ConexionMongoDB {
 		
 		return "completado";
 		
+	}
+	
+	
+	/**
+	 * Funcion para obtener si ya se recibio tutotial o no 
+	 * @param correo
+	 * @return
+	 */
+	public boolean tutorial(String correo) {
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = usuarios.find(searchQuery);
+		boolean i = false;
+		
+		for(Document doc : cursor) {
+			i = doc.getBoolean("tutorial");
+		}
+
+		return i;
 	}
 	
 	

@@ -89,7 +89,7 @@ public class Dashboard{
 	private JFrame frame;
 	
 	static Dashboard window;
-	Splash splash = new Splash();
+	private Splash splash;
 	Onboarding onboarding = new Onboarding();
 	
 	private JLabel lblSidebarHome, lblSidebarHomeIcon, lblSidebarIngresos, lblSidebarIngresosIcon, lblSidebarGastos, lblSidebarGastosIcon, 
@@ -334,7 +334,7 @@ public class Dashboard{
 	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	private void initialize() {
 		DB = ConexionMongoDB.getConexion();
-	
+		splash = new Splash();
 		usuarioLeer = DB.leerUsu();	
 		
 		// VARIABLES
@@ -4775,9 +4775,10 @@ public class Dashboard{
 			presupuestoTotal = pres.totalPresupuesto(fieldTotalHogar, fieldTotalAuto, fieldTotalAlimentos, fieldTotalEntretenimiento, fieldTotalSalud, fieldTotalEducacion,
 					fieldTotalFinanzas, fieldTotalRopa, fieldTotalRegalos, fieldTotalViajes);
 			
-			progressBarPresupuestos.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-			progressBarResumen.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
-			
+			try {
+				progressBarPresupuestos.setValue( (int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+				progressBarResumen.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+			}catch (Exception ex) {}
 			lblPresupuestoTotal.setText(Double.toString(presupuestoTotal));
 			resumenPresTotal.setText(Double.toString(presupuestoTotal));
 			
