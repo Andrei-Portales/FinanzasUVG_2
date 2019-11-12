@@ -79,6 +79,7 @@ public class ConexionMongoDB {
 	private MongoCollection<Document> datos;
 	private MongoCollection<Document> codigorr;
 	private MongoCollection<Document> calendario;
+	private MongoCollection<Document> presupuesto;
 	
 	
 	public ConexionMongoDB() {
@@ -94,6 +95,7 @@ public class ConexionMongoDB {
 		codigorr = mongoDatabase.getCollection("codigo");
 		datos = mongoDatabase.getCollection("datos");
 		calendario = mongoDatabase.getCollection("calendario");
+		presupuesto = mongoDatabase.getCollection("presupuesto");
 		
 		
 		}catch(Exception e) {
@@ -226,6 +228,11 @@ public class ConexionMongoDB {
 		gasto.put("Inversiones","0");
 		gasto.put("Otros","0");
 		datos.insertOne(gasto);
+		Document presupuesto = new Document();
+		presupuesto.put("correo",correo);
+		this.presupuesto.insertOne(presupuesto);
+		
+		
 		Document calendar = new Document();
 		calendar.put("correo", correo);
 		calendario.insertOne(calendar);
@@ -235,11 +242,11 @@ public class ConexionMongoDB {
 		
 
 		
-		String cuerpo = "\n\n\n\n Estimado" + (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()) +" " + (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase())+
+		String cuerpo = "\n\n\n\n Estimado " + (nombre.substring(0,1).toUpperCase() + nombre.substring(1).toLowerCase()) +" " + (apellido.substring(0,1).toUpperCase() + apellido.substring(1).toLowerCase())+
 				"\n\nBienvenido a FinanzasUVG, el programa donde podras manejar tus finanzas de una mejor manera." + "\n\n\nPuedes visitar: " +
 		 "https://presupuestos.space"  +" para poder descargar el programa para windows y mac";
 		
-		 enviarCorreo(correo,asunto, cuerpo );
+		 enviarCorreo(correo,asunto, cuerpo);
 		
 		
 		
@@ -264,6 +271,10 @@ public class ConexionMongoDB {
 		usuarios.updateOne(query, updateObj);// or mongoCollection.updateMany(query, updateObj);
 	}
 	
+	/**
+	 * funcion para dar a conocer que ya se realizo el tutorial
+	 * @param correo
+	 */
 	public void setTutorial(String correo) {
 		BasicDBObject query = new BasicDBObject();
 		query.put("correo", correo);
@@ -274,7 +285,10 @@ public class ConexionMongoDB {
 		usuarios.updateOne(query, updateObj);// or mongoCollection.updateMany(query, updateObj);
 	}
 	
-	
+	/**
+	 * cambiar modo de vista
+	 * @param correo
+	 */
 	public void changeMode(String correo) {
 		
 		BasicDBObject searchQuery = new BasicDBObject();
@@ -303,6 +317,41 @@ public class ConexionMongoDB {
 	}
 	
 	
+	/**
+	 * guardar presupuesto ingresado
+	 * @param correo
+	 * @param nombre
+	 * @param cantidades
+	 */
+	public void setPresupuesto(String correo, String nombre, String[] cantidades ) {
+		try {
+		BasicDBObject query = new BasicDBObject();
+		query.put("correo", correo);
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put(nombre, cantidades);
+		
+		BasicDBObject updateObj = new BasicDBObject();
+		updateObj.put("$set", newDocument);
+		presupuesto.updateOne(query, updateObj);// or mongoCollection.updateMany(query, updateObj);
+		}catch (Exception e) {}
+
+	}
+	
+	/*
+	 * devuelve un array de los presupuestos
+	 */
+	public String[] getPresupuesto(String correo,String nombre) {
+		BasicDBObject searchQuery = new BasicDBObject();
+		searchQuery.put("correo", correo);
+		FindIterable<Document> cursor = presupuesto.find(searchQuery);
+		String[] cantidades = null;
+		
+		for(Document doc : cursor) {
+			cantidades = (String[]) doc.get(nombre);
+		}
+		return cantidades;
+		
+	}
 	
 	
 	/**
