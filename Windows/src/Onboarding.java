@@ -117,7 +117,7 @@ public class Onboarding extends JDialog {
 		onboarding2.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblJ = new JLabel("Recive notificaciones a tu telefono. Y controla tus gastos y presupuesto.");
+		JLabel lblJ = new JLabel("Recibe notificaciones a tu teléfono. Y controla tus gastos y presupuesto.");
 		lblJ.setForeground(new Color(255, 255, 255));
 		lblJ.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblJ.setHorizontalAlignment(SwingConstants.CENTER);
@@ -171,7 +171,7 @@ public class Onboarding extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.setForeground(new Color(255, 255, 255));
 				cancelButton.setBackground(new Color(0, 153, 204));
 				cancelButton.addActionListener(new ActionListener() {
