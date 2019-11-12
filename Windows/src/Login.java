@@ -183,7 +183,7 @@ public class Login {
 		txtUsuario.setBounds(100, 158, 250, 34);
 		ingresar.add(txtUsuario);
 		txtUsuario.setColumns(10);
-		TextPrompt oculto = new TextPrompt("Correo electronico", txtUsuario);
+		TextPrompt oculto = new TextPrompt("Correo electrónico", txtUsuario);
 		
 		lblBienvenidoAUvg = new JLabel("Bienvenido a UVG Finanzas");
 		lblBienvenidoAUvg.setFont(new Font("Arial", Font.BOLD, 20));
@@ -354,7 +354,7 @@ public class Login {
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		txtPassword.setBounds(100, 214, 250, 34);
 		ingresar.add(txtPassword);
-		oculto_1 = new TextPrompt("ContraseÃ±a (8 caracteres o mas)", txtPassword);
+		oculto_1 = new TextPrompt("Contraseña (8 caracteres o más)", txtPassword);
 		
 		lblAbout = new JLabel("About");
 		lblAbout.addMouseListener(new MouseAdapter() {
@@ -414,7 +414,7 @@ public class Login {
 		txtCorreoReg.setBounds(100, 157, 250, 34);
 		registrar.add(txtCorreoReg);
 		txtCorreoReg.setColumns(10);
-		oculto = new TextPrompt("Correo electronico", txtCorreoReg);
+		oculto = new TextPrompt("Correo electrónico", txtCorreoReg);
 		
 		JLabel lblRegistrarse = new JLabel("Registrarse");
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.LEFT);
@@ -556,7 +556,7 @@ public class Login {
 		txtRegistrarPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtRegistrarPassword.setBounds(100, 326, 250, 34);
 		registrar.add(txtRegistrarPassword);
-		oculto_2 = new TextPrompt("ContraseÃ±a", txtRegistrarPassword);
+		oculto_2 = new TextPrompt("Contraseña", txtRegistrarPassword);
 		oculto_2.setFont(new Font("Arial", Font.PLAIN, 15));
 		
 		txtApellido = new JTextField();

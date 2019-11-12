@@ -304,6 +304,8 @@ public class Dashboard{
 
 	private JPanel panelProgressbar;
 
+	private JLabel resumenTotalIngresos;
+
 	/**
 	 * Launch the application.
 	 */
@@ -509,10 +511,13 @@ public class Dashboard{
 		btnSidebarHome.setBackground(Color.CYAN);
 		btnSidebarHome.setOpaque(false);
 		
+		
+		
 		btnSidebarIngresos = new JPanel();
 		btnSidebarIngresos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				
 				if(isDarkMode == true) {
 					pSidebarIngresos.setBackground(new Color(251, 251, 251));
@@ -624,6 +629,8 @@ public class Dashboard{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+//				progressBarPresupuestos.setValue((int) pres.porcentajePresupuesto(presupuestoTotal,  Double.parseDouble(presTotalIngresos.getText())));
+				
 				if(isDarkMode == true) {
 					pSidebarPresupuestos.setBackground(new Color(251, 251, 251));
 					pSidebarDashboard.setBackground(new Color(36, 38, 46));
@@ -676,7 +683,7 @@ public class Dashboard{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				int confirmado = JOptionPane.showConfirmDialog(null,"¿Estas seguro?");
+				int confirmado = JOptionPane.showConfirmDialog(null,"�Estas seguro?");
 				
 				if (confirmado == 0) {
 					frame.dispose();
@@ -1058,10 +1065,10 @@ public class Dashboard{
 		label_40.setBounds(401, 49, 19, 27);
 		panelProgressbar.add(label_40);
 		
-		JLabel label_41 = new JLabel("");
-		label_41.setFont(new Font("Verdana", Font.PLAIN, 17));
-		label_41.setBounds(420, 49, 111, 27);
-		panelProgressbar.add(label_41);
+		resumenTotalIngresos = new JLabel("");
+		resumenTotalIngresos.setFont(new Font("Verdana", Font.PLAIN, 17));
+		resumenTotalIngresos.setBounds(420, 49, 111, 27);
+		panelProgressbar.add(resumenTotalIngresos);
 		
 		progressBarResumen = new JProgressBar();
 		progressBarResumen.setStringPainted(true);
@@ -1333,11 +1340,15 @@ public class Dashboard{
 		gastos.add(lblQ2);
 			
 		
+
 		
 		if(DB.gettutotial(tempCorreo) == false) {
 			onboarding.setVisible(true);
 		}
 		
+		if(DB.gettutotial(tempCorreo) == false) {
+			onboarding.setVisible(true);
+		}		
 		
 		lblAgregarUnNuevo = new JLabel("Agregar un nuevo gasto");
 		lblAgregarUnNuevo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1957,7 +1968,7 @@ public class Dashboard{
 		fieldAutoTotal.setColumns(10);
 		fieldAutoTotal.setBounds(686, 162, 196, 33);
 		TextPrompt ocultoAutoTotal = new TextPrompt("0", fieldAutoTotal);
-		ocultoHogarTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		ocultoAutoTotal.setHorizontalAlignment(SwingConstants.CENTER);
 		presAuto.add(fieldAutoTotal);
 		
 		label_12PA = new JLabel("Subcategor\u00EDas");
@@ -1988,7 +1999,8 @@ public class Dashboard{
 		panelAuto4.setBounds(414, 301, 252, 33);
 		presAuto.add(panelAuto4);
 		
-		lblArticulosParaEl2 = new JLabel("Mantenimiento y Reparacion");
+		lblArticulosParaEl2 = new JLabel("Mantenimiento y Reparaci\u00F3n");
+		lblArticulosParaEl2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArticulosParaEl2.setForeground(Color.WHITE);
 		lblArticulosParaEl2.setFont(new Font("Verdana", Font.BOLD, 13));
 		panelAuto4.add(lblArticulosParaEl2);
@@ -2803,7 +2815,7 @@ public class Dashboard{
 				panel_31.setBounds(129, 160, 252, 473);
 				presEducacion.add(panel_31);
 				
-				JLabel lblEducacion = new JLabel("Educacion");
+				JLabel lblEducacion = new JLabel("Educaci\u00F3n");
 				lblEducacion.setHorizontalAlignment(SwingConstants.CENTER);
 				lblEducacion.setForeground(Color.WHITE);
 				lblEducacion.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -2815,7 +2827,7 @@ public class Dashboard{
 				panel_32.setBounds(407, 162, 252, 33);
 				presEducacion.add(panel_32);
 				
-				JLabel lblEducacion_1 = new JLabel("Educacion");
+				JLabel lblEducacion_1 = new JLabel("Educaci\u00F3n");
 				lblEducacion_1.setForeground(Color.WHITE);
 				lblEducacion_1.setFont(new Font("Verdana", Font.BOLD, 13));
 				panel_32.add(lblEducacion_1);
@@ -2848,7 +2860,7 @@ public class Dashboard{
 				panel_34.setBounds(414, 301, 252, 33);
 				presEducacion.add(panel_34);
 				
-				JLabel lblPapelieria = new JLabel("Papeleria");
+				JLabel lblPapelieria = new JLabel("Papeler\u00EDa");
 				lblPapelieria.setForeground(Color.WHITE);
 				lblPapelieria.setFont(new Font("Verdana", Font.BOLD, 13));
 				panel_34.add(lblPapelieria);
@@ -2899,7 +2911,7 @@ public class Dashboard{
 				panel_37.setBounds(414, 433, 252, 33);
 				presEducacion.add(panel_37);
 				
-				JLabel lblCreditoEstudiantil = new JLabel("Credito estudiantil");
+				JLabel lblCreditoEstudiantil = new JLabel("Cr\u00E9dito estudiantil");
 				lblCreditoEstudiantil.setForeground(Color.WHITE);
 				lblCreditoEstudiantil.setFont(new Font("Verdana", Font.BOLD, 13));
 				panel_37.add(lblCreditoEstudiantil);
@@ -3038,7 +3050,7 @@ public class Dashboard{
 				lblFinanzas = new JLabel("Finanzas e Impuestos");
 				lblFinanzas.setHorizontalAlignment(SwingConstants.CENTER);
 				lblFinanzas.setForeground(Color.WHITE);
-				lblFinanzas.setFont(new Font("Verdana", Font.BOLD, 20));
+				lblFinanzas.setFont(new Font("Verdana", Font.BOLD, 19));
 				lblFinanzas.setBounds(0, 199, 252, 31);
 				panel_40.add(lblFinanzas);
 				
@@ -3132,7 +3144,7 @@ public class Dashboard{
 				panel_46.setBounds(414, 433, 252, 33);
 				presFinanzas.add(panel_46);
 				
-				lblTransferenciosOCheques = new JLabel("Transferencios o Cheques");
+				lblTransferenciosOCheques = new JLabel("Transferencias o Cheques");
 				lblTransferenciosOCheques.setForeground(Color.WHITE);
 				lblTransferenciosOCheques.setFont(new Font("Verdana", Font.BOLD, 13));
 				panel_46.add(lblTransferenciosOCheques);
@@ -3149,7 +3161,7 @@ public class Dashboard{
 				panel_47.setBounds(414, 477, 252, 33);
 				presFinanzas.add(panel_47);
 				
-				lblTarjetasDeCredito = new JLabel("Tarjetas de credito");
+				lblTarjetasDeCredito = new JLabel("Tarjetas de cr\u00E9dito");
 				lblTarjetasDeCredito.setForeground(Color.WHITE);
 				lblTarjetasDeCredito.setFont(new Font("Verdana", Font.BOLD, 13));
 				panel_47.add(lblTarjetasDeCredito);
@@ -3328,7 +3340,7 @@ public class Dashboard{
 				panel_53.setBounds(414, 371, 252, 33);
 				presRopa.add(panel_53);
 				
-				lblLavanderiaYTintoreria = new JLabel("Lavanderia y Tintoreria");
+				lblLavanderiaYTintoreria = new JLabel("Lavander\u00EDa y Tintorer\u00EDa");
 				lblLavanderiaYTintoreria.setForeground(Color.WHITE);
 				lblLavanderiaYTintoreria.setFont(new Font("Verdana", Font.BOLD, 13));
 				panel_53.add(lblLavanderiaYTintoreria);
@@ -4517,6 +4529,8 @@ public class Dashboard{
 		topbarNotificationIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		topbar.add(topbarNotificationIcon);
 		
+		mostrarIngresos();
+		
 		// Listeners
 		
 		btnPresHogar.addActionListener(new MiListener());
@@ -4578,9 +4592,7 @@ public class Dashboard{
 			presViajes.setBackground(new Color(31, 31, 37));
 			
 			calendario.setBackground(new Color(31, 31, 37));
-			pPerfilMain.setBackground(new Color(31, 31, 37));
-					
-			
+			pPerfilMain.setBackground(new Color(31, 31, 37));	
 			
 		}
 		
@@ -4627,6 +4639,7 @@ public class Dashboard{
 		
 		lblQ.setText(r[1][0].toString());
 		presTotalIngresos.setText(r[1][0].toString());
+		resumenTotalIngresos.setText(r[1][0].toString());
 		
 	}
 	
@@ -4648,6 +4661,10 @@ public class Dashboard{
 
         trayIcon.displayMessage("Finanzas UVG", "Nueva actualizacion disponible", MessageType.INFO);
     }
+	
+	public void totalPresupuesto() {
+		
+	}
 	
 	
 	private class MiListener implements ActionListener{
